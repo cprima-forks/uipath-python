@@ -1,6 +1,6 @@
 [project]
 name = "event-agent"
-version = "0.0.1"
+version = "0.1.0"
 description = "calculator-agent"
 authors = [{ name = "John Doe", email = "john.doe@myemail.com" }]
 dependencies = [

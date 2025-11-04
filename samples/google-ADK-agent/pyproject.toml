@@ -1,6 +1,6 @@
 [project]
 name = "google-adk-agent"
-version = "0.0.1"
+version = "0.1.0"
 description = "UiPath - Google ADK agent"
 authors = [{ name = "John Doe" }]
 readme = "README.md"

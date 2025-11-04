@@ -1,6 +1,6 @@
 [project]
 name = "weather-tools-agent"
-version = "0.0.1"
+version = "0.1.0"
 description = "Weather tools agent testcase"
 authors = [{ name = "John Doe", email = "john.doe@myemail.com" }]
 dependencies = [
