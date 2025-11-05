@@ -1,0 +1,310 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.2.3",
+    "title": "Common Async Pitfalls",
+    "version": "1.0",
+    "total_questions": 12,
+    "passing_score": 70,
+    "time_limit_minutes": 24,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 6,
+      "hard": 3
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 4,
+      "apply": 4,
+      "analyze": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "blocking_operations",
+      "points": 1,
+      "question": "Which of these operations blocks the event loop?",
+      "options": [
+        "await asyncio.sleep(1)",
+        "time.sleep(1)",
+        "await aiohttp.get(url)",
+        "await asyncio.gather(task1(), task2())"
+      ],
+      "correct_answer": 1,
+      "explanation": "time.sleep() is a synchronous blocking operation that freezes the entire event loop. Always use 'await asyncio.sleep()' in async code. Synchronous blocking operations are the #1 async pitfall.",
+      "learning_objective": "Identify blocking operations in async code"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "library_choice",
+      "points": 1,
+      "question": "Why must you use aiohttp instead of requests in async code?",
+      "options": [
+        "aiohttp is faster",
+        "requests blocks the event loop, aiohttp doesn't",
+        "requests is deprecated",
+        "aiohttp has more features"
+      ],
+      "correct_answer": 1,
+      "explanation": "requests is synchronous and blocks the event loop during I/O. aiohttp uses await for network operations, allowing the event loop to run other tasks. Always use async-compatible libraries in async code.",
+      "learning_objective": "Identify blocking operations in async code"
+    },
+    {
+      "id": "q3",
+      "type": "code_analysis",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "forgotten_await",
+      "points": 1,
+      "question": "What's wrong with this code?\\n\\n```python\\nasync def main():\\n    result = fetch_data()\\n    print(result)\\n```",
+      "options": [
+        "Nothing, it's correct",
+        "Missing 'await' before fetch_data()",
+        "fetch_data() should be synchronous",
+        "Missing 'async' keyword"
+      ],
+      "correct_answer": 1,
+      "explanation": "Calling an async function without 'await' returns a coroutine object instead of executing it. This prints '<coroutine object>' and generates a 'coroutine never awaited' warning. Always await async functions.",
+      "learning_objective": "Debug async applications"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "race_conditions",
+      "points": 2,
+      "question": "What problem exists in this code?\\n\\n```python\\ncounter = 0\\n\\nasync def increment():\\n    global counter\\n    temp = counter\\n    await asyncio.sleep(0.01)\\n    counter = temp + 1\\n\\nawait asyncio.gather(*[increment() for _ in range(100)])\\n```",
+      "options": [
+        "No problem, counter will be 100",
+        "Race condition: multiple tasks read/write counter simultaneously",
+        "Missing return statement",
+        "await is in the wrong place"
+      ],
+      "correct_answer": 1,
+      "explanation": "This is a classic race condition. Multiple tasks read the same counter value, increment it, then write back, overwriting each other. Use asyncio.Lock to protect shared state: 'async with lock: counter += 1'",
+      "learning_objective": "Avoid deadlocks and race conditions"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "analyze",
+      "topic": "deadlock",
+      "points": 2,
+      "question": "What problem could this code have?\\n\\n```python\\nlock1 = asyncio.Lock()\\nlock2 = asyncio.Lock()\\n\\nasync def task_a():\\n    async with lock1:\\n        await asyncio.sleep(0.1)\\n        async with lock2:\\n            pass\\n\\nasync def task_b():\\n    async with lock2:\\n        await asyncio.sleep(0.1)\\n        async with lock1:\\n            pass\\n```",
+      "options": [
+        "No problem",
+        "Potential deadlock if tasks run concurrently",
+        "Syntax error",
+        "Memory leak"
+      ],
+      "correct_answer": 1,
+      "explanation": "This is the classic deadlock scenario: task_a holds lock1 and waits for lock2, while task_b holds lock2 and waits for lock1. Both tasks wait forever. Always acquire locks in the same order across all tasks to prevent deadlocks.",
+      "learning_objective": "Avoid deadlocks and race conditions"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "exception_handling",
+      "points": 2,
+      "question": "What happens if fetch_data() raises an exception?\\n\\n```python\\nasync def main():\\n    task = asyncio.create_task(fetch_data())\\n    # Do other work\\n    await asyncio.sleep(1)\\n```",
+      "options": [
+        "Exception is raised immediately in main()",
+        "Exception is stored in the task, but never retrieved",
+        "Exception is logged automatically",
+        "Task is automatically retried"
+      ],
+      "correct_answer": 1,
+      "explanation": "If you create a task but never await it, exceptions are stored in the task but never retrieved or raised. This is called a 'fire and forget' task and can hide errors. Always await tasks or add error handling with add_done_callback().",
+      "learning_objective": "Handle exceptions in async code"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "cpu_bound",
+      "points": 2,
+      "question": "What's wrong with using async for this CPU-intensive calculation?\\n\\n```python\\nasync def calculate():\\n    result = sum(range(10_000_000))\\n    return result\\n```",
+      "options": [
+        "Nothing, it's correct",
+        "Async doesn't help CPU-bound work; it blocks the loop",
+        "Missing await statement",
+        "Should use time.sleep()"
+      ],
+      "correct_answer": 1,
+      "explanation": "Async is for I/O-bound work, not CPU-bound calculations. This calculation blocks the event loop completely since there's no await point. For CPU-bound work, use multiprocessing or run in a thread pool with asyncio.to_thread().",
+      "learning_objective": "Identify blocking operations in async code"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "context_managers",
+      "points": 2,
+      "question": "Why is this problematic in async code?\\n\\n```python\\nasync def process_file():\\n    with open('file.txt') as f:\\n        data = f.read()\\n```",
+      "options": [
+        "It's not problematic",
+        "Synchronous file I/O blocks the event loop",
+        "Missing async keyword",
+        "File path is wrong"
+      ],
+      "correct_answer": 1,
+      "explanation": "Regular open() and read() are synchronous and block the event loop. Use aiofiles: 'async with aiofiles.open(\"file.txt\") as f: data = await f.read()'. This allows other tasks to run during I/O.",
+      "learning_objective": "Identify blocking operations in async code"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "mixing_sync_async",
+      "points": 2,
+      "question": "What's the problem with this code?\\n\\n```python\\ndef sync_function():\\n    result = await async_function()\\n    return result\\n```",
+      "options": [
+        "Nothing, it's correct",
+        "Can't use await in a regular function",
+        "Missing return type",
+        "Should use asyncio.run()"
+      ],
+      "correct_answer": 1,
+      "explanation": "You cannot use 'await' in a regular (non-async) function—it's a syntax error. Either make the function async: 'async def sync_function():', or use asyncio.run() if calling from synchronous code: 'result = asyncio.run(async_function())'.",
+      "learning_objective": "Debug async applications"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "resource_leaks",
+      "points": 3,
+      "question": "What resource leak exists in this code?\\n\\n```python\\nasync def fetch_all(urls):\\n    tasks = [asyncio.create_task(fetch(url)) for url in urls]\\n    \\n    try:\\n        results = await asyncio.wait_for(\\n            asyncio.gather(*tasks),\\n            timeout=5.0\\n        )\\n    except asyncio.TimeoutError:\\n        return []\\n```",
+      "options": [
+        "No leak",
+        "Tasks keep running after timeout, not cancelled",
+        "Memory leak in gather()",
+        "URL list not freed"
+      ],
+      "correct_answer": 1,
+      "explanation": "When wait_for() times out, it cancels the gather() but not the individual tasks. They continue running as 'orphaned' tasks, wasting resources. Always cancel pending tasks: 'for task in tasks: task.cancel()' after a timeout.",
+      "learning_objective": "Debug async applications"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "event_loop_reuse",
+      "points": 3,
+      "question": "Why does this code fail?\\n\\n```python\\nimport asyncio\\n\\nasync def task1():\\n    return 'Result 1'\\n\\nasync def task2():\\n    return 'Result 2'\\n\\nresult1 = asyncio.run(task1())\\nresult2 = asyncio.run(task2())\\n```",
+      "options": [
+        "It doesn't fail",
+        "Cannot call asyncio.run() twice; event loop is closed",
+        "Missing await keyword",
+        "Tasks need to be created first"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.run() creates an event loop, runs the task, then closes the loop. You cannot reuse a closed loop. Create a single main() async function and call everything from there: 'async def main(): await task1(); await task2()'",
+      "learning_objective": "Debug async applications"
+    },
+    {
+      "id": "q12",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "debugging",
+      "points": 3,
+      "question": "How can you debug this warning: 'Task was destroyed but it is pending!'?",
+      "options": [
+        "Ignore it, it's harmless",
+        "A task was created but never awaited or cancelled",
+        "The event loop is corrupted",
+        "Out of memory"
+      ],
+      "correct_answer": 1,
+      "explanation": "This warning means you created a task (asyncio.create_task()) but the program ended before the task finished, and you never awaited or cancelled it. Always await all tasks or explicitly cancel them before exiting. Enable asyncio debug mode to find the source: asyncio.run(main(), debug=True)",
+      "learning_objective": "Debug async applications"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of common pitfalls in async Python programming. You'll need to identify blocking operations, race conditions, deadlocks, and debugging strategies for async code.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider whether operations block the event loop",
+      "Think about race conditions with shared state",
+      "Remember the difference between CPU-bound and I/O-bound work",
+      "Understand proper exception handling in async code",
+      "Consider resource leaks and task cleanup"
+    ],
+    "tips": [
+      "Never use synchronous blocking operations (time.sleep, requests, open)",
+      "Always use async-compatible libraries (aiohttp, aiofiles, asyncpg)",
+      "Protect shared state with asyncio.Lock",
+      "Acquire locks in the same order to prevent deadlocks",
+      "Always await or cancel tasks you create",
+      "Async doesn't help CPU-bound work",
+      "Use 'async with' for async context managers",
+      "Enable debug mode to find unawaited coroutines",
+      "Handle exceptions in background tasks",
+      "Cancel pending tasks on timeout"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 24,
+    "grade_scale": {
+      "A": {"min": 22, "max": 24, "description": "Excellent understanding"},
+      "B": {"min": 19, "max": 21, "description": "Good understanding"},
+      "C": {"min": 17, "max": 18, "description": "Satisfactory understanding"},
+      "D": {"min": 14, "max": 16, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 13, "description": "Does not meet requirements"}
+    },
+    "passing_score": 17,
+    "recommendations": {
+      "below_17": "Review the module materials thoroughly, especially sections on blocking operations, race conditions, and debugging. Practice identifying and fixing broken async code before retaking the quiz.",
+      "17_to_21": "Good progress! Review the topics where you missed points, particularly deadlock prevention, resource cleanup, and proper library usage.",
+      "22_to_24": "Excellent work! You have a solid understanding of async pitfalls and how to avoid them. You're ready to build production-grade async applications."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "asyncio - Debugging",
+      "url": "https://docs.python.org/3/library/asyncio-dev.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Common Asyncio Pitfalls",
+      "url": "https://www.roguelynn.com/words/asyncio-true-concurrency/",
+      "type": "article"
+    },
+    {
+      "title": "Async IO Pitfalls",
+      "url": "https://realpython.com/async-io-python/#common-pitfalls",
+      "type": "tutorial"
+    },
+    {
+      "title": "Debugging Asyncio",
+      "url": "https://docs.python.org/3/library/asyncio-dev.html#debug-mode",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.1.2.3 Video Lecture",
+      "url": "/videos/phase1/script-1.1.2.3-common-async-pitfalls.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.2.3 Slides",
+      "url": "/slides/phase1/1.1.2.3-common-async-pitfalls.md",
+      "type": "course_material"
+    }
+  ]
+}
