@@ -1,0 +1,346 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.2.2",
+    "title": "Concurrent Execution Patterns",
+    "version": "1.0",
+    "total_questions": 14,
+    "passing_score": 70,
+    "time_limit_minutes": 28,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 4
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 4,
+      "apply": 5,
+      "analyze": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "asyncio_gather",
+      "points": 1,
+      "question": "What does asyncio.gather() do?",
+      "options": [
+        "Runs coroutines sequentially and returns the last result",
+        "Runs multiple coroutines concurrently and returns all results",
+        "Creates a new event loop",
+        "Cancels all running tasks"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.gather() runs multiple coroutines concurrently and waits for all to complete, returning results in the order the coroutines were passed. It's the primary tool for concurrent execution in asyncio.",
+      "learning_objective": "Use asyncio.gather() for parallel execution"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "task_creation",
+      "points": 1,
+      "question": "Which function creates a task that starts executing immediately?",
+      "options": [
+        "asyncio.run()",
+        "asyncio.create_task()",
+        "asyncio.gather()",
+        "asyncio.wait()"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.create_task() schedules a coroutine for execution on the event loop and returns a Task object immediately. The task starts running right away, unlike gather() which waits for an await.",
+      "learning_objective": "Implement task management"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "timeout",
+      "points": 1,
+      "question": "What exception is raised when an asyncio timeout expires?",
+      "options": [
+        "TimeoutError",
+        "asyncio.TimeoutError",
+        "asyncio.CancelledError",
+        "RuntimeError"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.TimeoutError is raised when a timeout context (asyncio.timeout() or asyncio.wait_for()) expires. This is different from the built-in TimeoutError exception.",
+      "learning_objective": "Handle timeouts and cancellation"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "gather_vs_wait",
+      "points": 1,
+      "question": "What's the main difference between asyncio.gather() and asyncio.wait()?",
+      "options": [
+        "gather() is faster than wait()",
+        "gather() returns results directly, wait() returns done/pending sets",
+        "gather() can only handle 2 tasks, wait() handles any number",
+        "They are identical"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.gather() returns the results of coroutines directly in order. asyncio.wait() returns two sets: done and pending tasks. gather() is more convenient for most use cases; wait() provides more control.",
+      "learning_objective": "Use asyncio.gather() for parallel execution"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "task_cancellation",
+      "points": 2,
+      "question": "What happens when you cancel a task with task.cancel()?",
+      "options": [
+        "The task stops immediately",
+        "The task raises CancelledError at the next await point",
+        "The task completes normally",
+        "The entire event loop stops"
+      ],
+      "correct_answer": 1,
+      "explanation": "When task.cancel() is called, the task doesn't stop immediately. Instead, asyncio.CancelledError is raised at the next await point in the task. The task can catch this exception to perform cleanup before exiting.",
+      "learning_objective": "Handle timeouts and cancellation"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "wait_for",
+      "points": 2,
+      "question": "What will this code do?\\n\\n```python\\ntry:\\n    result = await asyncio.wait_for(slow_task(), timeout=5.0)\\nexcept asyncio.TimeoutError:\\n    print(\\\"Task timed out\\\")\\n```",
+      "options": [
+        "Wait forever for slow_task() to complete",
+        "Wait up to 5 seconds, then raise TimeoutError if not done",
+        "Cancel slow_task() after 5 seconds without raising an error",
+        "Run slow_task() in a separate thread"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.wait_for() waits for the coroutine to complete, but raises asyncio.TimeoutError if it takes longer than the timeout. The timed-out task is automatically cancelled. This pattern is essential for robust async code.",
+      "learning_objective": "Handle timeouts and cancellation"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "asyncio_queue",
+      "points": 2,
+      "question": "What is asyncio.Queue used for?",
+      "options": [
+        "Storing function return values",
+        "Coordinating work between async tasks (producer-consumer pattern)",
+        "Creating new event loops",
+        "Scheduling tasks at specific times"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.Queue is an async-safe queue for coordinating work between coroutines. It's commonly used in producer-consumer patterns where some tasks produce data and others consume it, with the queue managing the flow.",
+      "learning_objective": "Use asyncio.Queue for coordination"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "analyze",
+      "topic": "gather_exceptions",
+      "points": 2,
+      "question": "What does return_exceptions=True do in asyncio.gather()?",
+      "options": [
+        "Prevents all exceptions from being raised",
+        "Returns exceptions as results instead of raising them",
+        "Logs exceptions automatically",
+        "Retries failed tasks"
+      ],
+      "correct_answer": 1,
+      "explanation": "With return_exceptions=True, asyncio.gather() includes exceptions in the returned results list instead of raising the first exception. This allows you to handle failures gracefully without stopping other concurrent tasks.",
+      "learning_objective": "Use asyncio.gather() for parallel execution"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "semaphores",
+      "points": 2,
+      "question": "What is the purpose of asyncio.Semaphore?",
+      "options": [
+        "To lock critical sections of code",
+        "To limit the number of concurrent tasks",
+        "To cancel all tasks at once",
+        "To measure task execution time"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.Semaphore limits concurrency by allowing only N tasks to proceed at once. For example, Semaphore(5) allows 5 concurrent operations, useful for rate-limiting API calls or controlling resource usage.",
+      "learning_objective": "Implement task management"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "task_lifecycle",
+      "points": 2,
+      "question": "What's the difference between a coroutine and a Task?",
+      "options": [
+        "They are the same thing",
+        "A Task is a scheduled coroutine that's running on the event loop",
+        "A coroutine is faster than a Task",
+        "Tasks can only be created with gather()"
+      ],
+      "correct_answer": 1,
+      "explanation": "A coroutine is a paused function created by calling an async function. A Task is a wrapper that schedules the coroutine on the event loop. Tasks provide cancellation, status checking, and result retrieval.",
+      "learning_objective": "Implement task management"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "concurrent_patterns",
+      "points": 3,
+      "question": "What will this code output?\\n\\n```python\\nasync def task(n):\\n    await asyncio.sleep(0.1)\\n    return n * 2\\n\\nasync def main():\\n    results = await asyncio.gather(\\n        task(1), task(2), task(3)\\n    )\\n    print(results)\\n```",
+      "options": [
+        "[1, 2, 3]",
+        "[2, 4, 6]",
+        "[6, 4, 2]",
+        "Random order"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.gather() returns results in the order the coroutines were passed, not in completion order. Even though tasks may complete in any order, gather() preserves input order: task(1) result first, then task(2), then task(3). Output: [2, 4, 6].",
+      "learning_objective": "Use asyncio.gather() for parallel execution"
+    },
+    {
+      "id": "q12",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "error_handling",
+      "points": 3,
+      "question": "What happens if one task in asyncio.gather() raises an exception (without return_exceptions=True)?",
+      "options": [
+        "All tasks continue, exception is logged",
+        "The exception is raised immediately, other tasks continue in background",
+        "All tasks are cancelled immediately",
+        "The exception is ignored"
+      ],
+      "correct_answer": 1,
+      "explanation": "When a task in gather() raises an exception (without return_exceptions=True), the exception propagates immediately to the caller. However, other tasks continue running in the background and aren't automatically cancelled. Use return_exceptions=True or try/except to handle this properly.",
+      "learning_objective": "Use asyncio.gather() for parallel execution"
+    },
+    {
+      "id": "q13",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "task_done_callback",
+      "points": 3,
+      "question": "What is the purpose of task.add_done_callback()?",
+      "options": [
+        "To wait for the task to complete",
+        "To execute a function when the task finishes",
+        "To cancel the task",
+        "To create a new task"
+      ],
+      "correct_answer": 1,
+      "explanation": "task.add_done_callback() registers a callback function that's called when the task completes (successfully or with an error). This is useful for logging, cleanup, or chaining operations without blocking. The callback receives the Task as an argument.",
+      "learning_objective": "Implement task management"
+    },
+    {
+      "id": "q14",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "coordination_patterns",
+      "points": 3,
+      "question": "When should you use asyncio.Lock vs asyncio.Semaphore?",
+      "options": [
+        "Always use Lock, Semaphore is deprecated",
+        "Lock allows 1 task at a time, Semaphore allows N tasks",
+        "Lock is for CPU-bound work, Semaphore for I/O-bound",
+        "They are identical"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.Lock ensures only one task accesses a critical section at a time (mutual exclusion). asyncio.Semaphore(n) allows up to n tasks to proceed concurrently. Use Lock for exclusive access (like updating shared state), Semaphore for rate limiting (like API call limits).",
+      "learning_objective": "Implement task management"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of concurrent execution patterns in Python's asyncio. You'll need to demonstrate knowledge of task management, coordination primitives, timeout handling, and advanced patterns like gather() and Queue.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider the order of operations in concurrent code",
+      "Remember that gather() preserves input order",
+      "Think about how cancellation works with CancelledError",
+      "Understand the difference between gather() and wait()",
+      "Consider how to handle exceptions in concurrent tasks"
+    ],
+    "tips": [
+      "asyncio.gather() runs coroutines concurrently and returns results in order",
+      "asyncio.create_task() schedules a task immediately",
+      "asyncio.wait_for() enforces a timeout on a coroutine",
+      "task.cancel() raises CancelledError at the next await point",
+      "asyncio.Queue coordinates producer-consumer patterns",
+      "asyncio.Semaphore(n) limits concurrent tasks to n",
+      "asyncio.Lock ensures mutual exclusion (only 1 task)",
+      "return_exceptions=True in gather() returns exceptions as results",
+      "Tasks continue running even if gather() raises an exception",
+      "add_done_callback() executes when a task completes"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 29,
+    "grade_scale": {
+      "A": {"min": 26, "max": 29, "description": "Excellent understanding"},
+      "B": {"min": 23, "max": 25, "description": "Good understanding"},
+      "C": {"min": 20, "max": 22, "description": "Satisfactory understanding"},
+      "D": {"min": 17, "max": 19, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 16, "description": "Does not meet requirements"}
+    },
+    "passing_score": 20,
+    "recommendations": {
+      "below_20": "Review the module materials thoroughly, especially sections on asyncio.gather(), task management, and timeout handling. Practice writing concurrent code and handling exceptions before retaking the quiz.",
+      "20_to_25": "Good progress! Review the topics where you missed points, particularly task lifecycle, error handling in gather(), and coordination primitives like Queue and Semaphore.",
+      "26_to_29": "Excellent work! You have a solid understanding of concurrent execution patterns. You're ready for the next module on async pitfalls."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "asyncio - Coroutines and Tasks",
+      "url": "https://docs.python.org/3/library/asyncio-task.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "asyncio - Synchronization Primitives",
+      "url": "https://docs.python.org/3/library/asyncio-sync.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "asyncio - Queues",
+      "url": "https://docs.python.org/3/library/asyncio-queue.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Real Python - Asyncio gather() Guide",
+      "url": "https://realpython.com/lessons/asyncio-gather/",
+      "type": "tutorial"
+    },
+    {
+      "title": "Module 1.1.2.2 Video Lecture",
+      "url": "/videos/phase1/script-1.1.2.2-concurrent-execution-patterns.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.2.2 Slides",
+      "url": "/slides/phase1/1.1.2.2-concurrent-execution-patterns.md",
+      "type": "course_material"
+    }
+  ]
+}
