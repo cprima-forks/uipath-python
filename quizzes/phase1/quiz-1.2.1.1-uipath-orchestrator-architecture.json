@@ -1,0 +1,315 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.1.1",
+    "title": "UiPath Orchestrator Architecture",
+    "version": "1.0",
+    "total_questions": 12,
+    "passing_score": 70,
+    "time_limit_minutes": 24,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 3,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "orchestrator_definition",
+      "points": 1,
+      "question": "What is UiPath Orchestrator?",
+      "options": [
+        "A robot that executes workflows",
+        "A centralized platform for managing robots, processes, and assets",
+        "A development environment for building automations",
+        "A database for storing automation logs"
+      ],
+      "correct_answer": 1,
+      "explanation": "UiPath Orchestrator is the centralized platform that manages robots, processes, queues, assets, and schedules. It acts as the control center for your automation infrastructure, allowing you to deploy, monitor, and manage all your automations from one place.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "deployment_models",
+      "points": 1,
+      "question": "What are the two main deployment models for UiPath Orchestrator?",
+      "options": [
+        "Desktop and Server",
+        "Cloud and On-Premises",
+        "Free and Enterprise",
+        "Community and Professional"
+      ],
+      "correct_answer": 1,
+      "explanation": "UiPath Orchestrator is available in two deployment models: Cloud (hosted by UiPath at cloud.uipath.com) and On-Premises (self-hosted in your own infrastructure). Cloud is managed by UiPath, while On-Premises gives you full control over hosting.",
+      "learning_objective": "Identify cloud vs on-premises differences"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "tenants",
+      "points": 1,
+      "question": "What is a Tenant in UiPath Orchestrator?",
+      "options": [
+        "A user account",
+        "An isolated workspace with its own data and settings",
+        "A type of robot",
+        "A database table"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Tenant is an isolated workspace in Orchestrator that contains its own users, robots, processes, assets, queues, and settings. It provides complete data isolation between different organizations or business units. Each tenant is logically separated from others.",
+      "learning_objective": "Understand tenant and folder structure"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "folders",
+      "points": 1,
+      "question": "What is the purpose of Folders in Orchestrator?",
+      "options": [
+        "To store files on disk",
+        "To organize resources within a tenant by department, project, or environment",
+        "To create backups",
+        "To compress data"
+      ],
+      "correct_answer": 1,
+      "explanation": "Folders organize resources within a tenant. You can create folders for different departments (HR, Finance), projects, or environments (Dev, Prod). Each folder can have its own robots, processes, assets, and permissions. This provides granular access control and organization.",
+      "learning_objective": "Understand tenant and folder structure"
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "components",
+      "points": 2,
+      "question": "Which of these is NOT a core component of UiPath Orchestrator?",
+      "options": [
+        "Robots",
+        "Processes",
+        "UiPath Studio",
+        "Queues"
+      ],
+      "correct_answer": 2,
+      "explanation": "UiPath Studio is a separate application for building automations, not a component of Orchestrator. Orchestrator manages Robots (execution agents), Processes (deployed workflows), Queues (work distribution), Assets (credentials/settings), Schedules, and Logs. Studio is where you build; Orchestrator is where you manage and run.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "robots",
+      "points": 2,
+      "question": "What is the difference between Attended and Unattended robots?",
+      "options": [
+        "Attended robots are newer, Unattended are legacy",
+        "Attended robots require human interaction, Unattended run automatically without user presence",
+        "Attended robots are faster",
+        "There is no difference"
+      ],
+      "correct_answer": 1,
+      "explanation": "Attended robots work alongside humans on their workstations, requiring user presence to start and potentially interact during execution. Unattended robots run completely autonomously without human supervision, typically triggered by schedules or queue items. Unattended robots are for fully automated back-office processes.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "cloud_vs_onprem",
+      "points": 2,
+      "question": "Which scenario is BEST suited for Cloud Orchestrator?",
+      "options": [
+        "Organization requires full control over data sovereignty",
+        "Need to integrate with on-premises systems that can't be exposed to internet",
+        "Small to medium deployment with standard requirements and quick setup needed",
+        "Need to customize Orchestrator source code"
+      ],
+      "correct_answer": 2,
+      "explanation": "Cloud Orchestrator is ideal for standard deployments that need quick setup, automatic updates, and minimal IT overhead. It's managed by UiPath with guaranteed uptime and scalability. On-Premises is better when you need data sovereignty, integration with isolated systems, or special compliance requirements.",
+      "learning_objective": "Identify cloud vs on-premises differences"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "processes",
+      "points": 2,
+      "question": "What happens when you publish a process package to Orchestrator?",
+      "options": [
+        "The process automatically starts running",
+        "The process becomes available for deployment to robots",
+        "The process is deleted from Studio",
+        "All robots are restarted"
+      ],
+      "correct_answer": 1,
+      "explanation": "Publishing a process package uploads it to Orchestrator, making it available for deployment. The process doesn't automatically run—you must explicitly deploy it to specific folders and assign it to robots. Only then can you trigger it via schedules, queue triggers, or API calls.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "queues",
+      "points": 2,
+      "question": "What is the primary purpose of Queues in Orchestrator?",
+      "options": [
+        "To store log files",
+        "To distribute work items across multiple robots for parallel processing",
+        "To schedule processes",
+        "To manage user permissions"
+      ],
+      "correct_answer": 1,
+      "explanation": "Queues distribute work items across multiple robots for parallel processing. You add items to a queue (e.g., 1000 invoices to process), and multiple robots can pull items and process them concurrently. Queues provide load balancing, retry logic, and transaction handling.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "assets",
+      "points": 2,
+      "question": "What type of data should be stored as Assets in Orchestrator?",
+      "options": [
+        "Large files and documents",
+        "Configuration values and credentials that robots need",
+        "Process execution logs",
+        "User activity reports"
+      ],
+      "correct_answer": 1,
+      "explanation": "Assets store configuration values (text, numbers, booleans) and credentials that robots need during execution. Examples: API URLs, timeouts, usernames/passwords. Assets are environment-specific (Dev, Prod can have different values) and can be updated without redeploying processes. They should NOT be used for large data or logs.",
+      "learning_objective": "Describe Orchestrator components"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "hierarchy",
+      "points": 3,
+      "question": "What is the correct hierarchy in Orchestrator? (from highest to lowest)",
+      "options": [
+        "Folder → Tenant → Organization → Robot",
+        "Organization → Tenant → Folder → Robot",
+        "Tenant → Organization → Folder → Robot",
+        "Robot → Folder → Tenant → Organization"
+      ],
+      "correct_answer": 1,
+      "explanation": "The hierarchy is: Organization (top level, contains multiple tenants) → Tenant (isolated workspace) → Folder (organizational unit within tenant) → Robot (execution agent). Each level provides a scope for resources and permissions. This structure enables multi-tenancy and granular access control.",
+      "learning_objective": "Understand tenant and folder structure"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "architecture_design",
+      "points": 3,
+      "question": "Your company has 3 business units (Finance, HR, Sales) and wants complete data isolation between them. What's the best Orchestrator structure?",
+      "options": [
+        "1 Tenant with 3 Folders (one per business unit)",
+        "3 Tenants (one per business unit)",
+        "1 Tenant with 3 different process names",
+        "3 separate Orchestrator instances"
+      ],
+      "correct_answer": 1,
+      "explanation": "For complete data isolation, use 3 separate Tenants. Tenants provide the highest level of isolation—each has its own database, users, robots, and settings. Folders within a tenant share data and can see each other's resources (with proper permissions). Multiple Orchestrator instances would be overkill and harder to manage.",
+      "learning_objective": "Understand tenant and folder structure"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of UiPath Orchestrator architecture, including its components, deployment models, and organizational structure. You'll need to demonstrate knowledge of tenants, folders, robots, and how they work together.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider the hierarchical structure of Orchestrator",
+      "Think about when to use Cloud vs On-Premises",
+      "Understand the purpose of each component",
+      "Remember the difference between Tenants and Folders",
+      "Know when to use Attended vs Unattended robots"
+    ],
+    "tips": [
+      "Orchestrator is the centralized management platform",
+      "Hierarchy: Organization → Tenant → Folder → Robot",
+      "Tenants provide complete data isolation",
+      "Folders organize resources within a tenant",
+      "Cloud = UiPath managed, On-Premises = Self-hosted",
+      "Attended robots work with humans, Unattended run autonomously",
+      "Queues distribute work across multiple robots",
+      "Assets store configuration and credentials",
+      "Processes are deployed workflow packages",
+      "Publishing makes a process available, not running"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 23,
+    "grade_scale": {
+      "A": {"min": 21, "max": 23, "description": "Excellent understanding"},
+      "B": {"min": 18, "max": 20, "description": "Good understanding"},
+      "C": {"min": 16, "max": 17, "description": "Satisfactory understanding"},
+      "D": {"min": 14, "max": 15, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 13, "description": "Does not meet requirements"}
+    },
+    "passing_score": 16,
+    "recommendations": {
+      "below_16": "Review the module materials thoroughly, especially sections on Orchestrator components, tenant/folder structure, and deployment models. Practice navigating the Orchestrator UI before retaking the quiz.",
+      "16_to_20": "Good progress! Review the topics where you missed points, particularly the organizational hierarchy and component purposes.",
+      "21_to_23": "Excellent work! You have a solid understanding of Orchestrator architecture. You're ready for the next module on authentication and authorization."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator Overview",
+      "url": "https://docs.uipath.com/orchestrator/",
+      "type": "official_docs"
+    },
+    {
+      "title": "About Tenants",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-tenants",
+      "type": "official_docs"
+    },
+    {
+      "title": "About Folders",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-folders",
+      "type": "official_docs"
+    },
+    {
+      "title": "About Robots",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-robots",
+      "type": "official_docs"
+    },
+    {
+      "title": "Cloud vs On-Premises",
+      "url": "https://docs.uipath.com/orchestrator/docs/deployment-options",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.1.1 Video Lecture",
+      "url": "/videos/phase1/script-1.2.1.1-uipath-orchestrator-architecture.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.1.1 Slides",
+      "url": "/slides/phase1/1.2.1.1-uipath-orchestrator-architecture.md",
+      "type": "course_material"
+    }
+  ]
+}
