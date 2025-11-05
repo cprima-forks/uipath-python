@@ -1,0 +1,367 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.1.2",
+    "title": "Authentication and Authorization",
+    "version": "1.0",
+    "total_questions": 15,
+    "passing_score": 70,
+    "time_limit_minutes": 30,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 8,
+      "hard": 3
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 6,
+      "apply": 5,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "authentication_basics",
+      "points": 1,
+      "question": "What is the difference between authentication and authorization?",
+      "options": [
+        "They are the same thing",
+        "Authentication verifies identity, authorization determines permissions",
+        "Authorization verifies identity, authentication determines permissions",
+        "Authentication is for users, authorization is for robots"
+      ],
+      "correct_answer": 1,
+      "explanation": "Authentication verifies WHO you are (proving identity with credentials). Authorization determines WHAT you can do (permissions and access rights). Example: You authenticate with username/password (who), then authorization checks if you can access Admin settings (what).",
+      "learning_objective": "Understand OAuth 2.0 flow in UiPath"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "oauth_basics",
+      "points": 1,
+      "question": "What authentication protocol does UiPath Orchestrator use for API access?",
+      "options": [
+        "Basic Authentication",
+        "OAuth 2.0",
+        "API Key only",
+        "SAML"
+      ],
+      "correct_answer": 1,
+      "explanation": "UiPath Orchestrator uses OAuth 2.0 for API authentication. OAuth 2.0 is an industry-standard authorization framework that enables secure delegated access. It uses access tokens that expire, providing better security than static API keys.",
+      "learning_objective": "Understand OAuth 2.0 flow in UiPath"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "access_tokens",
+      "points": 1,
+      "question": "What is an access token in OAuth 2.0?",
+      "options": [
+        "A permanent password",
+        "A temporary credential that grants API access for a limited time",
+        "A user's email address",
+        "A database connection string"
+      ],
+      "correct_answer": 1,
+      "explanation": "An access token is a temporary credential that grants access to protected resources. It has a limited lifespan (typically 1 hour) and must be included in API requests. When it expires, you request a new one using a refresh token or re-authenticate.",
+      "learning_objective": "Generate and use access tokens"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "token_types",
+      "points": 1,
+      "question": "What is the purpose of a refresh token?",
+      "options": [
+        "To access the API directly",
+        "To obtain a new access token without re-authenticating",
+        "To refresh the Orchestrator UI",
+        "To reset user passwords"
+      ],
+      "correct_answer": 1,
+      "explanation": "A refresh token is a long-lived credential used to obtain new access tokens without requiring the user to re-authenticate. When your access token expires, you present the refresh token to get a new access token. This enables seamless, uninterrupted API access.",
+      "learning_objective": "Generate and use access tokens"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "token_usage",
+      "points": 2,
+      "question": "How should you include an access token in an API request to Orchestrator?",
+      "options": [
+        "In the URL query string: ?token=xyz",
+        "In the Authorization header: Bearer <token>",
+        "In a cookie",
+        "In the request body as JSON"
+      ],
+      "correct_answer": 1,
+      "explanation": "Access tokens should be sent in the Authorization header using the Bearer scheme: 'Authorization: Bearer <access_token>'. This is the OAuth 2.0 standard. Never put tokens in URLs (they get logged) or cookies (not the OAuth standard).",
+      "learning_objective": "Implement secure authentication"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "oauth_flow",
+      "points": 2,
+      "question": "What is the OAuth 2.0 Client Credentials flow used for?",
+      "options": [
+        "User login to web applications",
+        "Machine-to-machine authentication without user interaction",
+        "Mobile app authentication",
+        "Social media login"
+      ],
+      "correct_answer": 1,
+      "explanation": "The Client Credentials flow is for machine-to-machine authentication where no user is involved. Your application authenticates with client_id and client_secret to get an access token. This is perfect for automated scripts, bots, and background services calling the Orchestrator API.",
+      "learning_objective": "Understand OAuth 2.0 flow in UiPath"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "token_generation",
+      "points": 2,
+      "question": "What information do you need to obtain an access token using Client Credentials flow?",
+      "options": [
+        "Username and password only",
+        "Client ID, Client Secret, and Token endpoint URL",
+        "API key only",
+        "Email address"
+      ],
+      "correct_answer": 1,
+      "explanation": "For Client Credentials flow, you need: (1) Client ID - identifies your application, (2) Client Secret - proves your application's identity, (3) Token endpoint URL - where to request the token. You POST these to the token endpoint and receive an access token in response.",
+      "learning_objective": "Generate and use access tokens"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "token_security",
+      "points": 2,
+      "question": "Why do access tokens expire?",
+      "options": [
+        "To make authentication more difficult",
+        "To limit the window of exposure if a token is compromised",
+        "To generate more server load",
+        "They don't expire"
+      ],
+      "correct_answer": 1,
+      "explanation": "Access tokens expire (typically after 1 hour) to limit the security impact if they're stolen or leaked. A compromised token is only useful until it expires. Short-lived tokens reduce the attack window while refresh tokens enable seamless re-authentication.",
+      "learning_objective": "Implement secure authentication"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "scopes",
+      "points": 2,
+      "question": "What are OAuth 2.0 scopes?",
+      "options": [
+        "Database tables",
+        "Permissions that define what actions the token can perform",
+        "User roles",
+        "API endpoints"
+      ],
+      "correct_answer": 1,
+      "explanation": "Scopes define the permissions granted to an access token. For example: 'OR.Robots.Read' allows reading robot data, 'OR.Jobs.Write' allows creating jobs. When requesting a token, you specify which scopes you need. The token is then limited to those permissions.",
+      "learning_objective": "Manage user permissions and roles"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "permissions",
+      "points": 2,
+      "question": "What is the principle of least privilege in context of API authentication?",
+      "options": [
+        "Give all applications full admin access",
+        "Request only the minimum scopes/permissions needed",
+        "Use the shortest possible tokens",
+        "Rotate tokens as infrequently as possible"
+      ],
+      "correct_answer": 1,
+      "explanation": "Least privilege means requesting only the minimum permissions needed for your application's function. If you only need to read robot status, request 'OR.Robots.Read' scope, not admin access. This limits damage if credentials are compromised and follows security best practices.",
+      "learning_objective": "Manage user permissions and roles"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "external_applications",
+      "points": 2,
+      "question": "In UiPath Cloud, what do you create to enable OAuth authentication for your application?",
+      "options": [
+        "A user account",
+        "An External Application with client credentials",
+        "A robot",
+        "A process"
+      ],
+      "correct_answer": 1,
+      "explanation": "In UiPath Cloud, you create an External Application to get OAuth credentials (client_id and client_secret). This represents your application as a security principal. You configure its scopes/permissions, then use its credentials to obtain access tokens for API calls.",
+      "learning_objective": "Generate and use access tokens"
+    },
+    {
+      "id": "q12",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "token_storage",
+      "points": 2,
+      "question": "What's the best practice for storing access tokens in your application?",
+      "options": [
+        "Hard-code them in the source code",
+        "Store in memory, never persist to disk in plain text",
+        "Save in a text file",
+        "Put in environment variables"
+      ],
+      "correct_answer": 1,
+      "explanation": "Access tokens should be stored in memory during runtime, not persisted to disk in plain text. They're temporary (expire in ~1 hour), so there's no need to save them. Refresh tokens can be stored encrypted if needed. Never hard-code tokens or commit them to version control.",
+      "learning_objective": "Implement secure authentication"
+    },
+    {
+      "id": "q13",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "rbac",
+      "points": 3,
+      "question": "How does Role-Based Access Control (RBAC) work in Orchestrator?",
+      "options": [
+        "Users are directly assigned permissions",
+        "Users are assigned roles, roles contain sets of permissions",
+        "All users have the same permissions",
+        "Permissions are randomly assigned"
+      ],
+      "correct_answer": 1,
+      "explanation": "RBAC works by: (1) Defining roles (e.g., Administrator, Developer, Viewer), (2) Assigning permissions to roles (e.g., Admin role has all permissions), (3) Assigning users to roles. This simplifies permission management—change the role's permissions to affect all users with that role.",
+      "learning_objective": "Manage user permissions and roles"
+    },
+    {
+      "id": "q14",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "token_refresh",
+      "points": 3,
+      "question": "When should you refresh an access token?",
+      "options": [
+        "Immediately after receiving it",
+        "When you receive a 401 Unauthorized response or before it expires",
+        "Never, tokens don't expire",
+        "Every 5 minutes regardless of expiration"
+      ],
+      "correct_answer": 1,
+      "explanation": "Refresh tokens when: (1) You receive a 401 Unauthorized response (token expired), or (2) Proactively before expiration (check expires_in value). Best practice: implement token refresh logic that handles 401 errors and automatically gets a new token using the refresh token.",
+      "learning_objective": "Generate and use access tokens"
+    },
+    {
+      "id": "q15",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "security_best_practices",
+      "points": 3,
+      "question": "What should you do if you accidentally expose your client_secret in a public repository?",
+      "options": [
+        "Delete the commit and the secret is safe",
+        "Immediately revoke/regenerate the secret in Orchestrator, then clean git history",
+        "Do nothing if you delete it quickly",
+        "Change the secret name"
+      ],
+      "correct_answer": 1,
+      "explanation": "If a client_secret is exposed: (1) Immediately revoke/regenerate it in Orchestrator to invalidate the compromised credential, (2) Update your application with the new secret, (3) Clean git history (using BFG or filter-branch), (4) Audit for unauthorized access. Deleting the commit doesn't remove it from git history—assume it's compromised.",
+      "learning_objective": "Implement secure authentication"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of authentication and authorization in UiPath Orchestrator, including OAuth 2.0, access tokens, scopes, permissions, and security best practices.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the difference between authentication and authorization",
+      "Know the OAuth 2.0 Client Credentials flow",
+      "Remember that access tokens are temporary",
+      "Understand how to properly include tokens in API requests",
+      "Consider security implications of token handling"
+    ],
+    "tips": [
+      "Authentication = WHO you are, Authorization = WHAT you can do",
+      "OAuth 2.0 is the standard protocol for UiPath API authentication",
+      "Access tokens are temporary (typically 1 hour)",
+      "Refresh tokens get new access tokens without re-authentication",
+      "Use Bearer token in Authorization header",
+      "Client Credentials flow is for machine-to-machine auth",
+      "Scopes define permissions for tokens",
+      "Follow principle of least privilege",
+      "Never hard-code or commit secrets",
+      "Store tokens in memory, not on disk",
+      "Refresh tokens when you get 401 Unauthorized",
+      "External Applications provide OAuth credentials",
+      "RBAC: Users → Roles → Permissions"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 29,
+    "grade_scale": {
+      "A": {"min": 26, "max": 29, "description": "Excellent understanding"},
+      "B": {"min": 23, "max": 25, "description": "Good understanding"},
+      "C": {"min": 20, "max": 22, "description": "Satisfactory understanding"},
+      "D": {"min": 17, "max": 19, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 16, "description": "Does not meet requirements"}
+    },
+    "passing_score": 20,
+    "recommendations": {
+      "below_20": "Review the module materials thoroughly, especially sections on OAuth 2.0 flow, token generation and usage, and security best practices. Practice implementing OAuth authentication before retaking the quiz.",
+      "20_to_25": "Good progress! Review the topics where you missed points, particularly token refresh logic, scopes/permissions, and RBAC concepts.",
+      "26_to_29": "Excellent work! You have a solid understanding of authentication and authorization in UiPath. You're ready to implement secure API integrations."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator API Guide - Authentication",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "official_docs"
+    },
+    {
+      "title": "OAuth 2.0 Simplified",
+      "url": "https://oauth.net/2/",
+      "type": "specification"
+    },
+    {
+      "title": "External Applications in UiPath Cloud",
+      "url": "https://docs.uipath.com/automation-cloud/docs/managing-external-applications",
+      "type": "official_docs"
+    },
+    {
+      "title": "OAuth 2.0 Client Credentials Flow",
+      "url": "https://oauth.net/2/grant-types/client-credentials/",
+      "type": "specification"
+    },
+    {
+      "title": "Module 1.2.1.2 Video Lecture",
+      "url": "/videos/phase1/script-1.2.1.2-authentication-authorization.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.1.2 Slides",
+      "url": "/slides/phase1/1.2.1.2-authentication-authorization.md",
+      "type": "course_material"
+    }
+  ]
+}
