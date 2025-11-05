@@ -1,0 +1,314 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.1.5",
+    "title": "Virtual Environments and Package Management",
+    "version": "1.0",
+    "total_questions": 12,
+    "passing_score": 70,
+    "time_limit_minutes": 25,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 4,
+      "apply": 4,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "virtual_environment_purpose",
+      "points": 1,
+      "question": "What is the main purpose of a Python virtual environment?",
+      "options": [
+        "To make Python code run faster",
+        "To isolate project dependencies from system packages",
+        "To automatically test code",
+        "To compress Python files"
+      ],
+      "correct_answer": 1,
+      "explanation": "Virtual environments isolate project dependencies, preventing conflicts between different projects that might need different versions of the same package. Each project gets its own independent set of packages.",
+      "learning_objective": "Create and activate virtual environments"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "venv_creation",
+      "points": 1,
+      "question": "Which command creates a new virtual environment named 'myenv'?",
+      "options": [
+        "python install myenv",
+        "python -m venv myenv",
+        "pip create myenv",
+        "virtualenv --new myenv"
+      ],
+      "correct_answer": 1,
+      "explanation": "The command 'python -m venv myenv' creates a new virtual environment. The -m flag runs the venv module as a script, and myenv is the directory name for the environment.",
+      "learning_objective": "Create and activate virtual environments"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "pip_basics",
+      "points": 1,
+      "question": "What does 'pip' stand for?",
+      "options": [
+        "Python Installer Program",
+        "Pip Installs Packages",
+        "Package Installation Protocol",
+        "Python Integration Platform"
+      ],
+      "correct_answer": 1,
+      "explanation": "pip is a recursive acronym: 'Pip Installs Packages'. It's Python's package installer, used to install and manage Python packages from PyPI (Python Package Index).",
+      "learning_objective": "Use pip and uv for package management"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "uv_advantages",
+      "points": 1,
+      "question": "What is the main advantage of 'uv' over 'pip'?",
+      "options": [
+        "It's written in Python",
+        "It's significantly faster at installing packages",
+        "It has more packages available",
+        "It works on more operating systems"
+      ],
+      "correct_answer": 1,
+      "explanation": "uv is written in Rust and is 10-100x faster than pip for package installation. It's designed as a drop-in replacement for pip with better performance and modern dependency resolution.",
+      "learning_objective": "Use pip and uv for package management"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "requirements_file",
+      "points": 2,
+      "question": "What does this command do?\n\n```bash\npip install -r requirements.txt\n```",
+      "options": [
+        "Creates a requirements.txt file",
+        "Installs all packages listed in requirements.txt",
+        "Updates all installed packages",
+        "Removes packages listed in requirements.txt"
+      ],
+      "correct_answer": 1,
+      "explanation": "The -r flag tells pip to read a requirements file and install all packages listed in it. This is the standard way to install project dependencies. To create a requirements file, use 'pip freeze > requirements.txt'.",
+      "learning_objective": "Manage requirements.txt and pyproject.toml"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "pip_freeze",
+      "points": 2,
+      "question": "What is the difference between these commands?\n\n```bash\n# Command A\npip freeze > requirements.txt\n\n# Command B\npip list --format=freeze > requirements.txt\n```",
+      "options": [
+        "They are identical",
+        "Command A includes all packages, B only user-installed",
+        "Command A is for Python 2, B for Python 3",
+        "Command B includes package descriptions"
+      ],
+      "correct_answer": 0,
+      "explanation": "'pip freeze' and 'pip list --format=freeze' produce the same output: a list of installed packages with exact versions in requirements format (package==version). Both are suitable for creating requirements.txt files.",
+      "learning_objective": "Manage requirements.txt and pyproject.toml"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "version_specifiers",
+      "points": 2,
+      "question": "What does this requirements.txt entry mean?\n\n```\nrequests>=2.28.0,<3.0.0\n```",
+      "options": [
+        "Install exactly version 2.28.0",
+        "Install any version from 2.28.0 up to (but not including) 3.0.0",
+        "Install either 2.28.0 or 3.0.0",
+        "Install the latest version"
+      ],
+      "correct_answer": 1,
+      "explanation": "The >= means 'at least version 2.28.0' and <3.0.0 means 'less than 3.0.0'. Combined, this installs any 2.x version from 2.28.0 onward, but not 3.0.0. This allows patch and minor updates while preventing major breaking changes.",
+      "learning_objective": "Manage requirements.txt and pyproject.toml"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "pyproject_toml",
+      "points": 2,
+      "question": "What is the purpose of pyproject.toml?",
+      "options": [
+        "To store project source code",
+        "To define project metadata and dependencies in a standardized format",
+        "To configure Python interpreter settings",
+        "To store test results"
+      ],
+      "correct_answer": 1,
+      "explanation": "pyproject.toml is the modern standard (PEP 518/621) for Python project configuration. It defines project metadata, dependencies, build system requirements, and tool configurations in a single TOML file. It's replacing setup.py and setup.cfg.",
+      "learning_objective": "Manage requirements.txt and pyproject.toml"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "virtual_env_activation",
+      "points": 2,
+      "question": "On Linux/Mac, how do you activate a virtual environment named 'venv'?",
+      "options": [
+        "venv\\Scripts\\activate",
+        "source venv/bin/activate",
+        "python venv/activate.py",
+        "activate venv"
+      ],
+      "correct_answer": 1,
+      "explanation": "On Linux/Mac, use 'source venv/bin/activate'. On Windows, use 'venv\\Scripts\\activate' (without source). The 'source' command executes the activation script in the current shell, modifying the PATH.",
+      "learning_objective": "Create and activate virtual environments"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "dependency_resolution",
+      "points": 2,
+      "question": "What happens when two packages require conflicting versions of the same dependency?",
+      "options": [
+        "Python installs both versions",
+        "The package manager attempts to find a compatible version",
+        "The installation always fails",
+        "The newer version always wins"
+      ],
+      "correct_answer": 1,
+      "explanation": "Modern package managers (pip, uv) attempt to resolve conflicts by finding a version that satisfies all constraints. If no compatible version exists, installation fails with a conflict error. This is why dependency resolution is complex and why uv's faster resolver is valuable.",
+      "learning_objective": "Understand dependency resolution"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "uv_vs_pip",
+      "points": 3,
+      "question": "Which scenario benefits MOST from using 'uv' instead of 'pip'?",
+      "options": [
+        "Installing a single small package",
+        "CI/CD pipelines with many dependencies",
+        "Development on slow internet connections",
+        "Installing packages without dependencies"
+      ],
+      "correct_answer": 1,
+      "explanation": "CI/CD pipelines benefit most from uv because they often install many packages repeatedly. uv's 10-100x speed improvement dramatically reduces build times. The speed advantage is most pronounced with many dependencies and frequent installations.",
+      "learning_objective": "Use pip and uv for package management"
+    },
+    {
+      "id": "q12",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "best_practices",
+      "points": 3,
+      "question": "Which is the BEST practice for managing agent dependencies?",
+      "options": [
+        "Install all packages globally without version pinning",
+        "Use a virtual environment with pinned versions in requirements.txt",
+        "Install packages as needed without tracking",
+        "Use the system Python with latest versions"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: Use virtual environments to isolate dependencies, and pin exact versions in requirements.txt for reproducibility. This ensures the agent works consistently across different environments and prevents 'works on my machine' issues. Version pinning is critical for production reliability.",
+      "learning_objective": "Manage requirements.txt and pyproject.toml"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Python virtual environments and package management. You'll need to demonstrate knowledge of venv, pip, uv, requirements files, and dependency management best practices.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider the purpose of virtual environments",
+      "Remember pip and uv commands",
+      "Understand version specifiers (==, >=, <, etc.)",
+      "Think about dependency conflicts",
+      "Consider production best practices"
+    ],
+    "tips": [
+      "Virtual environments isolate project dependencies",
+      "Create venv with: python -m venv myenv",
+      "Activate with 'source venv/bin/activate' (Linux/Mac) or 'venv\\Scripts\\activate' (Windows)",
+      "pip freeze > requirements.txt captures current packages",
+      "pip install -r requirements.txt installs from requirements",
+      "uv is 10-100x faster than pip",
+      "pyproject.toml is the modern standard (PEP 621)",
+      "Always use virtual environments in production",
+      "Pin exact versions for reproducibility"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 24,
+    "grade_scale": {
+      "A": {"min": 22, "max": 24, "description": "Excellent understanding"},
+      "B": {"min": 19, "max": 21, "description": "Good understanding"},
+      "C": {"min": 17, "max": 18, "description": "Satisfactory understanding"},
+      "D": {"min": 14, "max": 16, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 13, "description": "Does not meet requirements"}
+    },
+    "passing_score": 17,
+    "recommendations": {
+      "below_17": "Review the module materials, especially sections on virtual environments, pip/uv usage, and requirements files. Practice creating and managing virtual environments before retaking the quiz.",
+      "17_to_21": "Good progress! Review the topics where you missed points, particularly dependency resolution and version specifiers.",
+      "22_to_24": "Excellent work! You have a solid understanding of virtual environments and package management. You're ready for the next module."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "venv - Creation of virtual environments",
+      "url": "https://docs.python.org/3/library/venv.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "pip Documentation",
+      "url": "https://pip.pypa.io/en/stable/",
+      "type": "official_docs"
+    },
+    {
+      "title": "uv - An extremely fast Python package installer",
+      "url": "https://github.com/astral-sh/uv",
+      "type": "tool_docs"
+    },
+    {
+      "title": "PEP 621 - Storing project metadata in pyproject.toml",
+      "url": "https://peps.python.org/pep-0621/",
+      "type": "pep"
+    },
+    {
+      "title": "Python Packaging User Guide",
+      "url": "https://packaging.python.org/",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.1.1.5 Video Lecture",
+      "url": "/videos/phase1/script-1.1.1.5-virtual-environments-package-management.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.1.5 Slides",
+      "url": "/slides/phase1/1.1.1.5-virtual-environments-package-management.md",
+      "type": "course_material"
+    }
+  ]
+}
