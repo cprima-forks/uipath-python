@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "module": "2.2.1.4",
+    "title": "Batch Process Execution",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 10,
+    "passing_score": 75,
+    "time_limit_minutes": 15,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 1,
+      "understand": 3,
+      "apply": 4,
+      "analyze": 2,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 2,
+      "medium": 6,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_batch_definition",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is batch process execution in the context of UiPath Orchestrator?",
+      "options": [
+        "Running one job multiple times sequentially",
+        "Starting multiple job instances concurrently or in parallel",
+        "Running jobs only during off-peak hours",
+        "Executing processes in batches of 100"
+      ],
+      "correct_answer": 1,
+      "explanation": "Batch process execution means starting multiple job instances (of the same or different processes) concurrently or in parallel. This allows processing large workloads efficiently by distributing work across multiple robots.",
+      "learning_objective": "Understand batch execution concepts",
+      "tags": ["batch-execution", "concurrency", "parallel-processing"],
+      "points": 1
+    },
+    {
+      "id": "q2_batch_strategy",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "When starting a batch of jobs, which Strategy should you typically use?",
+      "options": [
+        "Specific - to target exact robots",
+        "All - to use every available robot",
+        "JobsCount - to control the number of parallel instances",
+        "Random - to distribute evenly"
+      ],
+      "correct_answer": 2,
+      "explanation": "JobsCount is the typical strategy for batch execution, as it allows you to control exactly how many parallel job instances to start. Combined with NoOfRobots parameter, it gives precise control over parallelism level.",
+      "learning_objective": "Select appropriate batch strategies",
+      "tags": ["job-strategy", "jobscount", "parallelism"],
+      "points": 1
+    },
+    {
+      "id": "q3_concurrent_monitoring",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "What's the best approach to monitor multiple running jobs simultaneously?",
+      "options": [
+        "Monitor each job sequentially with wait_for_job()",
+        "Use a loop to check all job statuses in each poll iteration",
+        "Start new threads for each job to monitor independently",
+        "Only monitor the first job; others will finish automatically"
+      ],
+      "correct_answer": 1,
+      "explanation": "The best approach is to use a single loop that checks all job statuses in each poll iteration. This is efficient, simple, and avoids thread management complexity. Check all jobs, remove completed ones, sleep, repeat until all done.",
+      "learning_objective": "Monitor multiple jobs efficiently",
+      "tags": ["monitoring", "concurrent-jobs", "polling"],
+      "points": 1
+    },
+    {
+      "id": "q4_input_distribution",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "You need to process 1000 invoices. How should you distribute them across 10 parallel jobs?",
+      "options": [
+        "Pass all 1000 invoice IDs to each job",
+        "Partition the invoice list into 10 chunks, pass one chunk to each job",
+        "Let each job randomly select invoices",
+        "Pass the same inputs to all jobs and let them coordinate"
+      ],
+      "correct_answer": 1,
+      "explanation": "Partition the data into non-overlapping chunks and pass one chunk to each job as input arguments. For example, job 1 gets invoices 1-100, job 2 gets 101-200, etc. This ensures no duplicate processing and even distribution.",
+      "learning_objective": "Distribute work across parallel jobs",
+      "tags": ["data-partitioning", "input-arguments", "parallelism"],
+      "points": 1
+    },
+    {
+      "id": "q5_error_handling_batch",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "In a batch of 20 jobs, 3 jobs fault while 17 succeed. What's the best error handling approach?",
+      "options": [
+        "Stop monitoring immediately and raise an exception",
+        "Wait for all jobs to complete, then report partial success with details on failures",
+        "Ignore the failures and only report successes",
+        "Restart all 20 jobs from the beginning"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice is to wait for all jobs to complete, then analyze results comprehensively. Report partial success (17/20), aggregate outputs from successful jobs, and provide detailed error information for failed jobs. This allows business logic to decide how to handle partial failures.",
+      "learning_objective": "Handle errors in batch execution",
+      "tags": ["error-handling", "partial-failure", "batch-analysis"],
+      "points": 2
+    },
+    {
+      "id": "q6_result_aggregation",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "After batch execution completes, how should you aggregate results from all successful jobs?",
+      "options": [
+        "Manually combine results by reading each job individually",
+        "Collect outputs from each job, parse JSON, combine into single data structure",
+        "Results are automatically combined by Orchestrator",
+        "Only the first job's results matter"
+      ],
+      "correct_answer": 1,
+      "explanation": "Iterate through completed jobs, extract and parse OutputArguments from each successful job, then combine results into a single aggregated data structure (e.g., merge lists, sum counts). This gives you a complete view of all batch processing results.",
+      "learning_objective": "Aggregate batch results",
+      "tags": ["result-aggregation", "output-parsing", "data-combination"],
+      "points": 1
+    },
+    {
+      "id": "q7_optimal_batch_size",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "What factors determine the optimal batch size (number of parallel jobs)?",
+      "options": [
+        "Always use maximum available robots for fastest processing",
+        "Available robot licenses, job duration, resource constraints, and overhead",
+        "Batch size doesn't matter; use any number",
+        "Always limit to 5 jobs regardless of available robots"
+      ],
+      "correct_answer": 1,
+      "explanation": "Optimal batch size depends on: (1) Available robot licenses/unattended robots, (2) Expected job duration (longer jobs benefit more from parallelism), (3) System resources (CPU, memory, network), (4) Orchestrator load, (5) Overhead of managing many jobs. Too many jobs can cause contention; too few underutilizes capacity.",
+      "learning_objective": "Determine optimal parallelism",
+      "tags": ["optimization", "batch-sizing", "resource-management"],
+      "points": 2
+    },
+    {
+      "id": "q8_polling_efficiency",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "When monitoring a batch of 50 jobs, what's an efficient polling approach?",
+      "options": [
+        "Poll each job individually every 1 second (50 API calls/second)",
+        "Use OData $filter to query all jobs in a single API call every 3-5 seconds",
+        "Poll only the first 5 jobs to reduce API calls",
+        "Poll every 30 seconds to minimize API load"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use OData $filter to fetch all jobs in a single API call: GET /odata/Jobs?$filter=Key in ('id1','id2',...). Poll every 3-5 seconds. This reduces API calls from N per poll to 1 per poll, while maintaining reasonable update frequency.",
+      "learning_objective": "Optimize batch monitoring",
+      "tags": ["polling", "api-efficiency", "odata-filter"],
+      "points": 1
+    },
+    {
+      "id": "q9_timeout_batch",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "How should timeouts be handled when monitoring batch execution?",
+      "options": [
+        "Use the same timeout for the batch as for a single job",
+        "Set batch timeout as single-job-timeout × number-of-jobs",
+        "Set batch timeout slightly longer than expected longest job duration",
+        "No timeout needed for batch operations"
+      ],
+      "correct_answer": 2,
+      "explanation": "Since jobs run in parallel, batch timeout should be based on the longest expected individual job duration (plus buffer), not the sum of all jobs. For example, if each job takes ~10 minutes, batch timeout might be 15 minutes regardless of batch size.",
+      "learning_objective": "Set appropriate timeouts",
+      "tags": ["timeout", "batch-monitoring", "parallel-execution"],
+      "points": 1
+    },
+    {
+      "id": "q10_batch_pattern",
+      "type": "code_analysis",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What is the typical flow for batch process execution?",
+      "options": [
+        "Start all jobs → Monitor individually → Aggregate → Return",
+        "Start all jobs → Wait for all to complete → Parse results → Aggregate",
+        "Start jobs one at a time → Wait for each → Combine results",
+        "Start all jobs → Return immediately without monitoring"
+      ],
+      "correct_answer": 1,
+      "explanation": "The typical batch flow: (1) Start all jobs (potentially with different inputs), (2) Monitor all jobs concurrently until completion, (3) Parse outputs from successful jobs, (4) Aggregate results, (5) Handle errors from failed jobs, (6) Return comprehensive batch result with success/failure counts and aggregated data.",
+      "learning_objective": "Understand batch execution flow",
+      "tags": ["batch-flow", "execution-pattern", "workflow"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 12,
+    "grade_boundaries": {
+      "A": 11,
+      "B": 9,
+      "C": 8,
+      "D": 7,
+      "F": 0
+    },
+    "passing_points": 9
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator Jobs API",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "Parallel Processing Best Practices",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-jobs",
+      "type": "guide"
+    },
+    {
+      "title": "Python Concurrent Programming",
+      "url": "https://docs.python.org/3/library/concurrent.futures.html",
+      "type": "documentation"
+    }
+  ]
+}
