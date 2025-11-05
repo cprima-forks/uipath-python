@@ -1,0 +1,367 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.2.1",
+    "title": "Understanding Async/Await",
+    "version": "1.0",
+    "total_questions": 15,
+    "passing_score": 70,
+    "time_limit_minutes": 30,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 7,
+      "hard": 4
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 5,
+      "analyze": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "async_basics",
+      "points": 1,
+      "question": "What is the main purpose of async/await in Python?",
+      "options": [
+        "To run code on multiple CPU cores simultaneously",
+        "To handle I/O-bound operations concurrently without blocking",
+        "To automatically parallelize all loops",
+        "To speed up CPU-intensive calculations"
+      ],
+      "correct_answer": 1,
+      "explanation": "async/await enables concurrent handling of I/O-bound operations (network, disk, database) without blocking the main thread. It's not for CPU parallelism—use multiprocessing for that. It's about efficiency during waiting, not raw CPU power.",
+      "learning_objective": "Distinguish sync vs async patterns"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "coroutines",
+      "points": 1,
+      "question": "Which keyword is used to define a coroutine (async function)?",
+      "options": [
+        "def async",
+        "async def",
+        "coroutine",
+        "await def"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'async def' syntax defines a coroutine function. When called, it returns a coroutine object that must be awaited or run by an event loop.",
+      "learning_objective": "Define coroutines and async functions"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "points": 1,
+      "question": "What does the 'await' keyword do?",
+      "options": [
+        "It creates a new thread",
+        "It pauses execution until the awaited operation completes",
+        "It cancels the current operation",
+        "It runs code in parallel"
+      ],
+      "correct_answer": 1,
+      "explanation": "'await' suspends the current coroutine until the awaited coroutine/future completes, allowing the event loop to run other tasks. It's a suspension point, not a parallelization mechanism.",
+      "learning_objective": "Use await keyword correctly"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "event_loop",
+      "points": 1,
+      "question": "What is the role of the event loop in async Python?",
+      "options": [
+        "It compiles Python code to machine code",
+        "It schedules and executes coroutines concurrently",
+        "It creates parallel threads automatically",
+        "It handles memory management"
+      ],
+      "correct_answer": 1,
+      "explanation": "The event loop is the core of async Python. It schedules coroutines, switches between them at await points, handles I/O operations, and manages callbacks. It's single-threaded but enables concurrency.",
+      "learning_objective": "Understand event loops"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "calling_coroutines",
+      "points": 2,
+      "question": "What will this code output?\n\n```python\nasync def get_value():\n    return 42\n\nresult = get_value()\nprint(type(result))\n```",
+      "options": [
+        "<class 'int'>",
+        "<class 'coroutine'>",
+        "<class 'function'>",
+        "42"
+      ],
+      "correct_answer": 1,
+      "explanation": "Calling an async function without await returns a coroutine object, not the result. You must await it or run it with asyncio.run() to get the actual value. This is a common beginner mistake.",
+      "learning_objective": "Define coroutines and async functions"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "await_usage",
+      "points": 2,
+      "question": "Which of these correctly runs an async function and gets its result?",
+      "options": [
+        "result = async_function()",
+        "result = await async_function",
+        "result = await async_function()",
+        "result = asyncio(async_function())"
+      ],
+      "correct_answer": 2,
+      "explanation": "'await async_function()' is correct (inside another async function). The function must be called with parentheses, and await must be used to get the result. At the top level, use asyncio.run(async_function()).",
+      "learning_objective": "Use await keyword correctly"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "concurrency_vs_parallelism",
+      "points": 2,
+      "question": "What is the difference between concurrency and parallelism in Python async?",
+      "options": [
+        "They are the same thing",
+        "Concurrency is multiple tasks making progress; parallelism is simultaneous execution",
+        "Parallelism is faster than concurrency",
+        "Concurrency requires multiple CPU cores"
+      ],
+      "correct_answer": 1,
+      "explanation": "Concurrency (async) means multiple tasks make progress by switching between them. Parallelism means tasks run simultaneously on multiple cores. Python async provides concurrency (single-threaded switching), not true parallelism (blocked by GIL).",
+      "learning_objective": "Distinguish sync vs async patterns"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "asyncio_run",
+      "points": 2,
+      "question": "How do you run an async function from synchronous code?",
+      "options": [
+        "Just call it: async_func()",
+        "Use: asyncio.run(async_func())",
+        "Use: await async_func()",
+        "Use: run async_func()"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.run() is the entry point for async code from synchronous code. It creates an event loop, runs the coroutine, and cleans up. You cannot use await outside an async function.",
+      "learning_objective": "Understand event loops"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "analyze",
+      "topic": "execution_order",
+      "points": 2,
+      "question": "What order will this code print?\n\n```python\nasync def task1():\n    print('A')\n    await asyncio.sleep(0)\n    print('B')\n\nasync def task2():\n    print('C')\n    await asyncio.sleep(0)\n    print('D')\n\nasync def main():\n    await asyncio.gather(task1(), task2())\n```",
+      "options": [
+        "A B C D",
+        "A C B D",
+        "C D A B",
+        "Random order"
+      ],
+      "correct_answer": 1,
+      "explanation": "Output is A C B D. Both tasks start, print A and C. At await sleep(0), the event loop switches tasks. After both sleeps complete, they resume printing B and D. This demonstrates interleaving at await points.",
+      "learning_objective": "Understand event loops"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "blocking_operations",
+      "points": 2,
+      "question": "What is wrong with this async code?\n\n```python\nimport time\n\nasync def fetch_data():\n    time.sleep(2)  # Simulate delay\n    return 'data'\n```",
+      "options": [
+        "Nothing, it's correct",
+        "time.sleep() blocks the event loop; use await asyncio.sleep()",
+        "Should use threading.sleep()",
+        "Missing return type annotation"
+      ],
+      "correct_answer": 1,
+      "explanation": "time.sleep() is synchronous and blocks the entire event loop, preventing other coroutines from running. Always use 'await asyncio.sleep()' in async code to yield control to the event loop.",
+      "learning_objective": "Use await keyword correctly"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "async_libraries",
+      "points": 2,
+      "question": "Why must you use async-compatible libraries (like aiohttp instead of requests)?",
+      "options": [
+        "They are faster",
+        "Synchronous libraries block the event loop",
+        "They have more features",
+        "It's just a convention"
+      ],
+      "correct_answer": 1,
+      "explanation": "Synchronous libraries like requests block the thread during I/O, preventing the event loop from running other tasks. Async libraries (aiohttp, aiofiles) use await for I/O, allowing concurrency.",
+      "learning_objective": "Distinguish sync vs async patterns"
+    },
+    {
+      "id": "q12",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "common_mistakes",
+      "points": 3,
+      "question": "Why doesn't this code work?\n\n```python\nimport asyncio\n\nasync def process():\n    return 42\n\nresult = asyncio.run(process())\nprint(result)\n\nresult2 = asyncio.run(process())\nprint(result2)\n```",
+      "options": [
+        "It works fine",
+        "Cannot call asyncio.run() twice in the same program",
+        "process() should be called without parentheses",
+        "Missing await keyword"
+      ],
+      "correct_answer": 1,
+      "explanation": "asyncio.run() cannot be called multiple times in the same program—it creates and closes the event loop. Once closed, it cannot be reused. For multiple async calls, create one async main() function and call everything from there.",
+      "learning_objective": "Understand event loops"
+    },
+    {
+      "id": "q13",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "async_context_managers",
+      "points": 3,
+      "question": "What is the async equivalent of 'with open(file) as f'?",
+      "options": [
+        "with await open(file) as f:",
+        "async with open(file) as f:",
+        "with async open(file) as f:",
+        "await with open(file) as f:"
+      ],
+      "correct_answer": 1,
+      "explanation": "'async with' is used for async context managers. Example: 'async with aiofiles.open(file) as f:' The async library (aiofiles) provides an async context manager that uses await for file operations.",
+      "learning_objective": "Define coroutines and async functions"
+    },
+    {
+      "id": "q14",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "performance",
+      "points": 3,
+      "question": "When does async provide NO performance benefit?",
+      "options": [
+        "Network requests",
+        "File I/O",
+        "CPU-intensive calculations",
+        "Database queries"
+      ],
+      "correct_answer": 2,
+      "explanation": "Async benefits I/O-bound operations (network, files, databases) where programs wait. CPU-intensive calculations don't wait—they compute continuously. Async adds overhead without benefit. Use multiprocessing for CPU-bound work.",
+      "learning_objective": "Distinguish sync vs async patterns"
+    },
+    {
+      "id": "q15",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "debugging",
+      "points": 3,
+      "question": "What does this warning mean: 'coroutine was never awaited'?",
+      "options": [
+        "The coroutine ran successfully",
+        "You called an async function but didn't await it or run it",
+        "The event loop is overloaded",
+        "There's a syntax error"
+      ],
+      "correct_answer": 1,
+      "explanation": "This warning means you called an async function (created a coroutine) but never awaited it or ran it with asyncio.run(). The coroutine was created but never executed. This is a common mistake—forgetting to await async function calls.",
+      "learning_objective": "Use await keyword correctly"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of asynchronous programming with async/await in Python. You'll need to demonstrate knowledge of coroutines, event loops, await usage, and async patterns.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider the difference between sync and async code",
+      "Remember that calling async functions returns coroutines",
+      "Think about when the event loop switches between tasks",
+      "Understand that await is required to get results",
+      "Consider blocking vs non-blocking operations"
+    ],
+    "tips": [
+      "async def creates a coroutine function",
+      "Calling async function returns coroutine object, not result",
+      "await suspends until operation completes",
+      "Event loop schedules and switches between coroutines",
+      "Use await asyncio.sleep(), not time.sleep()",
+      "asyncio.run() is the entry point from sync code",
+      "Use async libraries (aiohttp, aiofiles, asyncpg)",
+      "Async benefits I/O-bound, not CPU-bound work",
+      "async with for async context managers",
+      "'coroutine never awaited' means you forgot await"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 32,
+    "grade_scale": {
+      "A": {"min": 29, "max": 32, "description": "Excellent understanding"},
+      "B": {"min": 26, "max": 28, "description": "Good understanding"},
+      "C": {"min": 22, "max": 25, "description": "Satisfactory understanding"},
+      "D": {"min": 19, "max": 21, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 18, "description": "Does not meet requirements"}
+    },
+    "passing_score": 22,
+    "recommendations": {
+      "below_22": "Review the module materials thoroughly, especially sections on coroutines, event loops, and await keyword usage. Practice writing async code and converting sync code to async before retaking the quiz.",
+      "22_to_28": "Good progress! Review the topics where you missed points, particularly event loop behavior, async context managers, and when to use async vs sync.",
+      "29_to_32": "Excellent work! You have a solid understanding of async/await in Python. You're ready for the next module on concurrent execution patterns."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "asyncio - Asynchronous I/O",
+      "url": "https://docs.python.org/3/library/asyncio.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Coroutines and Tasks",
+      "url": "https://docs.python.org/3/library/asyncio-task.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "PEP 492 - Coroutines with async and await",
+      "url": "https://www.python.org/dev/peps/pep-0492/",
+      "type": "pep"
+    },
+    {
+      "title": "Real Python - Async IO in Python",
+      "url": "https://realpython.com/async-io-python/",
+      "type": "tutorial"
+    },
+    {
+      "title": "aiohttp Documentation",
+      "url": "https://docs.aiohttp.org/",
+      "type": "library_docs"
+    },
+    {
+      "title": "Module 1.1.2.1 Video Lecture",
+      "url": "/videos/phase1/script-1.1.2.1-understanding-async-await.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.2.1 Slides",
+      "url": "/slides/phase1/1.1.2.1-understanding-async-await.md",
+      "type": "course_material"
+    }
+  ]
+}
