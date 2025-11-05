@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "module": "2.2.2.2",
+    "title": "Asset Updates",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 10,
+    "passing_score": 70,
+    "time_limit_minutes": 12,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 4,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_update_method",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What HTTP method is used to update an existing asset in Orchestrator?",
+      "options": [
+        "POST",
+        "PUT",
+        "PATCH",
+        "UPDATE"
+      ],
+      "correct_answer": 1,
+      "explanation": "PUT is used to update assets in Orchestrator. The full endpoint is PUT /odata/Assets({asset_id}) with the complete asset object in the request body.",
+      "learning_objective": "Know asset update method",
+      "tags": ["http-methods", "api", "put"],
+      "points": 1
+    },
+    {
+      "id": "q2_asset_id",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Why do you need the asset ID when updating an asset?",
+      "options": [
+        "To authenticate the request",
+        "To specify which asset to update (required in endpoint path)",
+        "IDs are not needed; use asset name instead",
+        "For logging purposes only"
+      ],
+      "correct_answer": 1,
+      "explanation": "The asset ID is required in the endpoint path: PUT /odata/Assets({asset_id}). While you can filter by name to get the ID first, the update operation itself requires the numeric ID.",
+      "learning_objective": "Understand asset ID requirement",
+      "tags": ["asset-id", "endpoints", "api"],
+      "points": 1
+    },
+    {
+      "id": "q3_update_fields",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "When updating an asset, which field contains the new value for Text/Bool/Integer assets?",
+      "options": [
+        "NewValue",
+        "Value",
+        "Data",
+        "AssetValue"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'Value' field contains the updated value for Text, Bool, and Integer assets. For Credential assets, use 'CredentialUsername' and 'CredentialPassword' fields instead.",
+      "learning_objective": "Know update field structure",
+      "tags": ["asset-structure", "value-field", "updates"],
+      "points": 1
+    },
+    {
+      "id": "q4_credential_update",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "How do you update only the password of a Credential asset?",
+      "options": [
+        "Send PUT request with only CredentialPassword field",
+        "Send complete asset object with new CredentialPassword value",
+        "Use PATCH with CredentialPassword field only",
+        "Credential passwords cannot be updated via API"
+      ],
+      "correct_answer": 1,
+      "explanation": "PUT requires the complete asset object. To update a credential password, send the full asset with the updated CredentialPassword field. The username and all other fields must be included even if unchanged.",
+      "learning_objective": "Update credential assets correctly",
+      "tags": ["credentials", "password-update", "security"],
+      "points": 1
+    },
+    {
+      "id": "q5_scope_change",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Can you change an asset's scope (e.g., from Global to Per Folder) via API update?",
+      "options": [
+        "Yes, by updating the ValueScope field",
+        "No, scope is immutable after creation",
+        "Yes, but only from Global to Per Folder, not reverse",
+        "Yes, by changing OrganizationUnitId field"
+      ],
+      "correct_answer": 1,
+      "explanation": "Asset scope (ValueScope) cannot be changed after creation via API. To change scope, you must delete the asset and recreate it with the new scope. This is a design limitation to prevent accidental scope changes.",
+      "learning_objective": "Understand scope immutability",
+      "tags": ["scope", "limitations", "asset-properties"],
+      "points": 2
+    },
+    {
+      "id": "q6_update_pattern",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "What's the correct pattern for updating an asset value?",
+      "options": [
+        "Get asset by name → Modify Value field → PUT with modified object",
+        "POST to /odata/Assets/Update with new value",
+        "PATCH /odata/Assets with asset name and new value",
+        "DELETE old asset → POST new asset with same name"
+      ],
+      "correct_answer": 0,
+      "explanation": "Correct pattern: (1) GET the asset by name to retrieve current object and ID, (2) Modify the Value field in the object, (3) PUT the modified object to /odata/Assets({id}). This ensures all required fields are preserved.",
+      "learning_objective": "Implement update workflow",
+      "tags": ["update-pattern", "workflow", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q7_concurrent_updates",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "What happens if two processes try to update the same asset simultaneously?",
+      "options": [
+        "Orchestrator queues updates sequentially",
+        "Last write wins; no conflict detection",
+        "Both updates fail with conflict error",
+        "Orchestrator merges the changes"
+      ],
+      "correct_answer": 1,
+      "explanation": "Last write wins - there's no built-in conflict detection or locking. If two processes update simultaneously, the second PUT request will overwrite the first. For critical updates, implement application-level locking or coordination.",
+      "learning_objective": "Understand concurrency behavior",
+      "tags": ["concurrency", "race-conditions", "conflicts"],
+      "points": 2
+    },
+    {
+      "id": "q8_required_fields",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "When updating an asset, which fields are required in the PUT request body?",
+      "options": [
+        "Only Name and Value",
+        "Only Value and ValueType",
+        "All fields from the original asset object",
+        "Name, Value, and ValueScope"
+      ],
+      "correct_answer": 2,
+      "explanation": "PUT requests require the complete asset object with all fields. Best practice: GET the asset first, modify only the necessary fields (e.g., Value), then PUT the entire object back. Missing required fields will cause the update to fail.",
+      "learning_objective": "Know required update fields",
+      "tags": ["required-fields", "put-request", "validation"],
+      "points": 1
+    },
+    {
+      "id": "q9_validation",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "What validation should you perform before updating an asset?",
+      "options": [
+        "No validation needed; Orchestrator validates everything",
+        "Check asset exists, validate new value type matches asset type",
+        "Only check if user has permission",
+        "Validation is optional for updates"
+      ],
+      "correct_answer": 1,
+      "explanation": "Always validate: (1) Asset exists (GET succeeds), (2) New value type is compatible (e.g., don't assign string to Integer asset), (3) Value meets business constraints. While Orchestrator does some validation, client-side validation prevents errors and provides better error messages.",
+      "learning_objective": "Implement update validation",
+      "tags": ["validation", "error-prevention", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q10_update_use_case",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What's a common use case for programmatically updating assets?",
+      "options": [
+        "Changing configuration based on runtime conditions",
+        "Rotating credentials on a schedule",
+        "Storing process results for the next run",
+        "All of the above"
+      ],
+      "correct_answer": 3,
+      "explanation": "All are valid use cases: (1) Dynamic config based on conditions (e.g., enable/disable features), (2) Automated credential rotation for security, (3) Stateful processing (storing last processed ID, timestamps). Assets provide flexible, centralized storage for mutable configuration.",
+      "learning_objective": "Recognize update use cases",
+      "tags": ["use-cases", "patterns", "applications"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 12,
+    "grade_boundaries": {
+      "A": 11,
+      "B": 9,
+      "C": 8,
+      "D": 7,
+      "F": 0
+    },
+    "passing_points": 8
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator Assets API - Update Operations",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "Managing Assets",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-assets",
+      "type": "guide"
+    },
+    {
+      "title": "HTTP PUT Method",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT",
+      "type": "documentation"
+    }
+  ]
+}
