@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "module": "2.1.2.2",
+    "title": "Manual Environment Configuration",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 10,
+    "passing_score": 75,
+    "time_limit_minutes": 15,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 4,
+      "apply": 3,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_env_purpose",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What is the primary purpose of using environment-specific configuration files?",
+      "options": [
+        "To make code run faster",
+        "To manage different settings for dev, staging, and production environments",
+        "To reduce code file sizes",
+        "To enable code compilation"
+      ],
+      "correct_answer": 1,
+      "explanation": "Environment-specific configuration allows you to use different settings (URLs, credentials, timeouts, etc.) for development, staging, and production without changing code. This follows the 12-factor app methodology.",
+      "learning_objective": "Understand configuration management principles",
+      "tags": ["configuration", "environments", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q2_env_file_security",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Which file should you add to .gitignore to prevent committing secrets?",
+      "options": [
+        "requirements.txt",
+        ".env",
+        "config.py",
+        "main.py"
+      ],
+      "correct_answer": 1,
+      "explanation": "The .env file contains secrets (credentials, tokens) and should be added to .gitignore to prevent committing secrets to version control. Never commit .env files.",
+      "learning_objective": "Apply security best practices",
+      "tags": ["security", "gitignore", "secrets"],
+      "points": 1
+    },
+    {
+      "id": "q3_config_pattern",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What is the recommended pattern for handling multiple environments (dev, staging, prod)?",
+      "options": [
+        "Use one .env file with all environment settings",
+        "Use separate .env files (.env.dev, .env.staging, .env.prod)",
+        "Hardcode all settings in Python files",
+        "Use command-line arguments only"
+      ],
+      "correct_answer": 1,
+      "explanation": "The best practice is to maintain separate .env files for each environment (.env.dev, .env.staging, .env.prod). This allows environment-specific settings while keeping the pattern consistent. Typically .env.example is committed showing required variables without sensitive values.",
+      "learning_objective": "Manage multi-environment configurations",
+      "tags": ["configuration", "environments", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q4_config_class",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which configuration structure is BEST for managing Orchestrator settings?",
+      "options": [
+        "Global variables scattered across multiple files",
+        "A configuration class with all settings centralized",
+        "Inline strings in each API call",
+        "Constants in every module"
+      ],
+      "correct_answer": 1,
+      "explanation": "A centralized configuration class (e.g., OrchestratorConfig) provides a single source of truth, type safety, validation, and easy testing. It follows the Single Responsibility Principle and makes configuration management maintainable.",
+      "learning_objective": "Design configuration structures",
+      "tags": ["configuration", "design-patterns", "architecture"],
+      "points": 1
+    },
+    {
+      "id": "q5_env_validation",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "When should you validate that required environment variables are set?",
+      "options": [
+        "Never - let the application crash if missing",
+        "At application startup before any processing",
+        "Only in production",
+        "When first accessing each variable"
+      ],
+      "correct_answer": 1,
+      "explanation": "Validate all required environment variables at application startup (\"fail fast\" principle). This provides immediate, clear feedback about configuration issues rather than cryptic errors later during execution.",
+      "learning_objective": "Implement configuration validation",
+      "tags": ["validation", "error-handling", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q6_config_values",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "You have config values that differ between environments. Which should be in .env vs code?",
+      "options": [
+        "All values in .env, nothing in code",
+        "Secrets in .env, non-secret environment-specific values in code with env selector",
+        "Everything in code with if/else for environment",
+        "All values hardcoded in config.py"
+      ],
+      "correct_answer": 1,
+      "explanation": "Secrets and credentials go in .env files. Non-secret environment-specific values (like URLs, timeouts) can be in code with an environment selector (ENVIRONMENT=dev|staging|prod). This balances security with maintainability and version control.",
+      "learning_objective": "Design configuration strategy",
+      "tags": ["configuration", "security", "architecture"],
+      "points": 2
+    },
+    {
+      "id": "q7_type_conversion",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Environment variables are always loaded as strings. How should you handle a numeric timeout value?",
+      "options": [
+        "Use the string directly in API calls",
+        "Convert to int/float when loading: timeout = int(os.getenv('TIMEOUT'))",
+        "Let Python automatically convert it",
+        "Store it as a string and hope for the best"
+      ],
+      "correct_answer": 1,
+      "explanation": "Environment variables are always strings. Convert to the appropriate type when loading: `timeout = int(os.getenv('TIMEOUT', '30'))`. Include a default value in case the variable isn't set. Validate after conversion.",
+      "learning_objective": "Handle configuration data types",
+      "tags": ["type-conversion", "configuration", "error-handling"],
+      "points": 1
+    },
+    {
+      "id": "q8_env_example",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What is the purpose of a .env.example file in a repository?",
+      "options": [
+        "It's a backup of the real .env file",
+        "It documents required environment variables without exposing secrets",
+        "It's used in production",
+        "It's an alternative to .env that can be committed"
+      ],
+      "correct_answer": 1,
+      "explanation": ".env.example documents all required environment variables with example (non-sensitive) values. It's committed to version control so team members know what variables to configure. Real .env files with secrets are never committed.",
+      "learning_objective": "Document configuration requirements",
+      "tags": ["documentation", "best-practices", "configuration"],
+      "points": 1
+    },
+    {
+      "id": "q9_config_testing",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "How should you configure tests to avoid using production credentials?",
+      "options": [
+        "Use production credentials but be careful",
+        "Create a separate .env.test with test-specific values and load it in tests",
+        "Mock all API calls and skip configuration",
+        "Use hardcoded test values in test files"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use a separate .env.test file with test-specific credentials (pointing to test environments). Load this in test setup. This prevents tests from accidentally affecting production and allows safe CI/CD execution.",
+      "learning_objective": "Configure test environments",
+      "tags": ["testing", "configuration", "best-practices"],
+      "points": 2
+    },
+    {
+      "id": "q10_config_precedence",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "When using python-dotenv, what is the typical precedence order for configuration values?",
+      "options": [
+        ".env file → system environment variables → defaults",
+        "System environment variables → .env file → defaults",
+        "Defaults → .env file → system environment variables",
+        "All sources have equal priority"
+      ],
+      "correct_answer": 1,
+      "explanation": "The typical precedence is: 1) Existing system environment variables (highest priority), 2) Values from .env file, 3) Hard-coded defaults (lowest priority). This allows system environment variables to override .env files, useful for containers and CI/CD.",
+      "learning_objective": "Understand configuration precedence",
+      "tags": ["configuration", "precedence", "dotenv"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 12,
+    "grade_boundaries": {
+      "A": 11,
+      "B": 9,
+      "C": 8,
+      "D": 7,
+      "F": 0
+    },
+    "passing_points": 9
+  },
+  "additional_resources": [
+    {
+      "title": "The Twelve-Factor App: Config",
+      "url": "https://12factor.net/config",
+      "type": "methodology"
+    },
+    {
+      "title": "python-dotenv Documentation",
+      "url": "https://github.com/theskumar/python-dotenv",
+      "type": "documentation"
+    },
+    {
+      "title": "Environment Variables Best Practices",
+      "url": "https://en.wikipedia.org/wiki/Environment_variable",
+      "type": "guide"
+    }
+  ]
+}
