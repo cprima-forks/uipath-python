@@ -1,0 +1,200 @@
+{
+  "metadata": {
+    "module": "2.1.1.1",
+    "title": "Installing UiPath Python SDK",
+    "phase": 2,
+    "difficulty": "beginner",
+    "total_questions": 8,
+    "passing_score": 75,
+    "time_limit_minutes": 12,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 3,
+      "apply": 2,
+      "analyze": 0,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 3,
+      "hard": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_install_pip",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the correct pip command to install the UiPath Python SDK?",
+      "options": [
+        "pip install uipath",
+        "pip install uipath-python-sdk",
+        "pip install uipath-sdk",
+        "pip install uipath-orchestrator"
+      ],
+      "correct_answer": 0,
+      "explanation": "The correct command is `pip install uipath`. The package name on PyPI is simply 'uipath', which provides the complete UiPath Python SDK including CLI tools and service clients.",
+      "learning_objective": "Install SDK with pip",
+      "tags": ["installation", "pip", "package-management"],
+      "points": 1
+    },
+    {
+      "id": "q2_install_uv",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Which command installs the UiPath SDK using uv (the fast Python package installer)?",
+      "options": [
+        "uv pip install uipath",
+        "uv install uipath",
+        "uv add uipath",
+        "uv get uipath"
+      ],
+      "correct_answer": 0,
+      "explanation": "With uv, you use `uv pip install uipath`. The 'uv pip' subcommand provides a drop-in replacement for pip with faster performance through Rust implementation.",
+      "learning_objective": "Install SDK with uv",
+      "tags": ["installation", "uv", "performance"],
+      "points": 1
+    },
+    {
+      "id": "q3_verify_installation",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "After installing the UiPath SDK, which command verifies the installation and shows the installed version?",
+      "options": [
+        "uipath --version",
+        "uipath version",
+        "python -m uipath --version",
+        "pip show uipath"
+      ],
+      "correct_answer": 0,
+      "explanation": "`uipath --version` displays the installed SDK version. This is the quickest way to verify both that the SDK is installed correctly and the CLI tools are accessible in your PATH.",
+      "learning_objective": "Verify installation",
+      "tags": ["verification", "cli", "version"],
+      "points": 1
+    },
+    {
+      "id": "q4_virtual_environment",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Why is it recommended to install the UiPath SDK in a virtual environment rather than globally?",
+      "options": [
+        "Virtual environments are faster",
+        "Virtual environments prevent dependency conflicts and ensure project isolation",
+        "The SDK cannot be installed globally",
+        "Virtual environments provide better security"
+      ],
+      "correct_answer": 1,
+      "explanation": "Virtual environments prevent dependency conflicts and ensure project isolation. Different projects may require different SDK versions or have conflicting dependencies. Virtual environments allow each project to have its own isolated set of packages.",
+      "learning_objective": "Apply best practices for variable naming",
+      "tags": ["virtual-environment", "best-practices", "dependencies"],
+      "points": 1
+    },
+    {
+      "id": "q5_troubleshoot_path",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "After installing the SDK with pip, the `uipath` command is not found. What is the most likely cause?",
+      "options": [
+        "The SDK installation failed",
+        "Python's Scripts directory is not in the system PATH",
+        "The SDK requires a system restart",
+        "The wrong Python version is being used"
+      ],
+      "correct_answer": 1,
+      "explanation": "When the `uipath` command is not found after installation, it's typically because Python's Scripts directory (where pip installs executable scripts) is not in the system PATH. On Windows, this is typically Python\\Scripts, and on Unix-like systems, it's bin/ in the Python installation or virtual environment.",
+      "learning_objective": "Troubleshoot common issues",
+      "tags": ["troubleshooting", "path", "cli"],
+      "points": 1
+    },
+    {
+      "id": "q6_python_version",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the minimum Python version required to install the UiPath Python SDK?",
+      "options": [
+        "Python 3.7",
+        "Python 3.8",
+        "Python 3.10",
+        "Python 3.11"
+      ],
+      "correct_answer": 1,
+      "explanation": "The UiPath Python SDK requires Python 3.8 or higher. This ensures compatibility with modern async features, type hints, and security updates that are essential for the SDK's functionality.",
+      "learning_objective": "Verify installation requirements",
+      "tags": ["requirements", "python-version", "compatibility"],
+      "points": 1
+    },
+    {
+      "id": "q7_upgrade_sdk",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which command upgrades the UiPath SDK to the latest version?",
+      "options": [
+        "pip install --upgrade uipath",
+        "pip update uipath",
+        "pip install uipath --latest",
+        "uipath upgrade"
+      ],
+      "correct_answer": 0,
+      "explanation": "`pip install --upgrade uipath` (or `pip install -U uipath`) upgrades the SDK to the latest available version. The --upgrade flag tells pip to install the newest version even if a version is already installed.",
+      "learning_objective": "Manage SDK installations",
+      "tags": ["upgrade", "version-management", "pip"],
+      "points": 1
+    },
+    {
+      "id": "q8_import_check",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "understand",
+      "question": "What will be the output if you run this Python code after successfully installing the SDK?\n\n```python\nimport uipath\nprint(type(uipath))\nprint(hasattr(uipath, 'orchestrator'))\n```",
+      "options": [
+        "<class 'module'>\\nTrue",
+        "<class 'package'>\\nTrue",
+        "<class 'module'>\\nFalse",
+        "ImportError: No module named 'uipath'"
+      ],
+      "correct_answer": 0,
+      "explanation": "After successful installation, importing uipath returns a module object, and the module has an 'orchestrator' attribute (among others like 'aicenter', 'du', etc.). The output is `<class 'module'>` followed by `True`, confirming the SDK is properly installed and the orchestrator client is available.",
+      "learning_objective": "Verify installation programmatically",
+      "tags": ["verification", "python", "import"],
+      "points": 2
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 9,
+    "grade_boundaries": {
+      "A": 8,
+      "B": 7,
+      "C": 6,
+      "D": 5,
+      "F": 0
+    },
+    "passing_points": 7
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Python SDK Documentation",
+      "url": "https://docs.uipath.com/",
+      "type": "documentation"
+    },
+    {
+      "title": "Python Virtual Environments Guide",
+      "url": "https://docs.python.org/3/tutorial/venv.html",
+      "type": "official_guide"
+    },
+    {
+      "title": "uv: Fast Python Package Installer",
+      "url": "https://github.com/astral-sh/uv",
+      "type": "tool_documentation"
+    }
+  ]
+}
