@@ -1,0 +1,234 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.1.1",
+    "title": "Python Variables and Data Types",
+    "version": "1.0",
+    "total_questions": 8,
+    "passing_score": 70,
+    "time_limit_minutes": 15,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 4,
+      "hard": 1
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 2,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "variable_assignment",
+      "points": 1,
+      "question": "Which of the following is a valid variable name in Python?",
+      "options": [
+        "2nd_variable",
+        "second-variable",
+        "second_variable",
+        "second variable"
+      ],
+      "correct_answer": 2,
+      "explanation": "Variable names in Python must start with a letter or underscore, and can only contain letters, numbers, and underscores. 'second_variable' follows these rules. '2nd_variable' starts with a number (invalid), 'second-variable' contains a hyphen (invalid), and 'second variable' contains a space (invalid).",
+      "learning_objective": "Define variables using Python naming conventions"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "data_types",
+      "points": 1,
+      "question": "What is the data type of the value: 42.5?",
+      "options": [
+        "int",
+        "float",
+        "str",
+        "bool"
+      ],
+      "correct_answer": 1,
+      "explanation": "42.5 is a floating-point number (float) because it contains a decimal point. Integers (int) are whole numbers without decimal points, strings (str) are text in quotes, and booleans (bool) are True or False.",
+      "learning_objective": "Identify and use primitive data types"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "naming_conventions",
+      "points": 1,
+      "question": "Which naming convention is recommended for variables in Python according to PEP 8?",
+      "options": [
+        "camelCase",
+        "PascalCase",
+        "snake_case",
+        "SCREAMING_SNAKE_CASE"
+      ],
+      "correct_answer": 2,
+      "explanation": "Python's PEP 8 style guide recommends snake_case (lowercase words separated by underscores) for variable and function names. PascalCase is used for class names, and SCREAMING_SNAKE_CASE is used for constants.",
+      "learning_objective": "Apply best practices for variable naming"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "type_conversion",
+      "points": 2,
+      "question": "What will be the output of this code?\n\n```python\nx = \"123\"\ny = int(x)\nz = y + 7\nprint(z)\n```",
+      "options": [
+        "1237",
+        "130",
+        "123",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The string \"123\" is converted to the integer 123 using int(). Then 123 + 7 = 130. If we hadn't converted x to an integer, trying to add a number to a string would cause an error.",
+      "learning_objective": "Perform type conversion and checking"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "type_checking",
+      "points": 2,
+      "question": "What will `type(True)` return?",
+      "options": [
+        "<class 'int'>",
+        "<class 'bool'>",
+        "<class 'str'>",
+        "True"
+      ],
+      "correct_answer": 1,
+      "explanation": "The type() function returns the data type of a value. True is a boolean value, so type(True) returns <class 'bool'>. Although in Python booleans are a subclass of integers, type() returns the most specific type.",
+      "learning_objective": "Perform type conversion and checking"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "multiple_assignment",
+      "points": 2,
+      "question": "What will be the values of x and y after this code?\n\n```python\nx, y = 10, 20\nx, y = y, x\n```",
+      "options": [
+        "x=10, y=20",
+        "x=20, y=10",
+        "x=20, y=20",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The first line assigns x=10 and y=20. The second line swaps their values using tuple unpacking: x becomes 20 and y becomes 10. This is a Pythonic way to swap values without needing a temporary variable.",
+      "learning_objective": "Define variables using Python naming conventions"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "string_operations",
+      "points": 2,
+      "question": "What is the result of: \"Hello\" + \" \" + \"World\"?",
+      "options": [
+        "HelloWorld",
+        "Hello World",
+        "Error",
+        "Hello + World"
+      ],
+      "correct_answer": 1,
+      "explanation": "The + operator concatenates strings in Python. \"Hello\" + \" \" + \"World\" joins the three strings together to create \"Hello World\". String concatenation is different from numerical addition.",
+      "learning_objective": "Identify and use primitive data types"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "type_coercion",
+      "points": 3,
+      "question": "What will this code output?\n\n```python\nvalue = \"10\"\nresult = value * 3\nprint(result)\n```",
+      "options": [
+        "30",
+        "\"101010\"",
+        "13",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "When you multiply a string by an integer in Python, it repeats the string that many times. \"10\" * 3 produces \"101010\". If value were an integer (10), then 10 * 3 would equal 30. This demonstrates why understanding data types is crucial - the same operator (*) behaves differently depending on the operand types.",
+      "learning_objective": "Identify and use primitive data types"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Python variables and data types. You'll need to demonstrate knowledge of variable naming, data types, type conversion, and Python's type system.",
+    "instructions": [
+      "Read each question carefully",
+      "Pay attention to data types in code examples",
+      "Remember Python naming conventions (PEP 8)",
+      "Consider how operators behave with different types",
+      "Use type() function mentally to check types",
+      "Think about type conversion rules"
+    ],
+    "tips": [
+      "Variable names must start with a letter or underscore",
+      "Python has four primitive types: int, float, str, bool",
+      "Use snake_case for variable names",
+      "String concatenation uses +, string repetition uses *",
+      "int() and float() convert between numeric types",
+      "str() converts any value to a string"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 16,
+    "grade_scale": {
+      "A": {"min": 14, "max": 16, "description": "Excellent understanding"},
+      "B": {"min": 12, "max": 13, "description": "Good understanding"},
+      "C": {"min": 11, "max": 11, "description": "Satisfactory understanding"},
+      "D": {"min": 9, "max": 10, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 8, "description": "Does not meet requirements"}
+    },
+    "passing_score": 11,
+    "recommendations": {
+      "below_11": "Review the module materials, especially sections on data types and type conversion. Complete additional practice exercises before retaking the quiz.",
+      "11_to_13": "Good progress! Review the topics where you missed points, particularly type conversion and naming conventions.",
+      "14_to_16": "Excellent work! You have a solid understanding of Python variables and data types. You're ready for the next module."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "Python Data Types Documentation",
+      "url": "https://docs.python.org/3/library/stdtypes.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "PEP 8 - Naming Conventions",
+      "url": "https://www.python.org/dev/peps/pep-0008/#naming-conventions",
+      "type": "style_guide"
+    },
+    {
+      "title": "Python Type Conversion",
+      "url": "https://docs.python.org/3/library/functions.html#type-conversion",
+      "type": "official_docs"
+    },
+    {
+      "title": "Real Python - Variables Guide",
+      "url": "https://realpython.com/python-variables/",
+      "type": "tutorial"
+    },
+    {
+      "title": "Module 1.1.1.1 Video Lecture",
+      "url": "/videos/phase1/script-1.1.1.1-python-variables-data-types.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.1.1 Slides",
+      "url": "/slides/phase1/1.1.1.1-python-variables-data-types.md",
+      "type": "course_material"
+    }
+  ]
+}

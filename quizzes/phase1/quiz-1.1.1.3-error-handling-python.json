@@ -1,0 +1,253 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.1.3",
+    "title": "Error Handling in Python",
+    "version": "1.0",
+    "total_questions": 9,
+    "passing_score": 70,
+    "time_limit_minutes": 18,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 4,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 3,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "exception_basics",
+      "points": 1,
+      "question": "Which keyword is used to catch exceptions in Python?",
+      "options": [
+        "catch",
+        "except",
+        "handle",
+        "error"
+      ],
+      "correct_answer": 1,
+      "explanation": "Python uses the 'except' keyword to catch exceptions. The syntax is: try:... except ExceptionType:... This is different from languages like Java that use 'catch'.",
+      "learning_objective": "Use try/except/finally blocks"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "finally_block",
+      "points": 1,
+      "question": "When does the 'finally' block execute?",
+      "options": [
+        "Only when an exception occurs",
+        "Only when no exception occurs",
+        "Always, regardless of whether an exception occurred",
+        "Never, it's deprecated"
+      ],
+      "correct_answer": 2,
+      "explanation": "The 'finally' block always executes, whether an exception occurred or not. This makes it perfect for cleanup code like closing files or network connections that must run no matter what.",
+      "learning_objective": "Use try/except/finally blocks"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "exception_types",
+      "points": 1,
+      "question": "Which exception is raised when trying to access a dictionary key that doesn't exist?",
+      "options": [
+        "ValueError",
+        "KeyError",
+        "IndexError",
+        "AttributeError"
+      ],
+      "correct_answer": 1,
+      "explanation": "KeyError is raised when accessing a non-existent dictionary key. IndexError is for list indices, ValueError for inappropriate values, and AttributeError for missing attributes. Each exception type has a specific purpose.",
+      "learning_objective": "Handle multiple exception types"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "try_except",
+      "points": 2,
+      "question": "What will this code output?\n\n```python\ntry:\n    result = 10 / 0\n    print(\"Success\")\nexcept ZeroDivisionError:\n    print(\"Error\")\nprint(\"Done\")\n```",
+      "options": [
+        "Success\\nDone",
+        "Error\\nDone",
+        "Error",
+        "ZeroDivisionError"
+      ],
+      "correct_answer": 1,
+      "explanation": "The division by zero raises a ZeroDivisionError, which is caught by the except block, printing 'Error'. Then execution continues after the try-except block, printing 'Done'. The result is 'Error' followed by 'Done' on separate lines.",
+      "learning_objective": "Use try/except/finally blocks"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "multiple_exceptions",
+      "points": 2,
+      "question": "Which syntax correctly handles multiple exception types?",
+      "options": [
+        "except ValueError and TypeError:",
+        "except (ValueError, TypeError):",
+        "except ValueError or TypeError:",
+        "except [ValueError, TypeError]:"
+      ],
+      "correct_answer": 1,
+      "explanation": "Multiple exception types are handled using a tuple: except (ValueError, TypeError):. This catches either a ValueError or TypeError. The parentheses create a tuple of exception types to catch.",
+      "learning_objective": "Handle multiple exception types"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "custom_exceptions",
+      "points": 2,
+      "question": "What is the correct way to define a custom exception?",
+      "options": [
+        "class MyError:\n    pass",
+        "class MyError(Error):\n    pass",
+        "class MyError(Exception):\n    pass",
+        "def MyError(Exception):\n    pass"
+      ],
+      "correct_answer": 2,
+      "explanation": "Custom exceptions should inherit from Exception (or a more specific exception class). This ensures they work properly with Python's exception handling system and can be caught like built-in exceptions.",
+      "learning_objective": "Create custom exceptions"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "else_clause",
+      "points": 2,
+      "question": "In a try-except-else block, when does the 'else' clause execute?",
+      "options": [
+        "When an exception occurs",
+        "When no exception occurs",
+        "Always, like finally",
+        "Never, it's deprecated"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'else' clause executes only when NO exception occurs in the try block. It's useful for code that should run only if the try block succeeded. This is different from 'finally' which always runs.",
+      "learning_objective": "Use try/except/finally blocks"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "exception_propagation",
+      "points": 3,
+      "question": "What will this code output?\n\n```python\ndef process():\n    try:\n        return 1 / 0\n    except ZeroDivisionError:\n        return \"Error\"\n    finally:\n        return \"Finally\"\n\nresult = process()\nprint(result)\n```",
+      "options": [
+        "Error",
+        "Finally",
+        "ZeroDivisionError",
+        "None"
+      ],
+      "correct_answer": 1,
+      "explanation": "The finally block's return statement overrides the except block's return. When finally contains a return statement, it takes precedence over any previous return in try or except. This behavior can be surprising - generally avoid returning from finally blocks!",
+      "learning_objective": "Use try/except/finally blocks"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "exception_chaining",
+      "points": 3,
+      "question": "What is the purpose of 'raise ... from ...' syntax?",
+      "options": [
+        "To raise multiple exceptions at once",
+        "To chain exceptions and preserve the original context",
+        "To convert one exception type to another",
+        "To suppress exception messages"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'raise ... from ...' syntax chains exceptions, preserving the original exception context. Example: raise CustomError('Failed') from original_error. This helps debugging by showing the complete chain of errors that occurred, which is crucial for agent development.",
+      "learning_objective": "Handle multiple exception types"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Python error handling. You'll need to demonstrate knowledge of try/except/finally blocks, exception types, custom exceptions, and error handling best practices.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider the flow of execution in try-except blocks",
+      "Remember that finally always executes",
+      "Think about exception hierarchies",
+      "Consider when else and finally blocks run",
+      "Understand exception chaining for debugging"
+    ],
+    "tips": [
+      "finally blocks execute whether an exception occurred or not",
+      "Use except (Type1, Type2): to catch multiple types",
+      "Custom exceptions inherit from Exception",
+      "The else clause runs only if no exception occurred",
+      "Avoid returning from finally blocks",
+      "Use raise ... from ... to chain exceptions",
+      "Always catch specific exceptions, not bare except"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 19,
+    "grade_scale": {
+      "A": {"min": 17, "max": 19, "description": "Excellent understanding"},
+      "B": {"min": 15, "max": 16, "description": "Good understanding"},
+      "C": {"min": 13, "max": 14, "description": "Satisfactory understanding"},
+      "D": {"min": 11, "max": 12, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 10, "description": "Does not meet requirements"}
+    },
+    "passing_score": 13,
+    "recommendations": {
+      "below_13": "Review the module materials, especially the sections on try/except/finally blocks and exception handling patterns. Practice writing error-handling code before retaking the quiz.",
+      "13_to_16": "Good progress! Review the topics where you missed points, particularly exception chaining and the finally block behavior.",
+      "17_to_19": "Excellent work! You have a solid understanding of Python error handling. You're ready for the next module."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "Python Errors and Exceptions Documentation",
+      "url": "https://docs.python.org/3/tutorial/errors.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Built-in Exceptions",
+      "url": "https://docs.python.org/3/library/exceptions.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "PEP 3134 - Exception Chaining",
+      "url": "https://www.python.org/dev/peps/pep-3134/",
+      "type": "pep"
+    },
+    {
+      "title": "Real Python - Exception Handling",
+      "url": "https://realpython.com/python-exceptions/",
+      "type": "tutorial"
+    },
+    {
+      "title": "Module 1.1.1.3 Video Lecture",
+      "url": "/videos/phase1/script-1.1.1.3-error-handling-python.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.1.3 Slides",
+      "url": "/slides/phase1/1.1.1.3-error-handling-python.md",
+      "type": "course_material"
+    }
+  ]
+}
