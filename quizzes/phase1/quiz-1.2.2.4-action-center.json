@@ -1,0 +1,314 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.2.4",
+    "title": "Action Center (Human-in-the-Loop)",
+    "version": "1.0",
+    "total_questions": 12,
+    "passing_score": 70,
+    "time_limit_minutes": 24,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 3,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "action_center_basics",
+      "points": 1,
+      "question": "What is UiPath Action Center?",
+      "options": [
+        "A robot management system",
+        "A human-in-the-loop system for tasks requiring human judgment",
+        "A process scheduling tool",
+        "An asset management system"
+      ],
+      "correct_answer": 1,
+      "explanation": "Action Center is UiPath's human-in-the-loop system. It enables automation to pause and request human input when judgment, approval, or validation is needed. Example: A robot processes 100 invoices automatically, but flags 5 for human review due to unusual amounts. Action Center presents those 5 to a human for decision.",
+      "learning_objective": "Understand Action Center purpose"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "action_basics",
+      "points": 1,
+      "question": "What is an Action in Action Center?",
+      "options": [
+        "A robot action",
+        "A task assigned to a human for review or approval",
+        "An API endpoint",
+        "A queue item"
+      ],
+      "correct_answer": 1,
+      "explanation": "An Action is a task assigned to a human user for review, approval, or data entry. Created by automation workflows, Actions contain: (1) Data to review (e.g., invoice details), (2) Form for human input, (3) Priority and deadline, (4) Assignment to specific users or roles. Humans complete Actions via the Action Center UI or mobile app.",
+      "learning_objective": "Understand Action Center purpose"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "action_states",
+      "points": 1,
+      "question": "What are the possible states of an Action?",
+      "options": [
+        "Created and Deleted",
+        "Unassigned, Pending, InProgress, Completed",
+        "New and Processed",
+        "Open and Closed"
+      ],
+      "correct_answer": 1,
+      "explanation": "Action states: Unassigned (created but not assigned), Pending (assigned to user, awaiting action), InProgress (user started working on it), Completed (user submitted decision). Additional states: Canceled, Expired. Actions flow: Create → Assign → User acts → Complete. Automation waits for Completed state.",
+      "learning_objective": "Work with Action states"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "use_cases",
+      "points": 1,
+      "question": "Which scenario is best suited for Action Center?",
+      "options": [
+        "Processing 1000 identical invoices",
+        "Reviewing invoices with unusual amounts that require manager approval",
+        "Scheduling recurring jobs",
+        "Storing configuration values"
+      ],
+      "correct_answer": 1,
+      "explanation": "Action Center is for exception handling and human judgment. Best uses: (1) Approvals - manager approves expense over limit, (2) Validation - human validates OCR results, (3) Exception handling - human reviews items automation couldn't process, (4) Data entry - human provides missing information. NOT for routine processing—that's pure automation.",
+      "learning_objective": "Understand Action Center purpose"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "creating_action",
+      "points": 2,
+      "question": "What's the correct endpoint to create an Action?",
+      "options": [
+        "POST /odata/Actions",
+        "POST /odata/TaskCatalog/CreateAction",
+        "Actions can only be created from Studio workflows",
+        "POST /odata/CreateHumanTask"
+      ],
+      "correct_answer": 2,
+      "explanation": "Actions are primarily created from UiPath Studio workflows using the 'Create Form Task' or 'Create Document Validation Action' activities. The API supports querying Actions but creation is workflow-driven. This ensures Actions have proper form definitions and are integrated with automation context. You can query via GET /odata/TaskItems.",
+      "learning_objective": "Create Actions via workflows"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "waiting_for_action",
+      "points": 2,
+      "question": "How does automation wait for a human to complete an Action?",
+      "options": [
+        "The workflow uses 'Wait for Task Completion' activity",
+        "The robot polls continuously",
+        "Actions complete instantly",
+        "Separate jobs must be started"
+      ],
+      "correct_answer": 0,
+      "explanation": "In Studio workflows, use 'Wait for Task Completion' activity after creating an Action. This suspends the workflow until the human completes the Action, then resumes with the human's input. Alternatively, use Async: Create Action, end workflow, trigger new workflow when Action completes (using webhooks or polling). For API: poll Action status until State='Completed'.",
+      "learning_objective": "Wait for Action completion"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "forms",
+      "points": 2,
+      "question": "What is an Action Form?",
+      "options": [
+        "A PDF document",
+        "A UI definition specifying fields for human input",
+        "A robot's workflow",
+        "An API payload"
+      ],
+      "correct_answer": 1,
+      "explanation": "An Action Form defines the UI that humans see when reviewing an Action. Created in Studio, forms specify: (1) Fields (text inputs, dropdowns, checkboxes, file uploads), (2) Field labels and validation rules, (3) Layout and sections, (4) Actions (Approve/Reject, Submit, etc.). The robot creates an Action with this form, and humans complete it via Action Center UI.",
+      "learning_objective": "Create Actions via workflows"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "querying_actions",
+      "points": 2,
+      "question": "How do you query Actions assigned to a specific user via API?",
+      "options": [
+        "Actions cannot be queried via API",
+        "GET /odata/TaskItems with $filter on AssignedTo",
+        "POST /odata/GetUserActions",
+        "Actions are only visible in UI"
+      ],
+      "correct_answer": 1,
+      "explanation": "Query Actions using GET /odata/TaskItems with OData filters. Example: $filter=AssignedToUserId eq 123 and Status eq 'Pending'. TaskItems is the API name for Actions. Filter by: Status (Pending, Completed), Priority, AssignedToUserId, CreatedTime, DueDate. This enables building custom dashboards or monitoring systems.",
+      "learning_objective": "Monitor Actions via API"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "assignment",
+      "points": 2,
+      "question": "How are Actions assigned to humans?",
+      "options": [
+        "Actions are never assigned; humans browse them",
+        "By user ID, group, or role when creating the Action",
+        "Always to admins only",
+        "Assignment happens randomly"
+      ],
+      "correct_answer": 1,
+      "explanation": "When creating an Action, specify assignment: (1) Specific user by ID, (2) Group of users, (3) Role (e.g., 'Managers', 'Approvers'). Multiple users in a group can see the Action; first to claim it works on it (or specific assignment). Assignment ensures Actions reach the right people. Use roles for flexibility—don't hard-code user IDs.",
+      "learning_objective": "Create Actions via workflows"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "priority_deadline",
+      "points": 2,
+      "question": "What happens if an Action exceeds its deadline?",
+      "options": [
+        "The Action is automatically approved",
+        "The Action state changes to Expired; escalation can be configured",
+        "Nothing happens",
+        "The workflow crashes"
+      ],
+      "correct_answer": 1,
+      "explanation": "Actions can have deadlines (SLA). If deadline passes without completion, the Action can: (1) Change state to Expired, (2) Trigger escalation (notify manager, reassign to senior approver), (3) Execute default action if configured. This ensures time-sensitive Actions don't block processes indefinitely. Set realistic deadlines and configure escalations.",
+      "learning_objective": "Work with Action states"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "architecture_decision",
+      "points": 3,
+      "question": "Your process has 1000 invoices; 50 need human review. What's the best architecture?",
+      "options": [
+        "Create 1000 Actions, one per invoice",
+        "Create 50 Actions for exceptions, automate the other 950",
+        "Process all 1000 with human review",
+        "Don't use Action Center"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: Only create Actions for exceptions. Automate the 950 standard invoices fully. Create Actions for the 50 that need review (unusual amounts, missing data, etc.). This maximizes automation ROI, focuses human effort on high-value judgment tasks, and prevents human bottlenecks. Action Center is for exceptions, not routine work.",
+      "learning_objective": "Understand Action Center purpose"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "action_vs_attended",
+      "points": 3,
+      "question": "When should you use Action Center vs Attended Automation?",
+      "options": [
+        "They're the same thing",
+        "Action Center: Async human tasks, flexible timing; Attended: Synchronous, human present during execution",
+        "Always prefer Action Center",
+        "Always prefer Attended Automation"
+      ],
+      "correct_answer": 1,
+      "explanation": "Action Center: For async human input (approvals, validations) where human responds on their schedule. Robot creates Action, continues or ends. Human acts later. Attended Automation: For real-time collaboration where human and robot work together synchronously. Human present, robot assists. Choose based on: Can human respond later? → Action Center. Must human be present now? → Attended.",
+      "learning_objective": "Understand Action Center purpose"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of UiPath Action Center for human-in-the-loop automation, including creating Actions, assigning to humans, waiting for completion, and monitoring via API.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand Action Center is for exception handling and human judgment",
+      "Know Action states: Unassigned, Pending, InProgress, Completed",
+      "Remember Actions are created from Studio workflows, not directly via API",
+      "Understand assignment methods: user, group, role",
+      "Consider when to use Action Center vs full automation"
+    ],
+    "tips": [
+      "Action Center = Human-in-the-loop system",
+      "Action = Task assigned to human (review, approval, validation)",
+      "States: Unassigned → Pending → InProgress → Completed",
+      "Created from Studio workflows ('Create Form Task' activity)",
+      "Forms define UI and fields for human input",
+      "Assignment: by user ID, group, or role",
+      "Priority and deadlines can be set (SLA)",
+      "Expired Actions can trigger escalation",
+      "Query Actions via GET /odata/TaskItems",
+      "Wait for completion: 'Wait for Task Completion' activity or poll status",
+      "Use for exceptions, not routine processing",
+      "Best practice: Automate fully when possible, use Actions for exceptions",
+      "Action Center vs Attended: Async vs Synchronous human involvement",
+      "TaskItems is the API name for Actions"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 23,
+    "grade_scale": {
+      "A": {"min": 21, "max": 23, "description": "Excellent understanding"},
+      "B": {"min": 18, "max": 20, "description": "Good understanding"},
+      "C": {"min": 16, "max": 17, "description": "Satisfactory understanding"},
+      "D": {"min": 13, "max": 15, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 12, "description": "Does not meet requirements"}
+    },
+    "passing_score": 16,
+    "recommendations": {
+      "below_16": "Review the module materials thoroughly, especially sections on Action Center purpose, Action states, creating Actions from workflows, and when to use human-in-the-loop vs full automation. Understand that Action Center is for exceptions requiring human judgment.",
+      "16_to_20": "Good progress! Review the topics where you missed points, particularly Action creation, assignment methods, and architectural decisions about when to use Action Center.",
+      "21_to_23": "Excellent work! You have a solid understanding of Action Center for human-in-the-loop automation. You're ready to design automation that effectively integrates human judgment where needed."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Action Center Overview",
+      "url": "https://docs.uipath.com/action-center/docs/about-action-center",
+      "type": "official_docs"
+    },
+    {
+      "title": "Creating and Managing Actions",
+      "url": "https://docs.uipath.com/action-center/docs/managing-actions",
+      "type": "official_docs"
+    },
+    {
+      "title": "Action Center Forms",
+      "url": "https://docs.uipath.com/action-center/docs/creating-forms",
+      "type": "official_docs"
+    },
+    {
+      "title": "Action Center API",
+      "url": "https://docs.uipath.com/orchestrator/reference/task-catalog",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.2.4 Video Lecture",
+      "url": "/videos/phase1/script-1.2.2.4-action-center.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.2.4 Slides",
+      "url": "/slides/phase1/1.2.2.4-action-center.md",
+      "type": "course_material"
+    }
+  ]
+}
