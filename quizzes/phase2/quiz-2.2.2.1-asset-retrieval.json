@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "module": "2.2.2.1",
+    "title": "Asset Retrieval",
+    "phase": 2,
+    "difficulty": "beginner",
+    "total_questions": 10,
+    "passing_score": 70,
+    "time_limit_minutes": 12,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 4,
+      "apply": 2,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 5,
+      "hard": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_asset_definition",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What are Assets in UiPath Orchestrator?",
+      "options": [
+        "Configuration files stored locally",
+        "Centralized variables and credentials stored in Orchestrator",
+        "Robot execution logs",
+        "Process packages"
+      ],
+      "correct_answer": 1,
+      "explanation": "Assets are centralized configuration values (variables and credentials) stored in Orchestrator. They allow you to separate configuration from code, making processes more flexible and environments easier to manage.",
+      "learning_objective": "Understand asset purpose",
+      "tags": ["assets", "configuration", "orchestrator"],
+      "points": 1
+    },
+    {
+      "id": "q2_asset_types",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Which of the following is NOT a valid asset type in Orchestrator?",
+      "options": [
+        "Text",
+        "Integer",
+        "Credential",
+        "JSON Object"
+      ],
+      "correct_answer": 3,
+      "explanation": "Valid asset types are: Text (string values), Bool (true/false), Integer (whole numbers), and Credential (username/password pairs). JSON Object is not a native asset type, though you can store JSON as a Text asset and parse it.",
+      "learning_objective": "Identify asset types",
+      "tags": ["asset-types", "data-types"],
+      "points": 1
+    },
+    {
+      "id": "q3_asset_endpoint",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the OData endpoint for retrieving assets?",
+      "options": [
+        "GET /api/Assets",
+        "GET /odata/Assets",
+        "GET /orchestrator/assets",
+        "GET /data/Assets"
+      ],
+      "correct_answer": 1,
+      "explanation": "Assets are accessed via GET /odata/Assets endpoint. Use $filter to query by name: GET /odata/Assets?$filter=Name eq 'MyAsset'",
+      "learning_objective": "Know asset API endpoint",
+      "tags": ["api", "odata", "endpoints"],
+      "points": 1
+    },
+    {
+      "id": "q4_credential_asset",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What information is returned when you retrieve a Credential asset?",
+      "options": [
+        "Username and password in plain text",
+        "Username only; password is never returned",
+        "Only a token representing the credential",
+        "Encrypted username and password"
+      ],
+      "correct_answer": 1,
+      "explanation": "For security, retrieving a Credential asset returns the Username field but never the Password. Passwords can only be used by robots during process execution, never retrieved via API.",
+      "learning_objective": "Understand credential asset security",
+      "tags": ["credentials", "security", "assets"],
+      "points": 1
+    },
+    {
+      "id": "q5_asset_scope",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "An asset is defined as 'Per Robot'. What does this mean?",
+      "options": [
+        "Only one robot can access the asset",
+        "Each robot can have a different value for this asset",
+        "The asset rotates between robots",
+        "Robots must request permission to access it"
+      ],
+      "correct_answer": 1,
+      "explanation": "Per Robot scope means the asset can have different values for different robots. For example, 'DatabaseServer' could be 'db1.local' for Robot A and 'db2.local' for Robot B, allowing robot-specific configuration.",
+      "learning_objective": "Understand asset scoping",
+      "tags": ["asset-scope", "per-robot", "configuration"],
+      "points": 1
+    },
+    {
+      "id": "q6_get_asset_value",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which code correctly retrieves the value of a Text asset named 'AppURL'?",
+      "options": [
+        "value = get_asset('AppURL')['Value']",
+        "value = get_asset('AppURL')['ValueScope']",
+        "value = get_asset('AppURL')['TextValue']",
+        "value = get_asset('AppURL')['Data']"
+      ],
+      "correct_answer": 0,
+      "explanation": "Asset values are stored in the 'Value' field regardless of type. For Text assets, asset['Value'] returns the string value. For Bool assets, it returns true/false. For Integer, it returns the number.",
+      "learning_objective": "Access asset values correctly",
+      "tags": ["asset-retrieval", "value-access", "api"],
+      "points": 1
+    },
+    {
+      "id": "q7_asset_not_found",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What happens when you try to retrieve an asset that doesn't exist?",
+      "options": [
+        "Returns null",
+        "Returns an empty string",
+        "Returns an empty list from the OData query",
+        "Throws a 404 error"
+      ],
+      "correct_answer": 2,
+      "explanation": "When querying /odata/Assets with a filter for a non-existent asset, the API returns a successful response with an empty value array: {'@odata.context': '...', 'value': []}. No error is thrown; you must check if the value list is empty.",
+      "learning_objective": "Handle missing assets",
+      "tags": ["error-handling", "asset-retrieval", "edge-cases"],
+      "points": 1
+    },
+    {
+      "id": "q8_global_vs_folder",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "You have two assets named 'DBConnection': one Global and one in 'Production' folder. When requesting from Production folder, which value is returned?",
+      "options": [
+        "The Global value (global takes precedence)",
+        "The Production folder value (folder scope takes precedence)",
+        "Both values in an array",
+        "An error due to name conflict"
+      ],
+      "correct_answer": 1,
+      "explanation": "Folder-scoped assets take precedence over global assets when accessed from that folder. This allows you to override global defaults with folder-specific values. The resolution order is: Per Robot → Per Folder → Global.",
+      "learning_objective": "Understand asset precedence",
+      "tags": ["asset-scope", "precedence", "folders"],
+      "points": 2
+    },
+    {
+      "id": "q9_folder_context",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Why is the X-UIPATH-OrganizationUnitId header required when retrieving assets?",
+      "options": [
+        "It's optional; assets can be retrieved without it",
+        "To authenticate the request",
+        "To specify which folder context to use for asset resolution",
+        "To identify the robot making the request"
+      ],
+      "correct_answer": 2,
+      "explanation": "The X-UIPATH-OrganizationUnitId header specifies the folder context (Organization Unit ID) for the request. This is crucial for asset resolution, as assets can be scoped to specific folders, and the header determines which folder's assets are accessible.",
+      "learning_objective": "Understand folder context requirement",
+      "tags": ["headers", "folder-context", "api"],
+      "points": 1
+    },
+    {
+      "id": "q10_caching_strategy",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "What's a good practice for retrieving assets in your application?",
+      "options": [
+        "Retrieve assets every time you need the value",
+        "Cache assets at application startup and refresh periodically",
+        "Store asset values in code as constants",
+        "Assets should never be cached"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: Cache assets at application startup (or when needed) and refresh periodically or when configuration changes are expected. This reduces API calls while keeping configuration reasonably up-to-date. Don't hardcode values (defeats the purpose), but also don't fetch on every use (inefficient).",
+      "learning_objective": "Implement efficient asset retrieval",
+      "tags": ["caching", "best-practices", "performance"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 11,
+    "grade_boundaries": {
+      "A": 10,
+      "B": 8,
+      "C": 7,
+      "D": 6,
+      "F": 0
+    },
+    "passing_points": 8
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator Assets API",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "About Assets",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-assets",
+      "type": "guide"
+    },
+    {
+      "title": "Asset Scoping",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-assets",
+      "type": "documentation"
+    }
+  ]
+}
