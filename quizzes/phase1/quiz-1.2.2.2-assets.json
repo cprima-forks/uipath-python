@@ -1,0 +1,332 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.2.2",
+    "title": "Assets (Variables and Credentials)",
+    "version": "1.0",
+    "total_questions": 13,
+    "passing_score": 70,
+    "time_limit_minutes": 26,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 3
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 4,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "asset_types",
+      "points": 1,
+      "question": "What are the two main types of Assets in UiPath Orchestrator?",
+      "options": [
+        "Public and Private",
+        "Text and Credential",
+        "Local and Global",
+        "Simple and Complex"
+      ],
+      "correct_answer": 1,
+      "explanation": "The two main asset types are: (1) Text/Value assets - store plain text configuration values like URLs, file paths, thresholds; (2) Credential assets - store username/password pairs securely encrypted. There are also Bool and Integer asset types, but Text and Credential are the primary categories.",
+      "learning_objective": "Understand asset types and purposes"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "asset_purpose",
+      "points": 1,
+      "question": "What is the primary purpose of Assets?",
+      "options": [
+        "To store robot logs",
+        "To store configuration values and credentials outside of workflows",
+        "To store process packages",
+        "To store job results"
+      ],
+      "correct_answer": 1,
+      "explanation": "Assets store configuration values and credentials separately from workflows. This enables: (1) Changing values without republishing workflows, (2) Different values per environment (Dev/Prod), (3) Secure credential storage, (4) Centralized configuration management. Assets are Orchestrator's configuration and secrets management system.",
+      "learning_objective": "Understand asset types and purposes"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "text_vs_credential",
+      "points": 1,
+      "question": "When should you use a Credential asset instead of a Text asset?",
+      "options": [
+        "For any text value",
+        "For storing usernames and passwords securely",
+        "For large amounts of text",
+        "Credential assets are deprecated"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use Credential assets for username/password pairs that need secure storage. Orchestrator encrypts credential values and never exposes them in logs or API responses. Use Text assets for non-sensitive configuration values like URLs, file paths, email addresses, thresholds. Never store passwords in Text assets—they're not encrypted.",
+      "learning_objective": "Understand asset types and purposes"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "asset_scope",
+      "points": 1,
+      "question": "What does asset scope (Per Robot vs Global) control?",
+      "options": [
+        "Which folder the asset belongs to",
+        "Whether each robot can have a different value or all robots share one value",
+        "The encryption level",
+        "The asset type"
+      ],
+      "correct_answer": 1,
+      "explanation": "Asset scope determines value assignment: Global assets have one value shared by all robots. Per Robot assets can have different values for each robot. Example: Global asset 'API_URL' = same URL for all robots. Per Robot asset 'LocalFolder' = different folder path per robot. Choose Global for environment config, Per Robot for machine-specific settings.",
+      "learning_objective": "Manage asset values and scope"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "getting_asset",
+      "points": 2,
+      "question": "What's the correct API endpoint to get an asset value by name?",
+      "options": [
+        "GET /odata/Assets/{name}",
+        "GET /odata/Assets/UiPath.Server.Configuration.OData.GetAssetByName(assetName='{name}')",
+        "POST /odata/Assets/GetValue",
+        "GET /odata/GetAsset?name={name}"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use GET /odata/Assets/UiPath.Server.Configuration.OData.GetAssetByName(assetName='AssetName') to retrieve an asset by name. This is an OData function that returns the asset value. For robot context, use GetRobotAssetByName to get Per Robot values. These are special OData functions, not standard REST endpoints.",
+      "learning_objective": "Retrieve asset values via API"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "credential_retrieval",
+      "points": 2,
+      "question": "What does the API return when you retrieve a Credential asset?",
+      "options": [
+        "The plain text password",
+        "Username and encrypted password",
+        "Only the username; password is never accessible via API",
+        "A token to retrieve the password separately"
+      ],
+      "correct_answer": 1,
+      "explanation": "When retrieving a Credential asset via API, you get the username in plain text and the password as an encrypted string. The encrypted password can be used by robots (they decrypt it), but cannot be decrypted by API clients. This is by design—credentials are protected. You cannot get plain text passwords via API for security reasons.",
+      "learning_objective": "Handle credential assets securely"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "setting_asset",
+      "points": 2,
+      "question": "How do you update a Text asset value via API?",
+      "options": [
+        "DELETE then CREATE a new asset",
+        "PUT /odata/Assets({id}) with new Value in payload",
+        "Text assets cannot be updated via API",
+        "POST /odata/Assets/Update"
+      ],
+      "correct_answer": 1,
+      "explanation": "Update asset values using PUT /odata/Assets({id}) with the updated asset object including the new Value field. You need the asset's Id (numeric identifier). Alternatively, use PATCH for partial updates. Example: PUT /odata/Assets(123) with body: {'Value': 'new value'}. Don't delete/recreate—update in place.",
+      "learning_objective": "Update asset values via API"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "asset_id_retrieval",
+      "points": 2,
+      "question": "Before updating an asset, you need its ID. How do you get it?",
+      "options": [
+        "The ID is always the same as the asset name",
+        "Query /odata/Assets with $filter=Name eq 'AssetName', extract Id from result",
+        "Asset IDs are not available via API",
+        "The ID is in the asset name after the underscore"
+      ],
+      "correct_answer": 1,
+      "explanation": "Query /odata/Assets with an OData filter to find the asset by name, then extract the Id field. Example: GET /odata/Assets?$filter=Name eq 'API_URL' returns asset objects with Id fields. Use this Id for PUT/PATCH/DELETE operations. Asset names are unique per folder, but Ids are the system identifiers.",
+      "learning_objective": "Update asset values via API"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "global_vs_per_robot",
+      "points": 2,
+      "question": "You have 10 robots and need to store a database connection string. Should you use Global or Per Robot scope?",
+      "options": [
+        "Per Robot, so each robot can have different values",
+        "Global, since all robots use the same database",
+        "Either works the same",
+        "This should not be stored as an asset"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use Global scope—all robots connect to the same database, so they need the same connection string. Global assets have one value for all robots. Per Robot scope is for machine-specific settings like local file paths, printer names, or when different robots legitimately need different values. For shared config (APIs, databases, thresholds), use Global.",
+      "learning_objective": "Manage asset values and scope"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "credential_security",
+      "points": 2,
+      "question": "Why can't you retrieve plain text passwords from Credential assets via API?",
+      "options": [
+        "It's a bug in the API",
+        "Security design—prevents credential exposure in logs, scripts, or unauthorized access",
+        "Passwords are not actually stored",
+        "Only admins can retrieve passwords"
+      ],
+      "correct_answer": 1,
+      "explanation": "By design, credential passwords are encrypted and never exposed in plain text via API. This prevents: (1) Passwords appearing in logs or error messages, (2) Scripts or applications extracting credentials, (3) Unauthorized credential access. Only robots can decrypt credentials during execution. This is a security feature, not a limitation.",
+      "learning_objective": "Handle credential assets securely"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "creating_asset",
+      "points": 3,
+      "question": "What's required in the payload to create a new Text asset?",
+      "options": [
+        "Only Name and Value",
+        "Name, Value, ValueScope (Global/PerRobot), ValueType (Text)",
+        "Name, Value, and FolderId",
+        "Assets cannot be created via API"
+      ],
+      "correct_answer": 1,
+      "explanation": "Creating an asset requires: Name (unique per folder), Value (the actual value), ValueScope ('Global' or 'PerRobot'), ValueType ('Text', 'Bool', 'Integer', or 'Credential'). Example payload: {'Name': 'API_URL', 'Value': 'https://api.example.com', 'ValueScope': 'Global', 'ValueType': 'Text'}. POST to /odata/Assets with folder context header.",
+      "learning_objective": "Update asset values via API"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "best_practices",
+      "points": 3,
+      "question": "Your automation needs an API key. What's the best approach?",
+      "options": [
+        "Hard-code it in the workflow",
+        "Store as Text asset (plain text)",
+        "Store as Credential asset with dummy username and API key as password",
+        "Pass as input argument every time"
+      ],
+      "correct_answer": 2,
+      "explanation": "Best practice: Store API keys as Credential assets with a dummy username (e.g., 'api_key') and the API key as the password. This ensures encryption and secure storage. Don't use Text assets—they're not encrypted. Don't hard-code—can't change without republishing. Don't use input arguments—requires passing secrets every time. Credential assets = secure, centralized, changeable.",
+      "learning_objective": "Handle credential assets securely"
+    },
+    {
+      "id": "q13",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "environment_strategy",
+      "points": 3,
+      "question": "You have Dev, Staging, and Prod environments with different database URLs. What's the best asset strategy?",
+      "options": [
+        "One Global asset 'DB_URL' in each environment's folder with environment-specific value",
+        "Three assets: 'DB_URL_Dev', 'DB_URL_Staging', 'DB_URL_Prod' in one folder",
+        "Use input arguments instead of assets",
+        "Hard-code the URLs and deploy different workflow versions"
+      ],
+      "correct_answer": 0,
+      "explanation": "Best practice: Same asset name ('DB_URL') in each environment's folder (Dev folder, Staging folder, Prod folder), each with its environment-specific value. Your workflow always reads 'DB_URL' asset, but gets different values depending on which folder/environment it runs in. This enables deploying the same workflow across environments without changes. Don't use environment-specific names—that requires workflow changes per environment.",
+      "learning_objective": "Manage asset values and scope"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Assets in UiPath Orchestrator, including asset types, scope, retrieving and updating values via API, and security best practices for credential management.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the difference between Text and Credential assets",
+      "Know Global vs Per Robot scope implications",
+      "Remember that credential passwords are encrypted and not accessible in plain text",
+      "Understand how to retrieve and update asset values via API",
+      "Consider security best practices for storing secrets"
+    ],
+    "tips": [
+      "Two main types: Text (plain config) and Credential (encrypted secrets)",
+      "Scope: Global (one value for all) vs Per Robot (value per robot)",
+      "Get asset: GetAssetByName or GetRobotAssetByName OData functions",
+      "Credential passwords are encrypted—never plain text in API",
+      "Update: PUT /odata/Assets({id}) with new Value",
+      "Create: POST /odata/Assets with Name, Value, ValueScope, ValueType",
+      "Security: Use Credential assets for passwords and API keys",
+      "Best practice: Same asset name across environments, different values",
+      "Per Robot scope for machine-specific settings (paths, printers)",
+      "Global scope for shared config (APIs, databases, thresholds)",
+      "API keys should be stored as Credential assets",
+      "Don't hard-code configuration—use assets",
+      "Asset names are unique per folder",
+      "Need asset Id for update/delete operations"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 25,
+    "grade_scale": {
+      "A": {"min": 22, "max": 25, "description": "Excellent understanding"},
+      "B": {"min": 19, "max": 21, "description": "Good understanding"},
+      "C": {"min": 18, "max": 18, "description": "Satisfactory understanding"},
+      "D": {"min": 15, "max": 17, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 14, "description": "Does not meet requirements"}
+    },
+    "passing_score": 18,
+    "recommendations": {
+      "below_18": "Review the module materials thoroughly, especially sections on asset types, scope (Global vs Per Robot), API endpoints for retrieving and updating assets, and security best practices for credentials. Practice working with both Text and Credential assets before retaking the quiz.",
+      "18_to_21": "Good progress! Review the topics where you missed points, particularly credential security, environment-specific asset strategies, and the API methods for asset management.",
+      "22_to_25": "Excellent work! You have a solid understanding of Assets in UiPath Orchestrator. You're ready to implement configuration and secrets management in your automation projects."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator - About Assets",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-assets",
+      "type": "official_docs"
+    },
+    {
+      "title": "Managing Assets",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-assets",
+      "type": "official_docs"
+    },
+    {
+      "title": "Assets API Reference",
+      "url": "https://docs.uipath.com/orchestrator/reference/assets",
+      "type": "official_docs"
+    },
+    {
+      "title": "Credential Management Best Practices",
+      "url": "https://docs.uipath.com/orchestrator/docs/credential-stores",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.2.2 Video Lecture",
+      "url": "/videos/phase1/script-1.2.2.2-assets.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.2.2 Slides",
+      "url": "/slides/phase1/1.2.2.2-assets.md",
+      "type": "course_material"
+    }
+  ]
+}
