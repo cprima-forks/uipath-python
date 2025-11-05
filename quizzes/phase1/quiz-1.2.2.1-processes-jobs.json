@@ -1,0 +1,368 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.2.1",
+    "title": "Processes and Jobs",
+    "version": "1.0",
+    "total_questions": 15,
+    "passing_score": 70,
+    "time_limit_minutes": 30,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 8,
+      "hard": 3
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 6,
+      "apply": 5,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "process_basics",
+      "points": 1,
+      "question": "What is a Process in UiPath Orchestrator?",
+      "options": [
+        "A running automation",
+        "A published package that can be executed by robots",
+        "A robot configuration",
+        "A queue of items"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Process in Orchestrator is a published automation package that has been deployed and can be executed by robots. It's essentially a version of your automation workflow (created in UiPath Studio) that's ready to run. Think of it as the 'program' that robots execute.",
+      "learning_objective": "Understand processes and jobs"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "job_basics",
+      "points": 1,
+      "question": "What is a Job in UiPath Orchestrator?",
+      "options": [
+        "A package file",
+        "An execution of a process by a robot",
+        "A folder configuration",
+        "A user permission"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Job is a single execution of a Process by a robot. When you start a Process, you create a Job. The Job tracks the execution: when it started, which robot ran it, whether it succeeded or failed, and any output data. Jobs are to Processes what 'runs' are to 'programs'.",
+      "learning_objective": "Understand processes and jobs"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "relationship",
+      "points": 1,
+      "question": "What's the relationship between Processes and Jobs?",
+      "options": [
+        "They are the same thing",
+        "One Process can have many Jobs (executions)",
+        "One Job can have many Processes",
+        "Jobs and Processes are in different folders"
+      ],
+      "correct_answer": 1,
+      "explanation": "One Process can have many Jobs. A Process is the 'template' (the published automation), and each time you execute it, you create a Job. For example, if you have an 'Invoice Processing' process and run it 100 times, you have 1 process and 100 jobs. Each job represents one execution instance.",
+      "learning_objective": "Understand processes and jobs"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "job_states",
+      "points": 1,
+      "question": "Which of these is NOT a job state?",
+      "options": [
+        "Pending",
+        "Running",
+        "Successful",
+        "Compiled"
+      ],
+      "correct_answer": 3,
+      "explanation": "Job states include: Pending (waiting to start), Running (currently executing), Successful (completed successfully), Faulted (failed with error), Stopped (manually stopped). 'Compiled' is not a job state—processes are compiled when published in Studio, not during job execution.",
+      "learning_objective": "Monitor job status and logs"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "starting_jobs",
+      "points": 2,
+      "question": "What's the correct API endpoint to start a job?",
+      "options": [
+        "POST /odata/Jobs",
+        "POST /odata/Jobs/UiPath.Server.Configuration.OData.StartJobs",
+        "GET /odata/Jobs/Start",
+        "POST /odata/StartJob"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct endpoint is POST /odata/Jobs/UiPath.Server.Configuration.OData.StartJobs. This is an OData action (a special operation). You POST a payload containing the ReleaseKey (process identifier) and robot selection strategy. The long namespace is part of UiPath's OData implementation.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "job_payload",
+      "points": 2,
+      "question": "What does the ReleaseKey represent in a StartJobs request?",
+      "options": [
+        "The robot ID",
+        "The folder ID",
+        "The process (release) to execute",
+        "The job ID"
+      ],
+      "correct_answer": 2,
+      "explanation": "ReleaseKey identifies which Process (called a 'Release' in the API) to execute. Each published process has a unique ReleaseKey. When starting a job, you specify which process to run using this key. You can get the ReleaseKey from the /odata/Releases endpoint.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "robot_strategies",
+      "points": 2,
+      "question": "What robot selection strategies are available when starting a job?",
+      "options": [
+        "Only manual selection",
+        "Specific (choose robots), JobsCount (least busy), Random",
+        "Always uses the first available robot",
+        "Robots are assigned automatically without options"
+      ],
+      "correct_answer": 1,
+      "explanation": "Robot selection strategies include: (1) Specific - you choose which robot(s) to use by ID, (2) JobsCount - Orchestrator assigns to the robot(s) with the fewest running jobs (load balancing), (3) Random - random selection. Each strategy is useful in different scenarios: Specific for dedicated robots, JobsCount for load balancing.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "input_arguments",
+      "points": 2,
+      "question": "How do you pass input arguments to a job?",
+      "options": [
+        "In URL query parameters",
+        "In the InputArguments field as a JSON object",
+        "Input arguments cannot be passed via API",
+        "In a separate API call after starting the job"
+      ],
+      "correct_answer": 1,
+      "explanation": "Input arguments are passed in the InputArguments field of the StartJobs payload as a JSON object. Each argument name (as defined in the workflow) is a key, with its value. Example: 'InputArguments': '{\"InvoiceID\": \"INV-001\", \"Amount\": 1500}'. The robot receives these when the job starts.",
+      "learning_objective": "Pass parameters to jobs"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "monitoring_jobs",
+      "points": 2,
+      "question": "How do you check if a job has completed?",
+      "options": [
+        "Jobs automatically send email notifications",
+        "Query the job by ID and check the State field",
+        "Jobs always complete instantly",
+        "Use a separate completion endpoint"
+      ],
+      "correct_answer": 1,
+      "explanation": "Query the job using GET /odata/Jobs({id}) and check the State field. States: 'Pending', 'Running', 'Successful', 'Faulted', 'Stopped'. Poll periodically until State is 'Successful', 'Faulted', or 'Stopped'. You can also check the Info field for detailed status messages.",
+      "learning_objective": "Monitor job status and logs"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "output_arguments",
+      "points": 2,
+      "question": "Where are output arguments from a completed job found?",
+      "options": [
+        "In the job response header",
+        "In the OutputArguments field of the job",
+        "Output arguments are not accessible via API",
+        "In a separate /odata/Outputs endpoint"
+      ],
+      "correct_answer": 1,
+      "explanation": "Output arguments are in the OutputArguments field of the job record. After a job completes successfully, query the job and parse the OutputArguments field (JSON string). Example: OutputArguments: '{\"TotalProcessed\": 42, \"Status\": \"Complete\"}'. The workflow defines which outputs are returned.",
+      "learning_objective": "Retrieve job results"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "job_priority",
+      "points": 2,
+      "question": "What does job priority control?",
+      "options": [
+        "Which robot executes the job",
+        "The order in which pending jobs are executed",
+        "How fast the robot works",
+        "The job timeout duration"
+      ],
+      "correct_answer": 1,
+      "explanation": "Job priority (values: High, Normal, Low) determines execution order when multiple jobs are pending. High-priority jobs are executed before Normal, which are executed before Low. This is useful when you have more jobs than available robots and need certain automations to run first. Priority doesn't affect execution speed.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "error_handling",
+      "points": 2,
+      "question": "What information is available when a job fails?",
+      "options": [
+        "Only the failure time",
+        "State='Faulted', Info field with error message, robot logs",
+        "No information is available",
+        "Only the robot name"
+      ],
+      "correct_answer": 1,
+      "explanation": "When a job fails (State='Faulted'), you get: (1) Info field with error summary, (2) Robot execution logs with detailed error trace, (3) Screenshot (if configured), (4) Error type and stack trace. Use GET /odata/RobotLogs to retrieve detailed logs for troubleshooting. The Info field provides a quick summary.",
+      "learning_objective": "Monitor job status and logs"
+    },
+    {
+      "id": "q13",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "job_scheduling",
+      "points": 3,
+      "question": "What's the difference between starting a job immediately vs creating a schedule?",
+      "options": [
+        "They are the same thing",
+        "Immediate: POST StartJobs, Schedule: POST to Schedules endpoint with trigger",
+        "Schedules cannot pass input arguments",
+        "Only schedules can use specific robots"
+      ],
+      "correct_answer": 1,
+      "explanation": "Immediate job: Use POST /odata/Jobs/.../StartJobs to run now. Schedule: Use POST /odata/ProcessSchedules to create a recurring trigger (daily, hourly, cron expression). Schedules define WHEN and HOW OFTEN to run, and can include input arguments. Immediate jobs run once, right now. Schedules run automatically based on the trigger.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q14",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "best_practices",
+      "points": 3,
+      "question": "What's the best practice for starting multiple jobs concurrently?",
+      "options": [
+        "Start all jobs simultaneously in a loop",
+        "Use JobsCount strategy with multiple robots, and implement rate limiting",
+        "Jobs cannot run concurrently",
+        "Start jobs one at a time and wait for each to complete"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: (1) Use JobsCount strategy so Orchestrator load-balances across available robots, (2) Implement rate limiting to avoid overwhelming Orchestrator (e.g., start 10 jobs, wait, start 10 more), (3) Ensure you have enough robot licenses, (4) Monitor for 429 (rate limit) errors. Don't start 1000 jobs instantly—stagger them.",
+      "learning_objective": "Start jobs via API"
+    },
+    {
+      "id": "q15",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "troubleshooting",
+      "points": 3,
+      "question": "A job has been in 'Pending' state for 10 minutes. What's the most likely cause?",
+      "options": [
+        "The API call failed",
+        "No available robots with access to this process",
+        "The job completed but wasn't logged",
+        "Jobs always take 10+ minutes to start"
+      ],
+      "correct_answer": 1,
+      "explanation": "Most likely: No available robots. Jobs stay 'Pending' when: (1) All robots are busy with other jobs, (2) No robots have access to this folder, (3) No robot has the required environment for this process, (4) All robots are disconnected. Check robot availability, folder permissions, and robot connectivity. Jobs should move to 'Running' within seconds if robots are available.",
+      "learning_objective": "Monitor job status and logs"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Processes and Jobs in UiPath Orchestrator, including starting jobs via API, passing parameters, monitoring execution, and handling job results.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the difference between Processes (definitions) and Jobs (executions)",
+      "Know the StartJobs API endpoint and payload structure",
+      "Remember how to pass input arguments and retrieve output arguments",
+      "Understand robot selection strategies",
+      "Know how to monitor job state and handle errors"
+    ],
+    "tips": [
+      "Process = published automation package, Job = execution instance",
+      "One Process can have many Jobs",
+      "StartJobs endpoint: POST /odata/Jobs/UiPath.Server.Configuration.OData.StartJobs",
+      "ReleaseKey identifies which Process to run",
+      "Robot strategies: Specific, JobsCount, Random",
+      "Input arguments: passed in InputArguments field as JSON",
+      "Output arguments: retrieved from OutputArguments field after completion",
+      "Job states: Pending, Running, Successful, Faulted, Stopped",
+      "Monitor by polling job State field",
+      "Job priority controls execution order, not speed",
+      "Schedules use ProcessSchedules endpoint, not StartJobs",
+      "For failed jobs, check Info field and RobotLogs",
+      "Pending jobs may indicate no available robots",
+      "Use JobsCount strategy for load balancing"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 29,
+    "grade_scale": {
+      "A": {"min": 26, "max": 29, "description": "Excellent understanding"},
+      "B": {"min": 23, "max": 25, "description": "Good understanding"},
+      "C": {"min": 20, "max": 22, "description": "Satisfactory understanding"},
+      "D": {"min": 17, "max": 19, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 16, "description": "Does not meet requirements"}
+    },
+    "passing_score": 20,
+    "recommendations": {
+      "below_20": "Review the module materials thoroughly, especially sections on the StartJobs API endpoint, input/output arguments, and job monitoring. Practice starting jobs and checking their status before retaking the quiz.",
+      "20_to_25": "Good progress! Review the topics where you missed points, particularly robot selection strategies, job scheduling vs immediate execution, and troubleshooting pending jobs.",
+      "26_to_29": "Excellent work! You have a solid understanding of Processes and Jobs in UiPath Orchestrator. You're ready to implement job management via the Python SDK."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator API - Jobs",
+      "url": "https://docs.uipath.com/orchestrator/reference/jobs",
+      "type": "official_docs"
+    },
+    {
+      "title": "Starting Jobs from API",
+      "url": "https://docs.uipath.com/orchestrator/reference/consuming-api",
+      "type": "official_docs"
+    },
+    {
+      "title": "About Processes",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-processes",
+      "type": "official_docs"
+    },
+    {
+      "title": "Job States and Monitoring",
+      "url": "https://docs.uipath.com/orchestrator/docs/monitoring-jobs",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.2.1 Video Lecture",
+      "url": "/videos/phase1/script-1.2.2.1-processes-jobs.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.2.1 Slides",
+      "url": "/slides/phase1/1.2.2.1-processes-jobs.md",
+      "type": "course_material"
+    }
+  ]
+}
