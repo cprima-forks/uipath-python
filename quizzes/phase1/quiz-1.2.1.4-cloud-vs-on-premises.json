@@ -1,0 +1,274 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.1.4",
+    "title": "Cloud vs On-Premises",
+    "version": "1.0",
+    "total_questions": 10,
+    "passing_score": 70,
+    "time_limit_minutes": 20,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 4,
+      "apply": 3,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "deployment_models",
+      "points": 1,
+      "question": "What are the two main deployment models for UiPath Orchestrator?",
+      "options": [
+        "Local and Remote",
+        "Cloud and On-Premises",
+        "Public and Private",
+        "Shared and Dedicated"
+      ],
+      "correct_answer": 1,
+      "explanation": "UiPath Orchestrator has two main deployment models: Cloud (hosted by UiPath in the cloud) and On-Premises (installed and managed on your own infrastructure). Each has different characteristics regarding management, scaling, and access.",
+      "learning_objective": "Understand Cloud vs On-Premises differences"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "cloud_hosting",
+      "points": 1,
+      "question": "Who manages infrastructure updates and maintenance in UiPath Cloud?",
+      "options": [
+        "Your IT team",
+        "UiPath manages it",
+        "Third-party contractors",
+        "You must manage it yourself"
+      ],
+      "correct_answer": 1,
+      "explanation": "In UiPath Cloud, UiPath manages all infrastructure, updates, patches, and maintenance. You don't need to worry about server management, database backups, or version upgrades—UiPath handles it. This is a key benefit of the Cloud model.",
+      "learning_objective": "Understand Cloud vs On-Premises differences"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "api_endpoints",
+      "points": 1,
+      "question": "How do API base URLs differ between Cloud and On-Premises?",
+      "options": [
+        "They are identical",
+        "Cloud uses cloud.uipath.com, On-Premises uses your custom domain",
+        "On-Premises doesn't support APIs",
+        "Cloud doesn't require a base URL"
+      ],
+      "correct_answer": 1,
+      "explanation": "Cloud uses UiPath's domain (https://cloud.uipath.com/org/tenant/orchestrator_/), while On-Premises uses your organization's custom domain (e.g., https://orchestrator.company.com/). This is the primary difference when configuring API clients.",
+      "learning_objective": "Configure API endpoints correctly"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "authentication_differences",
+      "points": 2,
+      "question": "What is the main authentication difference between Cloud and On-Premises?",
+      "options": [
+        "Cloud uses OAuth 2.0, On-Premises uses basic auth only",
+        "Cloud uses centralized UiPath identity, On-Premises can use local or integrated auth",
+        "On-Premises doesn't support authentication",
+        "They use identical authentication"
+      ],
+      "correct_answer": 1,
+      "explanation": "Cloud uses UiPath's centralized identity service with OAuth 2.0. On-Premises can use multiple authentication methods including local accounts, Windows authentication, Active Directory, or external identity providers like Azure AD. This gives On-Premises more flexibility in authentication configuration.",
+      "learning_objective": "Understand Cloud vs On-Premises differences"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "cloud_url_structure",
+      "points": 2,
+      "question": "What does this Cloud API URL represent?\n\n`https://cloud.uipath.com/myorg/mytenant/orchestrator_/odata/Robots`",
+      "options": [
+        "myorg is the folder, mytenant is the organization",
+        "myorg is the organization, mytenant is the tenant",
+        "myorg and mytenant are both folders",
+        "The URL format is incorrect"
+      ],
+      "correct_answer": 1,
+      "explanation": "In Cloud URLs, the structure is: cloud.uipath.com/{organization}/{tenant}/orchestrator_/. So 'myorg' is the organization name and 'mytenant' is the tenant name. This structure is specific to Cloud—On-Premises URLs don't include organization/tenant in the path.",
+      "learning_objective": "Configure API endpoints correctly"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "network_requirements",
+      "points": 2,
+      "question": "What is a key network requirement difference between Cloud and On-Premises?",
+      "options": [
+        "Cloud requires internet access, On-Premises can work in air-gapped networks",
+        "On-Premises requires internet, Cloud doesn't",
+        "Both require the same network setup",
+        "Neither requires network configuration"
+      ],
+      "correct_answer": 0,
+      "explanation": "Cloud requires internet connectivity to access cloud.uipath.com. On-Premises can be deployed in air-gapped (disconnected) networks without internet access, which is important for highly secure environments. However, air-gapped On-Premises deployments can't access cloud services and updates.",
+      "learning_objective": "Understand Cloud vs On-Premises differences"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "feature_availability",
+      "points": 2,
+      "question": "How do new features typically roll out in Cloud vs On-Premises?",
+      "options": [
+        "On-Premises gets features first",
+        "Cloud gets features automatically, On-Premises requires manual upgrades",
+        "Both get features at exactly the same time",
+        "Features are never added after initial release"
+      ],
+      "correct_answer": 1,
+      "explanation": "Cloud receives new features automatically as UiPath releases them—no action required. On-Premises requires manual upgrades to get new features, which you control and schedule. This means Cloud users get features earlier, but On-Premises users have more control over upgrade timing.",
+      "learning_objective": "Understand Cloud vs On-Premises differences"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "configuring_client",
+      "points": "2",
+      "question": "What's the minimal change needed to switch this client from Cloud to On-Premises?\n\n```python\nBASE_URL = 'https://cloud.uipath.com/myorg/mytenant/orchestrator_'\nTOKEN_URL = 'https://cloud.uipath.com/identity_/connect/token'\n```",
+      "options": [
+        "No changes needed",
+        "Change both URLs to point to your On-Premises domain",
+        "Only change BASE_URL",
+        "Only change TOKEN_URL"
+      ],
+      "correct_answer": 1,
+      "explanation": "You must change both URLs to your On-Premises domain. Example: BASE_URL = 'https://orchestrator.company.com' and TOKEN_URL = 'https://orchestrator.company.com/identity/connect/token'. The token endpoint structure may also differ based on your On-Premises authentication configuration.",
+      "learning_objective": "Configure API endpoints correctly"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "choosing_deployment",
+      "points": 3,
+      "question": "Which scenario is BEST suited for On-Premises deployment?",
+      "options": [
+        "Startup with no IT infrastructure",
+        "Need latest features immediately",
+        "Highly regulated industry with strict data residency requirements",
+        "Want zero maintenance overhead"
+      ],
+      "correct_answer": 2,
+      "explanation": "On-Premises is best for organizations with strict data residency, compliance, or security requirements that mandate data stays on-premises. Examples: financial institutions, healthcare, government. Cloud is better for startups (no infrastructure), immediate features (automatic updates), and zero maintenance (UiPath manages it).",
+      "learning_objective": "Choose appropriate deployment model"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "hybrid_scenarios",
+      "points": 3,
+      "question": "Your company has Cloud Orchestrator but needs to process data that cannot leave your network. What's the best approach?",
+      "options": [
+        "Switch entirely to On-Premises",
+        "Use Cloud with on-premises robots (hybrid)",
+        "This scenario is impossible",
+        "Store sensitive data in Cloud"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use a hybrid approach: Cloud Orchestrator for management with on-premises robots that process sensitive data locally. The robots connect to Cloud Orchestrator for control, but process data in your network. This combines Cloud's management benefits with on-premises data security. Data never leaves your network.",
+      "learning_objective": "Choose appropriate deployment model"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Cloud versus On-Premises UiPath Orchestrator deployments, including API endpoint differences, authentication variations, feature availability, and how to choose the appropriate deployment model.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the infrastructure and management differences",
+      "Know the API URL structure for both deployment models",
+      "Consider network and security requirements",
+      "Think about when to use each deployment model",
+      "Remember that hybrid deployments are possible"
+    ],
+    "tips": [
+      "Cloud: UiPath manages infrastructure, automatic updates, internet required",
+      "On-Premises: You manage infrastructure, manual upgrades, can be air-gapped",
+      "Cloud URL: cloud.uipath.com/{org}/{tenant}/orchestrator_",
+      "On-Premises URL: your custom domain",
+      "Cloud uses centralized UiPath identity",
+      "On-Premises can use multiple auth methods (AD, local, etc.)",
+      "Cloud gets new features automatically",
+      "On-Premises requires manual upgrades for new features",
+      "Hybrid: Cloud management + on-premises robots",
+      "Choose based on: compliance, security, IT capacity, feature needs"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 19,
+    "grade_scale": {
+      "A": {"min": 17, "max": 19, "description": "Excellent understanding"},
+      "B": {"min": 15, "max": 16, "description": "Good understanding"},
+      "C": {"min": 13, "max": 14, "description": "Satisfactory understanding"},
+      "D": {"min": 11, "max": 12, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 10, "description": "Does not meet requirements"}
+    },
+    "passing_score": 13,
+    "recommendations": {
+      "below_13": "Review the module materials thoroughly, especially sections on deployment model differences, API endpoint structure, and authentication variations. Practice configuring API clients for both Cloud and On-Premises before retaking the quiz.",
+      "13_to_16": "Good progress! Review the topics where you missed points, particularly hybrid deployment scenarios and when to choose each model.",
+      "17_to_19": "Excellent work! You have a solid understanding of Cloud vs On-Premises deployments. You're ready to work with both deployment models and configure API clients appropriately."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Cloud Platform Overview",
+      "url": "https://docs.uipath.com/automation-cloud/docs/about-automation-cloud",
+      "type": "official_docs"
+    },
+    {
+      "title": "Orchestrator On-Premises Installation",
+      "url": "https://docs.uipath.com/orchestrator/docs/installation-guide",
+      "type": "official_docs"
+    },
+    {
+      "title": "Hybrid Deployment Scenarios",
+      "url": "https://docs.uipath.com/orchestrator/docs/robot-connectivity",
+      "type": "official_docs"
+    },
+    {
+      "title": "API Authentication Methods",
+      "url": "https://docs.uipath.com/orchestrator/reference/authenticating",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.1.4 Video Lecture",
+      "url": "/videos/phase1/script-1.2.1.4-cloud-vs-on-premises.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.1.4 Slides",
+      "url": "/slides/phase1/1.2.1.4-cloud-vs-on-premises.md",
+      "type": "course_material"
+    }
+  ]
+}
