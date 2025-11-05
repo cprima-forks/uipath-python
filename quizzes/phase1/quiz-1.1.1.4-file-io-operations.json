@@ -1,0 +1,276 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.1.4",
+    "title": "File I/O Operations",
+    "version": "1.0",
+    "total_questions": 10,
+    "passing_score": 70,
+    "time_limit_minutes": 20,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 4,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "file_modes",
+      "points": 1,
+      "question": "Which file mode opens a file for reading in Python?",
+      "options": [
+        "'w'",
+        "'r'",
+        "'a'",
+        "'x'"
+      ],
+      "correct_answer": 1,
+      "explanation": "'r' mode opens a file for reading (default mode). 'w' is for writing (overwrites), 'a' is for appending, and 'x' is for exclusive creation (fails if file exists).",
+      "learning_objective": "Read and write text files"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "context_managers",
+      "points": 1,
+      "question": "What is the main benefit of using 'with' statement for file operations?",
+      "options": [
+        "It makes code run faster",
+        "It automatically closes the file",
+        "It prevents file corruption",
+        "It creates the file if it doesn't exist"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'with' statement (context manager) automatically closes the file when the block ends, even if an exception occurs. This ensures proper resource cleanup and prevents resource leaks.",
+      "learning_objective": "Use context managers for file operations"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "path_handling",
+      "points": 1,
+      "question": "Which module provides platform-independent path handling?",
+      "options": [
+        "os",
+        "sys",
+        "pathlib",
+        "file"
+      ],
+      "correct_answer": 2,
+      "explanation": "pathlib (specifically Path) provides object-oriented, platform-independent path handling. While os.path also works across platforms, pathlib is more modern and intuitive. Both handle forward/backward slashes correctly on different operating systems.",
+      "learning_objective": "Handle file paths across platforms"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "reading_files",
+      "points": 2,
+      "question": "What does this code return?\n\n```python\nwith open('data.txt', 'r') as f:\n    content = f.read()\n    lines = f.readlines()\nprint(len(lines))\n```",
+      "options": [
+        "The number of lines in the file",
+        "0",
+        "Error",
+        "The total character count"
+      ],
+      "correct_answer": 1,
+      "explanation": "After f.read(), the file pointer is at the end of the file. Calling f.readlines() then reads nothing, returning an empty list. len(lines) is 0. To read lines after read(), you'd need to seek back to the beginning with f.seek(0), or just use readlines() directly.",
+      "learning_objective": "Read and write text files"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "json_operations",
+      "points": 2,
+      "question": "What will this code output?\n\n```python\nimport json\ndata = {'name': 'Alice', 'age': 30}\njson_str = json.dumps(data)\nprint(type(json_str))\n```",
+      "options": [
+        "<class 'dict'>",
+        "<class 'str'>",
+        "<class 'json'>",
+        "<class 'object'>"
+      ],
+      "correct_answer": 1,
+      "explanation": "json.dumps() converts a Python object to a JSON string. 'dumps' means 'dump string'. The result is a string (<class 'str'>), not a dictionary. To write to a file, use json.dump() (without the 's').",
+      "learning_objective": "Work with CSV and JSON files"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "csv_operations",
+      "points": 2,
+      "question": "Which CSV method should you use to read CSV data as dictionaries with column headers as keys?",
+      "options": [
+        "csv.reader()",
+        "csv.DictReader()",
+        "csv.writer()",
+        "csv.DictWriter()"
+      ],
+      "correct_answer": 1,
+      "explanation": "csv.DictReader() reads CSV files and returns each row as a dictionary with column headers as keys. csv.reader() returns rows as lists. DictWriter() and writer() are for writing, not reading.",
+      "learning_objective": "Work with CSV and JSON files"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "file_modes",
+      "points": 2,
+      "question": "What happens when you open a file with mode 'w' and the file already exists?",
+      "options": [
+        "It raises a FileExistsError",
+        "It appends to the existing file",
+        "It truncates (erases) the file and starts fresh",
+        "It reads the existing file"
+      ],
+      "correct_answer": 2,
+      "explanation": "Mode 'w' (write) truncates the file, erasing all existing content. Use 'a' (append) to add to the end of an existing file, or 'x' (exclusive creation) to fail if the file exists. Always be careful with 'w' mode!",
+      "learning_objective": "Read and write text files"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "pathlib",
+      "points": 2,
+      "question": "What does this pathlib code do?\n\n```python\nfrom pathlib import Path\npath = Path('data') / 'files' / 'document.txt'\n```",
+      "options": [
+        "Divides strings",
+        "Creates the directories",
+        "Constructs a file path",
+        "Reads the file"
+      ],
+      "correct_answer": 2,
+      "explanation": "The / operator with Path objects constructs file paths in a platform-independent way. It doesn't create directories or access files—it just builds the path string correctly for the operating system. Equivalent to Path('data/files/document.txt').",
+      "learning_objective": "Handle file paths across platforms"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "error_handling",
+      "points": 3,
+      "question": "What is the best approach for handling a file that might not exist?\n\n```python\n# Option A\nif os.path.exists(path):\n    with open(path) as f:\n        data = f.read()\n\n# Option B\ntry:\n    with open(path) as f:\n        data = f.read()\nexcept FileNotFoundError:\n    data = None\n```",
+      "options": [
+        "Option A is better (check first)",
+        "Option B is better (ask forgiveness)",
+        "Both are equally good",
+        "Neither is correct"
+      ],
+      "correct_answer": 1,
+      "explanation": "Option B is better (Python's 'EAFP' principle: Easier to Ask Forgiveness than Permission). Option A has a race condition—the file could be deleted between the check and the open. Option B handles all file access errors consistently. EAFP is more Pythonic and handles edge cases better.",
+      "learning_objective": "Use context managers for file operations"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "binary_files",
+      "points": 3,
+      "question": "When should you use binary mode ('rb' or 'wb') instead of text mode?",
+      "options": [
+        "Only for executable files",
+        "For images, videos, and non-text files",
+        "When the file is larger than 1MB",
+        "Never, text mode handles everything"
+      ],
+      "correct_answer": 1,
+      "explanation": "Binary mode ('rb', 'wb') should be used for non-text files like images, videos, PDFs, and binary data. Text mode performs encoding/decoding (e.g., UTF-8) which corrupts binary data. Binary mode reads/writes raw bytes without any transformation.",
+      "learning_objective": "Read and write text files"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Python file I/O operations. You'll need to demonstrate knowledge of reading/writing files, working with CSV and JSON, path handling, and using context managers.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider file modes and their effects",
+      "Remember that 'with' statements auto-close files",
+      "Think about cross-platform path handling",
+      "Consider the file pointer position after operations",
+      "Understand the difference between text and binary modes"
+    ],
+    "tips": [
+      "Always use context managers (with statement) for files",
+      "Mode 'r' = read, 'w' = write (overwrites), 'a' = append",
+      "json.dumps() creates a string, json.dump() writes to file",
+      "csv.DictReader() reads rows as dictionaries",
+      "pathlib.Path() provides modern, object-oriented path handling",
+      "Use 'rb'/'wb' for binary files, 'r'/'w' for text",
+      "EAFP: try/except is better than checking existence first"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 20,
+    "grade_scale": {
+      "A": {"min": 18, "max": 20, "description": "Excellent understanding"},
+      "B": {"min": 16, "max": 17, "description": "Good understanding"},
+      "C": {"min": 14, "max": 15, "description": "Satisfactory understanding"},
+      "D": {"min": 12, "max": 13, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 11, "description": "Does not meet requirements"}
+    },
+    "passing_score": 14,
+    "recommendations": {
+      "below_14": "Review the module materials, especially sections on file modes, context managers, and CSV/JSON handling. Practice file operations before retaking the quiz.",
+      "14_to_17": "Good progress! Review the topics where you missed points, particularly the EAFP principle and file pointer behavior.",
+      "18_to_20": "Excellent work! You have a solid understanding of file I/O operations. You're ready for the next module."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "Python File I/O Documentation",
+      "url": "https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files",
+      "type": "official_docs"
+    },
+    {
+      "title": "pathlib - Object-oriented filesystem paths",
+      "url": "https://docs.python.org/3/library/pathlib.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "csv Module Documentation",
+      "url": "https://docs.python.org/3/library/csv.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "json Module Documentation",
+      "url": "https://docs.python.org/3/library/json.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Context Managers and 'with' Statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#with",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.1.1.4 Video Lecture",
+      "url": "/videos/phase1/script-1.1.1.4-file-io-operations.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.1.4 Slides",
+      "url": "/slides/phase1/1.1.1.4-file-io-operations.md",
+      "type": "course_material"
+    }
+  ]
+}
