@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "module": "2.1.1.2",
+    "title": "SDK Version Compatibility",
+    "phase": 2,
+    "difficulty": "beginner",
+    "total_questions": 7,
+    "passing_score": 75,
+    "time_limit_minutes": 10,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 2,
+      "analyze": 0,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 3,
+      "hard": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_semver",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "The UiPath SDK uses semantic versioning (SemVer). What does version 0.2.1 represent?",
+      "options": [
+        "Major version 0, minor version 2, patch version 1",
+        "Year 0, month 2, day 1",
+        "Phase 0, release 2, update 1",
+        "Build 0.2.1"
+      ],
+      "correct_answer": 0,
+      "explanation": "Semantic versioning uses the format MAJOR.MINOR.PATCH. In version 0.2.1: 0 is the major version (indicating pre-1.0 development), 2 is the minor version (new features), and 1 is the patch version (bug fixes).",
+      "learning_objective": "Understand SDK versioning",
+      "tags": ["semver", "versioning", "compatibility"],
+      "points": 1
+    },
+    {
+      "id": "q2_breaking_changes",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "In semantic versioning, which version change indicates breaking changes that may require code updates?",
+      "options": [
+        "Patch version increment (0.2.1 → 0.2.2)",
+        "Minor version increment (0.2.1 → 0.3.0)",
+        "Major version increment (0.2.1 → 1.0.0)",
+        "Build number change"
+      ],
+      "correct_answer": 2,
+      "explanation": "Major version increments (like 0.x to 1.0 or 1.x to 2.0) indicate breaking changes. Minor version increments add features in a backward-compatible way, and patch versions are for backward-compatible bug fixes. However, note that versions below 1.0.0 are considered unstable and may have breaking changes in minor versions.",
+      "learning_objective": "Handle breaking changes",
+      "tags": ["semver", "breaking-changes", "upgrades"],
+      "points": 1
+    },
+    {
+      "id": "q3_check_version",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Which Python code correctly checks the installed SDK version?",
+      "options": [
+        "import uipath; print(uipath.__version__)",
+        "import uipath; print(uipath.version)",
+        "import uipath; print(uipath.get_version())",
+        "import uipath.version; print(version)"
+      ],
+      "correct_answer": 0,
+      "explanation": "The standard Python convention is to access the version via the __version__ attribute: `import uipath; print(uipath.__version__)`. This is the pattern used by most Python packages.",
+      "learning_objective": "Check version compatibility",
+      "tags": ["version-check", "python", "attributes"],
+      "points": 1
+    },
+    {
+      "id": "q4_version_constraints",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "In requirements.txt, what does the constraint 'uipath>=0.2.0,<1.0.0' specify?",
+      "options": [
+        "Any version between 0.2.0 and 1.0.0 inclusive",
+        "Version 0.2.0 or higher, but below 1.0.0",
+        "Exactly versions 0.2.0 and 1.0.0",
+        "The latest version only"
+      ],
+      "correct_answer": 1,
+      "explanation": "The constraint 'uipath>=0.2.0,<1.0.0' means 'greater than or equal to 0.2.0' AND 'less than (but not including) 1.0.0'. This allows automatic updates for compatible versions while preventing breaking changes from major version updates.",
+      "learning_objective": "Manage multiple SDK versions",
+      "tags": ["requirements", "version-constraints", "pip"],
+      "points": 1
+    },
+    {
+      "id": "q5_compatible_range",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Your project uses SDK 0.2.0 with features from that version. A teammate has 0.1.9 installed. What version constraint should you specify in requirements.txt?",
+      "options": [
+        "uipath==0.2.0",
+        "uipath>=0.2.0",
+        "uipath>=0.2.0,<1.0.0",
+        "uipath~=0.2.0"
+      ],
+      "correct_answer": 2,
+      "explanation": "The best choice is 'uipath>=0.2.0,<1.0.0'. This ensures everyone has at least 0.2.0 (your minimum requirement) but prevents automatic upgrade to 1.0.0 which might have breaking changes. Option A (==0.2.0) is too restrictive, option B allows breaking changes, and option D (~=0.2.0) is equivalent to >=0.2.0,<0.3.0 which is more restrictive than needed.",
+      "learning_objective": "Manage SDK versions across team",
+      "tags": ["version-constraints", "team-development", "best-practices"],
+      "points": 2
+    },
+    {
+      "id": "q6_pre_release",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What does a version number like '0.3.0rc1' indicate?",
+      "options": [
+        "A stable release version",
+        "A pre-release (release candidate) version",
+        "An error in versioning",
+        "A deprecated version"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'rc1' suffix stands for 'release candidate 1', indicating a pre-release version. Release candidates are feature-complete but may still have bugs. Other pre-release identifiers include 'alpha' and 'beta'. Pre-release versions are not installed by default with pip unless explicitly requested.",
+      "learning_objective": "Understand version types",
+      "tags": ["pre-release", "release-candidate", "versioning"],
+      "points": 1
+    },
+    {
+      "id": "q7_outdated_check",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which command shows if your installed SDK version is outdated?",
+      "options": [
+        "pip list --outdated | grep uipath",
+        "pip check uipath",
+        "uipath --check-version",
+        "pip show --outdated uipath"
+      ],
+      "correct_answer": 0,
+      "explanation": "`pip list --outdated` shows all outdated packages, and piping to grep filters for uipath. This shows your currently installed version and the latest available version. You can then decide whether to upgrade based on the changes between versions.",
+      "learning_objective": "Check for SDK updates",
+      "tags": ["version-management", "updates", "pip"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 8,
+    "grade_boundaries": {
+      "A": 7,
+      "B": 6,
+      "C": 5,
+      "D": 4,
+      "F": 0
+    },
+    "passing_points": 6
+  },
+  "additional_resources": [
+    {
+      "title": "Semantic Versioning Specification",
+      "url": "https://semver.org/",
+      "type": "specification"
+    },
+    {
+      "title": "Python Version Specifiers (PEP 440)",
+      "url": "https://peps.python.org/pep-0440/",
+      "type": "official_pep"
+    },
+    {
+      "title": "pip requirements.txt Format",
+      "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+      "type": "documentation"
+    }
+  ]
+}
