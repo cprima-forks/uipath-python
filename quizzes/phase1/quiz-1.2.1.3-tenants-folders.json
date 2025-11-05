@@ -1,0 +1,311 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.1.3",
+    "title": "Tenants and Folders",
+    "version": "1.0",
+    "total_questions": 12,
+    "passing_score": 70,
+    "time_limit_minutes": 24,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 3,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "tenant_basics",
+      "points": 1,
+      "question": "What is a Tenant in UiPath Orchestrator?",
+      "options": [
+        "A robot that runs processes",
+        "An isolated workspace for managing automation resources",
+        "A type of process",
+        "A user account"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Tenant is an isolated workspace in Orchestrator that contains all automation resources (robots, processes, queues, etc.). Each tenant has its own data, users, and permissions. Tenants enable multi-tenancy, allowing multiple independent organizations or departments to use the same Orchestrator instance.",
+      "learning_objective": "Understand tenant and folder hierarchy"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "folder_basics",
+      "points": 1,
+      "question": "What is the purpose of Folders in Orchestrator?",
+      "options": [
+        "To store files on disk",
+        "To organize and isolate resources within a tenant",
+        "To create backups",
+        "To install packages"
+      ],
+      "correct_answer": 1,
+      "explanation": "Folders organize and isolate resources within a tenant. Each folder can contain its own robots, processes, queues, and assets. Folders enable department-level separation, permission control, and resource organization within a single tenant. They're the lowest level in the hierarchy: Organization → Tenant → Folder.",
+      "learning_objective": "Understand tenant and folder hierarchy"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "hierarchy",
+      "points": "1",
+      "question": "What is the correct organizational hierarchy in UiPath Cloud?",
+      "options": [
+        "Folder → Tenant → Organization",
+        "Organization → Folder → Tenant",
+        "Organization → Tenant → Folder",
+        "Tenant → Organization → Folder"
+      ],
+      "correct_answer": 2,
+      "explanation": "The hierarchy is: Organization (top level, billing and subscription) → Tenant (isolated workspace) → Folder (resource grouping). This hierarchy enables multi-level organization: companies have Organizations, departments have Tenants, and teams have Folders.",
+      "learning_objective": "Understand tenant and folder hierarchy"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "multi_tenancy",
+      "points": 1,
+      "question": "Why would a company use multiple tenants?",
+      "options": [
+        "To run multiple processes simultaneously",
+        "To separate environments (dev, staging, prod) or business units",
+        "To increase robot speed",
+        "Tenants are required for each robot"
+      ],
+      "correct_answer": 1,
+      "explanation": "Multiple tenants provide isolation between environments or business units. Common use cases: (1) Separate dev/staging/prod environments with independent data, (2) Isolate different departments or subsidiaries, (3) Provide different security policies per tenant. Each tenant is completely isolated—users, data, and resources don't cross tenant boundaries.",
+      "learning_objective": "Navigate tenant and folder structure"
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "folder_permissions",
+      "points": 2,
+      "question": "How do folder permissions work in Orchestrator?",
+      "options": [
+        "All users have access to all folders",
+        "Users are assigned roles at the folder level, controlling access to resources",
+        "Folders don't have permissions",
+        "Only admins can access folders"
+      ],
+      "correct_answer": 1,
+      "explanation": "Folder permissions are role-based: users are assigned roles (Admin, Edit, View, etc.) at the folder level. A user can have different roles in different folders. Example: Alice is Admin in 'Finance' folder but View-only in 'HR' folder. This enables fine-grained access control within a tenant.",
+      "learning_objective": "Manage folder permissions"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "folder_context",
+      "points": 2,
+      "question": "When making API calls to Orchestrator, how do you specify which folder to access?",
+      "options": [
+        "Folders are automatically detected",
+        "Use the X-UIPATH-OrganizationUnitId header with the folder ID",
+        "Include folder name in the URL path",
+        "Folders cannot be specified via API"
+      ],
+      "correct_answer": 1,
+      "explanation": "Specify the folder using the X-UIPATH-OrganizationUnitId header with the folder's ID. This is critical—without it, API calls may fail or access the wrong folder. Example: headers = {'Authorization': 'Bearer token', 'X-UIPATH-OrganizationUnitId': '12345'}. Always include this header in your API requests.",
+      "learning_objective": "Use folder context in API calls"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "api_folder_context",
+      "points": 2,
+      "question": "What's missing from this API call?\n\n```python\nheaders = {'Authorization': f'Bearer {token}'}\nresponse = requests.get(\n    'https://cloud.uipath.com/org/tenant/orchestrator_/odata/Robots',\n    headers=headers\n)\n```",
+      "options": [
+        "Nothing, it's correct",
+        "Missing X-UIPATH-OrganizationUnitId header to specify folder",
+        "Missing Content-Type header",
+        "Wrong HTTP method"
+      ],
+      "correct_answer": 1,
+      "explanation": "The call is missing the X-UIPATH-OrganizationUnitId header, which specifies which folder to access. Without it, the API may return an error or unexpected results. Correct code: headers = {'Authorization': f'Bearer {token}', 'X-UIPATH-OrganizationUnitId': folder_id}",
+      "learning_objective": "Use folder context in API calls"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "tenant_switching",
+      "points": 2,
+      "question": "Can a user access multiple tenants?",
+      "options": [
+        "No, users are locked to one tenant",
+        "Yes, if they have accounts in multiple tenants",
+        "Only admins can access multiple tenants",
+        "Tenants can't be switched"
+      ],
+      "correct_answer": 1,
+      "explanation": "Yes, a user can have accounts in multiple tenants, but must authenticate separately to each. Tenants are isolated—being a user in one tenant doesn't grant access to another. When using the API, you authenticate to a specific tenant using its token endpoint. To access multiple tenants, manage separate credentials and tokens for each.",
+      "learning_objective": "Navigate tenant and folder structure"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "classic_vs_modern",
+      "points": 2,
+      "question": "What's the difference between Classic folders and Modern folders?",
+      "options": [
+        "No difference, they're the same",
+        "Classic folders have simpler permissions, Modern folders have granular RBAC and inheritance",
+        "Classic folders are faster",
+        "Modern folders don't support robots"
+      ],
+      "correct_answer": 1,
+      "explanation": "Classic folders have basic permissions (Admin/User roles). Modern folders (introduced in 2020.10) have: (1) Granular RBAC with many roles, (2) Permission inheritance from parent folders, (3) Better access control, (4) Folder hierarchy support. Modern folders are recommended for new deployments.",
+      "learning_objective": "Understand tenant and folder hierarchy"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "folder_organization",
+      "points": 2,
+      "question": "What's a best practice for organizing folders in a tenant?",
+      "options": [
+        "Use one folder for everything",
+        "Organize by department, project, or environment",
+        "Create as many folders as possible",
+        "Never use folders"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: organize folders by logical grouping—department (Finance, HR), project (ProjectA, ProjectB), or sub-environment (Dev-TeamA, Dev-TeamB). This enables: (1) Clear responsibility boundaries, (2) Appropriate access control, (3) Easy resource management. Keep the structure simple and aligned with your organization's structure.",
+      "learning_objective": "Navigate tenant and folder structure"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "getting_folder_id",
+      "points": 3,
+      "question": "How would you retrieve the folder ID for a folder named 'Finance'?",
+      "options": [
+        "Folder IDs are not accessible via API",
+        "Call GET /odata/Folders and filter by DisplayName='Finance'",
+        "Folder IDs are always 1, 2, 3, etc.",
+        "Use the folder name directly as the ID"
+      ],
+      "correct_answer": 1,
+      "explanation": "Retrieve folder information using the Folders endpoint: GET /odata/Folders?$filter=DisplayName eq 'Finance'. The response includes the folder's Id (numeric) and FullyQualifiedName. Use the Id value for the X-UIPATH-OrganizationUnitId header. Example response: {'Id': 12345, 'DisplayName': 'Finance', 'FullyQualifiedName': 'Finance'}",
+      "learning_objective": "Use folder context in API calls"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "folder_strategy",
+      "points": 3,
+      "question": "Your company has 3 departments (Finance, HR, IT) and 3 environments (Dev, Staging, Prod). What's the best organizational strategy?",
+      "options": [
+        "9 tenants (one per department-environment combination)",
+        "3 tenants (by environment), with folders for departments",
+        "3 tenants (by department), with folders for environments",
+        "1 tenant with 9 folders"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: 3 tenants by environment (Dev, Staging, Prod), with folders for departments. Why? (1) Environment isolation is critical for stability and testing, (2) Departments share the same environment policies, (3) Easier promotion path: dev → staging → prod. Alternative: 3 tenants by department with folders for environments—valid if departments are highly independent.",
+      "learning_objective": "Navigate tenant and folder structure"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of tenants and folders in UiPath Orchestrator, including organizational hierarchy, permissions, API folder context, and best practices for structuring multi-tenant environments.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the Organization → Tenant → Folder hierarchy",
+      "Know how to specify folder context in API calls",
+      "Consider folder permissions and access control",
+      "Think about organizational strategies for tenants and folders",
+      "Remember that tenants are isolated workspaces"
+    ],
+    "tips": [
+      "Organization → Tenant → Folder is the hierarchy",
+      "Tenants provide isolation between environments or business units",
+      "Folders organize resources within a tenant",
+      "Use X-UIPATH-OrganizationUnitId header for folder context",
+      "Folder permissions are role-based (Admin, Edit, View, etc.)",
+      "Modern folders have granular RBAC, Classic folders have basic permissions",
+      "Users can access multiple tenants with separate credentials",
+      "Organize folders by department, project, or environment",
+      "Get folder ID from /odata/Folders endpoint",
+      "Tenant strategy: typically by environment (Dev, Staging, Prod)",
+      "Always include folder ID in API calls to avoid errors"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 23,
+    "grade_scale": {
+      "A": {"min": 21, "max": 23, "description": "Excellent understanding"},
+      "B": {"min": 18, "max": 20, "description": "Good understanding"},
+      "C": {"min": 16, "max": 17, "description": "Satisfactory understanding"},
+      "D": {"min": 13, "max": 15, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 12, "description": "Does not meet requirements"}
+    },
+    "passing_score": 16,
+    "recommendations": {
+      "below_16": "Review the module materials thoroughly, especially sections on organizational hierarchy, folder context in API calls, and tenant/folder strategy. Practice retrieving folder IDs and making API calls with folder context before retaking the quiz.",
+      "16_to_20": "Good progress! Review the topics where you missed points, particularly API folder context, modern vs classic folders, and organizational strategies.",
+      "21_to_23": "Excellent work! You have a solid understanding of tenants and folders in UiPath Orchestrator. You're ready to work with multi-tenant environments and folder-based access control."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator - About Folders",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-folders",
+      "type": "official_docs"
+    },
+    {
+      "title": "Managing Folders in Orchestrator",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-folders",
+      "type": "official_docs"
+    },
+    {
+      "title": "About Tenants",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-tenants",
+      "type": "official_docs"
+    },
+    {
+      "title": "Organization Administration",
+      "url": "https://docs.uipath.com/automation-cloud/docs/organization-administration",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.1.3 Video Lecture",
+      "url": "/videos/phase1/script-1.2.1.3-tenants-folders.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.1.3 Slides",
+      "url": "/slides/phase1/1.2.1.3-tenants-folders.md",
+      "type": "course_material"
+    }
+  ]
+}
