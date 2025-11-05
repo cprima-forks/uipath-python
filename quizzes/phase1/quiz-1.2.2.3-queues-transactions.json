@@ -1,0 +1,369 @@
+{
+  "quiz_metadata": {
+    "module": "1.2.2.3",
+    "title": "Queues and Transactions",
+    "version": "1.0",
+    "total_questions": 15,
+    "passing_score": 70,
+    "time_limit_minutes": 30,
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 8,
+      "hard": 3
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 6,
+      "apply": 5,
+      "analyze": 1
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "queue_basics",
+      "points": 1,
+      "question": "What is a Queue in UiPath Orchestrator?",
+      "options": [
+        "A list of robots waiting to execute",
+        "A container for work items that need to be processed",
+        "A type of asset",
+        "A scheduling mechanism"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Queue is a container that holds work items (Queue Items) that need to be processed. Think of it like a to-do list: you add items (invoices, orders, requests), and robots pick them up one at a time to process. Queues enable distributed processing across multiple robots and provide fault tolerance.",
+      "learning_objective": "Understand queues and queue items"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "queue_item_basics",
+      "points": 1,
+      "question": "What is a Queue Item?",
+      "options": [
+        "A robot in the queue",
+        "A single work item in a queue with data to be processed",
+        "A process waiting to start",
+        "A job result"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Queue Item is a single unit of work in a queue. It contains: (1) SpecificContent - the actual data (e.g., invoice ID, order details), (2) Priority, (3) Reference (optional identifier), (4) Status (New, InProgress, Successful, Failed). Example: In an 'InvoiceQueue', each queue item represents one invoice to process.",
+      "learning_objective": "Understand queues and queue items"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "transaction_states",
+      "points": 1,
+      "question": "What are the possible states of a Queue Item?",
+      "options": [
+        "Pending and Complete",
+        "New, InProgress, Successful, Failed, Abandoned, Retried, Deleted",
+        "Running and Stopped",
+        "Active and Inactive"
+      ],
+      "correct_answer": 1,
+      "explanation": "Queue Item states: New (not yet processed), InProgress (currently being processed by a robot), Successful (completed successfully), Failed (failed with business exception), Abandoned (transaction abandoned), Retried (was retried after failure), Deleted (administratively deleted). These states track the lifecycle of each work item.",
+      "learning_objective": "Handle transaction states"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "queue_benefits",
+      "points": 1,
+      "question": "What is a key benefit of using Queues?",
+      "options": [
+        "Faster robot execution",
+        "Distributed work across multiple robots with fault tolerance",
+        "Simpler workflow design",
+        "Reduced API calls"
+      ],
+      "correct_answer": 1,
+      "explanation": "Queues enable: (1) Distributed processing - multiple robots can process from the same queue simultaneously, (2) Fault tolerance - if a robot fails, the item goes back to the queue for retry, (3) Progress tracking - see what's processed and what's pending, (4) Priority handling - urgent items can be prioritized. This makes automation scalable and resilient.",
+      "learning_objective": "Understand queues and queue items"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "adding_items",
+      "points": 2,
+      "question": "What's the correct API endpoint to add an item to a queue?",
+      "options": [
+        "POST /odata/Queues/{queueName}/Items",
+        "POST /odata/Queues/UiPathODataSvc.AddQueueItem",
+        "POST /odata/QueueItems",
+        "PUT /odata/Queues/AddItem"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use POST /odata/Queues/UiPathODataSvc.AddQueueItem to add a queue item. This is an OData action. The payload includes itemData with Name (queue name) and SpecificContent (the data). Example: {'itemData': {'Name': 'InvoiceQueue', 'SpecificContent': {'InvoiceID': 'INV-001'}}}. Always include folder context header.",
+      "learning_objective": "Add items to queues"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "getting_items",
+      "points": 2,
+      "question": "How does a robot get the next queue item to process?",
+      "options": [
+        "GET /odata/QueueItems with $filter",
+        "POST /odata/Queues/UiPathODataSvc.StartTransaction",
+        "Robots get items automatically; no API call needed",
+        "GET /odata/Queues/{id}/NextItem"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use POST /odata/Queues/UiPathODataSvc.StartTransaction with transactionData containing queue name and robot identifier. This atomically: (1) Gets the next New item from the queue, (2) Marks it InProgress, (3) Assigns it to the robot. This prevents race conditions when multiple robots process from the same queue. Returns the queue item with its data.",
+      "learning_objective": "Process queue items"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "item_priority",
+      "points": 2,
+      "question": "How does Priority affect queue item processing?",
+      "options": [
+        "Priority has no effect",
+        "Higher priority items are processed before lower priority items",
+        "Priority controls which robot processes the item",
+        "Priority determines retry count"
+      ],
+      "correct_answer": 1,
+      "explanation": "Queue items have Priority: High, Normal, Low (or custom numeric values). StartTransaction returns items in priority order: High first, then Normal, then Low. Within the same priority, items are FIFO (first in, first out). Use priority for urgent processing, like expedited orders or critical alerts.",
+      "learning_objective": "Add items to queues"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "setting_status",
+      "points": 2,
+      "question": "After successfully processing an item, how do you mark it as Successful?",
+      "options": [
+        "It's automatic; no action needed",
+        "POST /odata/Queues/UiPathODataSvc.SetTransactionResult with Success status",
+        "PATCH /odata/QueueItems({id}) with Status='Successful'",
+        "DELETE /odata/QueueItems({id})"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use POST /odata/Queues/UiPathODataSvc.SetTransactionResult with transactionData containing: (1) QueueItemId, (2) Status (Successful or Failed), (3) Optional OutputData for results. This updates the item status and optionally stores output data. Example: {'transactionData': {'QueueItemId': 123, 'Status': 'Successful', 'OutputData': {'Result': 'Processed'}}}",
+      "learning_objective": "Update transaction status"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "business_vs_application_exception",
+      "points": 2,
+      "question": "What's the difference between Business Exception and Application Exception for queue items?",
+      "options": [
+        "They're the same",
+        "Business Exception: expected, item Failed; Application Exception: unexpected, item goes back to New for retry",
+        "Business Exception retries, Application Exception fails permanently",
+        "Business Exception is for syntax errors, Application Exception is for data errors"
+      ],
+      "correct_answer": 1,
+      "explanation": "Business Exception: Expected error in data (e.g., invalid invoice number, missing customer). Item marked Failed—won't retry. Application Exception: Unexpected technical error (e.g., network issue, system down). Item goes back to New status for automatic retry. This distinction enables proper error handling and retry logic.",
+      "learning_objective": "Handle transaction states"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "retry_mechanism",
+      "points": 2,
+      "question": "What happens when a queue item encounters an Application Exception?",
+      "options": [
+        "Item is deleted",
+        "Item status remains InProgress",
+        "Item goes back to New status for automatic retry (up to max retries)",
+        "Item is marked Failed permanently"
+      ],
+      "correct_answer": 2,
+      "explanation": "Application Exception triggers automatic retry: (1) Item status changes from InProgress to New, (2) RetryNumber increments, (3) Item becomes available for processing again. If RetryNumber reaches MaxRetryNumber (queue setting), item is marked Failed. This handles transient errors like network issues automatically.",
+      "learning_objective": "Handle transaction states"
+    },
+    {
+      "id": "q11",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "specific_content",
+      "points": 2,
+      "question": "How do you pass data in a queue item?",
+      "options": [
+        "As URL parameters",
+        "In the SpecificContent field as a JSON object",
+        "In separate files",
+        "Data cannot be passed in queue items"
+      ],
+      "correct_answer": 1,
+      "explanation": "Data is passed in the SpecificContent field as a JSON object. Example: 'SpecificContent': {'InvoiceID': 'INV-001', 'Amount': 1500, 'CustomerID': 'C123'}. When a robot gets the item, it reads SpecificContent to know what to process. You can pass any JSON-serializable data: strings, numbers, booleans, nested objects, arrays.",
+      "learning_objective": "Add items to queues"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "reference_field",
+      "points": 2,
+      "question": "What is the Reference field in a queue item used for?",
+      "options": [
+        "It's a required unique identifier",
+        "An optional human-readable identifier for tracking (e.g., invoice number)",
+        "A foreign key to another table",
+        "The robot ID"
+      ],
+      "correct_answer": 1,
+      "explanation": "Reference is an optional human-readable identifier for the queue item, useful for tracking and searching. Example: For invoice processing, set Reference to the invoice number. Later, you can search for that specific invoice in the queue. Reference is indexed for fast searching. Not required, but highly recommended for traceability.",
+      "learning_objective": "Add items to queues"
+    },
+    {
+      "id": "q13",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "bulk_adding",
+      "points": 3,
+      "question": "What's the most efficient way to add 1000 items to a queue?",
+      "options": [
+        "Call AddQueueItem 1000 times sequentially",
+        "Use BulkAddQueueItems with an array of items",
+        "Add items in parallel with 1000 simultaneous API calls",
+        "Queue items must be added one at a time"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use POST /odata/Queues/UiPathODataSvc.BulkAddQueueItems with queueItems array containing all items. Much more efficient than individual calls: (1) Single API call, (2) Single database transaction, (3) Faster, (4) Less network overhead. Example: {'queueItems': [{'Name': 'InvoiceQueue', 'SpecificContent': {...}}, {...}, ...]}. Supports up to 100 items per call.",
+      "learning_objective": "Add items to queues"
+    },
+    {
+      "id": "q14",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "queue_strategy",
+      "points": 3,
+      "question": "You have 500 invoices to process. What's the best approach?",
+      "options": [
+        "Start one job with input arguments containing all 500 invoices",
+        "Add 500 queue items, start multiple jobs that process from the queue",
+        "Start 500 separate jobs, one per invoice",
+        "Process sequentially in a single script"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice: (1) Add 500 items to queue (use BulkAddQueueItems), (2) Start multiple parallel jobs (5-10 robots), each processing items from the queue. Benefits: Load balancing, fault tolerance (if one robot fails, others continue), progress tracking, scalability. Queue-based processing is the standard pattern for high-volume work.",
+      "learning_objective": "Process queue items"
+    },
+    {
+      "id": "q15",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "monitoring",
+      "points": 3,
+      "question": "How do you monitor queue processing progress?",
+      "options": [
+        "Queues don't provide progress information",
+        "Query QueueItems with $filter by Status to count New, InProgress, Successful, Failed",
+        "Check robot logs only",
+        "Progress is only visible in the UI"
+      ],
+      "correct_answer": 1,
+      "explanation": "Query /odata/QueueItems with filters to monitor: Count with Status='New' (pending), Status='InProgress' (currently processing), Status='Successful' (completed), Status='Failed' (errors). Calculate progress: (Successful + Failed) / Total. Monitor in real-time by polling these counts. Also check queue statistics: ProcessingRate, AverageProcessingTime.",
+      "learning_objective": "Monitor queue processing"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Queues and Transactions in UiPath Orchestrator, including adding items, processing transactions, handling states, and implementing queue-based automation patterns.",
+    "instructions": [
+      "Read each question carefully",
+      "Understand the lifecycle of queue items (New → InProgress → Successful/Failed)",
+      "Know the difference between Business and Application Exceptions",
+      "Remember that StartTransaction gets items and marks them InProgress atomically",
+      "Understand how priority affects processing order",
+      "Know how to add items efficiently (BulkAddQueueItems for multiple items)"
+    ],
+    "tips": [
+      "Queue = container, Queue Item = individual work item",
+      "Item states: New, InProgress, Successful, Failed, Abandoned, Retried, Deleted",
+      "Add item: POST /odata/Queues/.../AddQueueItem",
+      "Get next item: POST /odata/Queues/.../StartTransaction",
+      "Set result: POST /odata/Queues/.../SetTransactionResult",
+      "Bulk add: BulkAddQueueItems (up to 100 items per call)",
+      "Priority: High > Normal > Low, then FIFO within same priority",
+      "SpecificContent: JSON object with the work data",
+      "Reference: Optional human-readable identifier for tracking",
+      "Business Exception: Expected error, item Failed, no retry",
+      "Application Exception: Unexpected error, item New, auto retry",
+      "Max retries configured per queue",
+      "Monitor: Query QueueItems with Status filters",
+      "Best practice: Multiple robots processing from same queue",
+      "Queues enable distributed, fault-tolerant processing"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 29,
+    "grade_scale": {
+      "A": {"min": 26, "max": 29, "description": "Excellent understanding"},
+      "B": {"min": 23, "max": 25, "description": "Good understanding"},
+      "C": {"min": 20, "max": 22, "description": "Satisfactory understanding"},
+      "D": {"min": 17, "max": 19, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 16, "description": "Does not meet requirements"}
+    },
+    "passing_score": 20,
+    "recommendations": {
+      "below_20": "Review the module materials thoroughly, especially sections on transaction lifecycle, StartTransaction and SetTransactionResult API calls, Business vs Application Exceptions, and queue-based processing patterns. Practice adding and processing queue items before retaking the quiz.",
+      "20_to_25": "Good progress! Review the topics where you missed points, particularly bulk operations, exception handling strategies, and monitoring queue progress.",
+      "26_to_29": "Excellent work! You have a solid understanding of Queues and Transactions in UiPath Orchestrator. You're ready to implement robust, scalable queue-based automation."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "UiPath Orchestrator - About Queues",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-queues",
+      "type": "official_docs"
+    },
+    {
+      "title": "Managing Queue Items",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-queue-items",
+      "type": "official_docs"
+    },
+    {
+      "title": "Queue Items API Reference",
+      "url": "https://docs.uipath.com/orchestrator/reference/queue-items",
+      "type": "official_docs"
+    },
+    {
+      "title": "Transactional Processing",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-transactions",
+      "type": "official_docs"
+    },
+    {
+      "title": "Module 1.2.2.3 Video Lecture",
+      "url": "/videos/phase1/script-1.2.2.3-queues-transactions.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.2.2.3 Slides",
+      "url": "/slides/phase1/1.2.2.3-queues-transactions.md",
+      "type": "course_material"
+    }
+  ]
+}
