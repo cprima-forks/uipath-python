@@ -1,0 +1,254 @@
+{
+  "metadata": {
+    "module": "2.2.1.2",
+    "title": "Job Status Monitoring",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 11,
+    "passing_score": 75,
+    "time_limit_minutes": 16,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 4,
+      "apply": 3,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 5,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_job_states",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What are the possible final states for a completed job?",
+      "options": [
+        "Completed or Failed",
+        "Successful or Faulted",
+        "Done or Error",
+        "Finished or Stopped"
+      ],
+      "correct_answer": 1,
+      "explanation": "Jobs end in either 'Successful' state (process completed without errors) or 'Faulted' state (process encountered an error). These are the two terminal states for job execution.",
+      "learning_objective": "Understand job lifecycle states",
+      "tags": ["job-states", "lifecycle", "status"],
+      "points": 1
+    },
+    {
+      "id": "q2_get_job_endpoint",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the correct endpoint to get a specific job's status by ID?",
+      "options": [
+        "/odata/Jobs/{jobId}",
+        "/odata/Jobs({jobId})",
+        "/api/Jobs/Get/{jobId}",
+        "/odata/GetJob?id={jobId}"
+      ],
+      "correct_answer": 1,
+      "explanation": "The OData convention for getting a single entity by key is /odata/Jobs({jobId}), where jobId is the job's Key (GUID). Parentheses indicate the key value in OData syntax.",
+      "learning_objective": "Use correct API endpoints",
+      "tags": ["api", "odata", "endpoint"],
+      "points": 1
+    },
+    {
+      "id": "q3_polling_pattern",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What is the recommended pattern for monitoring job completion?",
+      "options": [
+        "Continuously check status as fast as possible",
+        "Poll status at regular intervals (e.g., every 2-5 seconds)",
+        "Wait for a webhook callback from Orchestrator",
+        "Check status only once after 1 minute"
+      ],
+      "correct_answer": 1,
+      "explanation": "Poll at reasonable intervals (typically 2-5 seconds) to balance responsiveness with API load. Continuous polling wastes resources, while checking too infrequently delays detecting completion. Orchestrator doesn't provide webhook callbacks for job completion.",
+      "learning_objective": "Implement efficient polling",
+      "tags": ["polling", "best-practices", "monitoring"],
+      "points": 1
+    },
+    {
+      "id": "q4_terminal_states",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Which job states indicate the job is still running and should continue polling?",
+      "options": [
+        "Only 'Running'",
+        "'Pending' and 'Running'",
+        "'Pending', 'Running', and 'Stopping'",
+        "All states except 'Successful'"
+      ],
+      "correct_answer": 2,
+      "explanation": "'Pending' (waiting for robot), 'Running' (actively executing), and 'Stopping' (being canceled) are non-terminal states. Continue polling while in these states. 'Successful', 'Faulted', and 'Stopped' are terminal states.",
+      "learning_objective": "Identify terminal vs non-terminal states",
+      "tags": ["job-states", "polling", "lifecycle"],
+      "points": 1
+    },
+    {
+      "id": "q5_timeout_handling",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Your job has been in 'Pending' state for 5 minutes. What should your monitoring code do?",
+      "options": [
+        "Keep polling indefinitely",
+        "Immediately mark it as failed",
+        "Implement a timeout and stop polling after a threshold, possibly canceling the job",
+        "Restart the job automatically"
+      ],
+      "correct_answer": 2,
+      "explanation": "Implement timeouts to prevent infinite polling. If a job stays Pending too long, it likely means no robots are available. Your code should timeout, optionally cancel the job, and report the issue. Don't poll forever or auto-restart without understanding the cause.",
+      "learning_objective": "Handle timeout scenarios",
+      "tags": ["timeout", "error-handling", "monitoring"],
+      "points": 2
+    },
+    {
+      "id": "q6_job_info_fields",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Which field in the job object contains error details when a job faults?",
+      "options": [
+        "Error",
+        "Info",
+        "Details",
+        "Message"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'Info' field contains error messages and stack traces when a job faults. It provides details about what went wrong during execution. Check this field when State is 'Faulted' to understand the failure.",
+      "learning_objective": "Parse job status responses",
+      "tags": ["error-handling", "job-object", "debugging"],
+      "points": 1
+    },
+    {
+      "id": "q7_wait_for_completion",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which wait_for_job implementation is BEST?",
+      "options": [
+        "While True loop with no sleep",
+        "While True loop with 2-second sleep and no timeout",
+        "While loop with sleep, timeout, and terminal state checking",
+        "Single status check after fixed 30-second delay"
+      ],
+      "correct_answer": 2,
+      "explanation": "Best practice includes: (1) sleep between polls to avoid hammering API, (2) timeout to prevent infinite waiting, (3) check for terminal states (Successful/Faulted/Stopped) to know when to stop. This balances responsiveness, efficiency, and reliability.",
+      "learning_objective": "Implement robust waiting logic",
+      "tags": ["wait-pattern", "best-practices", "polling"],
+      "points": 1
+    },
+    {
+      "id": "q8_multiple_jobs",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "You started 5 jobs and need to wait for all to complete. What's the most efficient approach?",
+      "options": [
+        "Wait for each job sequentially, one at a time",
+        "Poll all 5 jobs in parallel on each iteration",
+        "Create a separate thread for each job",
+        "Only monitor the first job and assume others finish too"
+      ],
+      "correct_answer": 1,
+      "explanation": "Poll all jobs in each iteration by making 5 concurrent API requests. This is more efficient than waiting sequentially (which delays detecting completion) and simpler than threading. Track completion and only poll jobs that haven't finished yet.",
+      "learning_objective": "Monitor multiple jobs efficiently",
+      "tags": ["multiple-jobs", "concurrency", "efficiency"],
+      "points": 2
+    },
+    {
+      "id": "q9_rate_limiting",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Why should you avoid polling job status every 100ms (10 times per second)?",
+      "options": [
+        "Job status doesn't update that frequently",
+        "It puts unnecessary load on Orchestrator API",
+        "You may hit API rate limits",
+        "All of the above"
+      ],
+      "correct_answer": 3,
+      "explanation": "All three reasons apply: (1) job status typically updates every second or slower, so faster polling sees no changes, (2) excessive API calls waste Orchestrator resources, (3) you may hit rate limits and get throttled. Poll every 2-5 seconds instead.",
+      "learning_objective": "Apply API best practices",
+      "tags": ["rate-limiting", "api", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q10_output_arguments",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Where are output arguments from a successful job stored?",
+      "options": [
+        "In the 'OutputArguments' field of the job object",
+        "In a separate API call to /odata/JobOutputs",
+        "Output arguments are not accessible via API",
+        "In the 'Results' field"
+      ],
+      "correct_answer": 0,
+      "explanation": "Output arguments are stored in the 'OutputArguments' field of the job object as a JSON string. After a job reaches 'Successful' state, retrieve the job details and parse OutputArguments to get return values from the process.",
+      "learning_objective": "Retrieve job outputs",
+      "tags": ["output-arguments", "job-results", "api"],
+      "points": 1
+    },
+    {
+      "id": "q11_logging_monitoring",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What information should you log when monitoring job status?",
+      "options": [
+        "Only the final state",
+        "Job ID, state changes, timestamps, and errors",
+        "Nothing - monitoring should be silent",
+        "Only errors, not successful completions"
+      ],
+      "correct_answer": 1,
+      "explanation": "Log comprehensive information for troubleshooting: job ID for traceability, state changes to track progress, timestamps for performance analysis, and errors for debugging. This creates an audit trail and aids in diagnosing issues.",
+      "learning_objective": "Implement proper logging",
+      "tags": ["logging", "monitoring", "best-practices"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 13,
+    "grade_boundaries": {
+      "A": 12,
+      "B": 10,
+      "C": 9,
+      "D": 7,
+      "F": 0
+    },
+    "passing_points": 10
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator API - Jobs",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "Job Lifecycle and States",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-jobs",
+      "type": "guide"
+    },
+    {
+      "title": "API Best Practices - Polling",
+      "url": "https://cloud.google.com/blog/products/api-management/best-practices-for-building-high-performance-apis",
+      "type": "best_practices"
+    }
+  ]
+}
