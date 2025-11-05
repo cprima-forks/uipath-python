@@ -1,0 +1,269 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.1.2",
+    "title": "Python Functions and Modules",
+    "version": "1.0",
+    "total_questions": 10,
+    "passing_score": 70,
+    "time_limit_minutes": 20,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 3,
+      "analyze": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "function_syntax",
+      "points": 1,
+      "question": "Which keyword is used to define a function in Python?",
+      "options": [
+        "function",
+        "def",
+        "define",
+        "func"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'def' keyword is used to define functions in Python. The syntax is: def function_name(parameters):",
+      "learning_objective": "Define functions with parameters and return values"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "return_values",
+      "points": 1,
+      "question": "What does a function return by default if no return statement is specified?",
+      "options": [
+        "0",
+        "Empty string",
+        "None",
+        "False"
+      ],
+      "correct_answer": 2,
+      "explanation": "If a function doesn't have a return statement, it returns None by default. This is Python's way of representing 'no value'.",
+      "learning_objective": "Define functions with parameters and return values"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "parameters",
+      "points": 1,
+      "question": "What is the difference between parameters and arguments?",
+      "options": [
+        "They are the same thing",
+        "Parameters are in the function definition; arguments are values passed when calling",
+        "Arguments are in the function definition; parameters are values passed when calling",
+        "Parameters are used in Python 2; arguments in Python 3"
+      ],
+      "correct_answer": 1,
+      "explanation": "Parameters are variables listed in the function definition. Arguments are the actual values passed to the function when it's called. For example, in 'def greet(name):' - name is a parameter. In 'greet(\"Alice\")' - \"Alice\" is an argument.",
+      "learning_objective": "Define functions with parameters and return values"
+    },
+    {
+      "id": "q4",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "default_parameters",
+      "points": 2,
+      "question": "What will be the output of this code?\n\n```python\ndef create_message(text, prefix=\"INFO\", suffix=\"!\"):\n    return f\"{prefix}: {text}{suffix}\"\n\nresult = create_message(\"Task completed\", suffix=\".\")\nprint(result)\n```",
+      "options": [
+        "INFO: Task completed.",
+        "Task completed.",
+        "INFO: Task completed!",
+        "ERROR: Task completed."
+      ],
+      "correct_answer": 0,
+      "explanation": "The function uses the default value for 'prefix' (\"INFO\") since it wasn't specified, but overrides 'suffix' with \".\". The result is \"INFO: Task completed.\"",
+      "learning_objective": "Use default parameters and keyword arguments"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "args_kwargs",
+      "points": 2,
+      "question": "What does *args allow you to do in a function?",
+      "options": [
+        "Pass a variable number of positional arguments",
+        "Pass a variable number of keyword arguments",
+        "Make all parameters optional",
+        "Create recursive functions"
+      ],
+      "correct_answer": 0,
+      "explanation": "*args allows a function to accept any number of positional arguments. Inside the function, args becomes a tuple containing all the extra positional arguments. **kwargs is used for variable keyword arguments.",
+      "learning_objective": "Use *args and **kwargs"
+    },
+    {
+      "id": "q6",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "scope",
+      "points": 2,
+      "question": "What will be the output of this code?\n\n```python\nx = 10\n\ndef modify_value():\n    x = 5\n    return x\n\nresult = modify_value()\nprint(x, result)\n```",
+      "options": [
+        "5 5",
+        "10 10",
+        "10 5",
+        "5 10"
+      ],
+      "correct_answer": 2,
+      "explanation": "The x inside the function is a local variable, separate from the global x. The function creates a new local x with value 5 and returns it, but the global x remains 10. Output: 10 5",
+      "learning_objective": "Understand function scope and namespaces"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "lambda",
+      "points": 2,
+      "question": "Which of the following is the correct lambda function equivalent of:\n\n```python\ndef square(x):\n    return x ** 2\n```",
+      "options": [
+        "lambda x: x * 2",
+        "lambda x: x ** 2",
+        "lambda: x ** 2",
+        "lambda x = x ** 2"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct lambda syntax is 'lambda x: x ** 2'. Lambda functions use the format: lambda parameters: expression. The expression result is automatically returned.",
+      "learning_objective": "Apply lambda functions for simple operations"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "modules",
+      "points": 2,
+      "question": "Which import statement allows you to use a function 'calculate' from module 'math_utils' directly without the module prefix?",
+      "options": [
+        "import math_utils",
+        "from math_utils import calculate",
+        "import calculate from math_utils",
+        "use math_utils.calculate"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'from math_utils import calculate' statement imports the specific function, allowing you to call it as 'calculate()' instead of 'math_utils.calculate()'. Option 0 would require the prefix.",
+      "learning_objective": "Import and create modules"
+    },
+    {
+      "id": "q9",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "args_kwargs_combined",
+      "points": 3,
+      "question": "Analyze this function definition. Which function call is INVALID?\n\n```python\ndef process_data(required, *args, optional=\"default\", **kwargs):\n    pass\n```",
+      "options": [
+        "process_data(\"value\")",
+        "process_data(\"value\", \"extra1\", \"extra2\")",
+        "process_data(\"value\", optional=\"custom\")",
+        "process_data(optional=\"custom\", \"value\")"
+      ],
+      "correct_answer": 3,
+      "explanation": "Option 3 is invalid because positional arguments (like 'required') must come before keyword arguments. Once you use a keyword argument, all subsequent arguments must also be keyword arguments. The correct order would be: process_data(\"value\", optional=\"custom\")",
+      "learning_objective": "Use *args and **kwargs correctly with other parameter types"
+    },
+    {
+      "id": "q10",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "topic": "scope_advanced",
+      "points": 3,
+      "question": "What is the output of this code?\n\n```python\nvalue = [1, 2, 3]\n\ndef modify_list():\n    value.append(4)\n    return value\n\ndef reassign_list():\n    value = [5, 6, 7]\n    return value\n\nmodify_list()\nreassign_list()\nprint(value)\n```",
+      "options": [
+        "[1, 2, 3]",
+        "[1, 2, 3, 4]",
+        "[5, 6, 7]",
+        "[5, 6, 7, 4]"
+      ],
+      "correct_answer": 1,
+      "explanation": "The global 'value' list is [1, 2, 3, 4]. modify_list() modifies the global list object by appending 4 (lists are mutable). reassign_list() creates a NEW local variable named 'value', which doesn't affect the global. The global value remains [1, 2, 3, 4]. This demonstrates the difference between modifying an object and reassigning a variable.",
+      "learning_objective": "Understand function scope and namespaces with mutable objects"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of Python functions and modules. You'll need to demonstrate knowledge of function syntax, parameters, scope, lambda functions, and module imports.",
+    "instructions": [
+      "Read each question carefully",
+      "Some questions include code - trace through the execution mentally",
+      "Consider variable scope when analyzing code",
+      "Pay attention to the difference between parameters and arguments",
+      "Remember that lambda functions are limited to single expressions",
+      "Module import syntax matters - choose the correct form"
+    ],
+    "tips": [
+      "For code analysis questions, mentally trace the execution step by step",
+      "Remember the LEGB rule for scope: Local, Enclosing, Global, Built-in",
+      "Default parameters are evaluated once when the function is defined",
+      "Lambda functions automatically return the expression result",
+      "*args creates a tuple, **kwargs creates a dictionary"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 20,
+    "grade_scale": {
+      "A": {"min": 18, "max": 20, "description": "Excellent understanding"},
+      "B": {"min": 16, "max": 17, "description": "Good understanding"},
+      "C": {"min": 14, "max": 15, "description": "Satisfactory understanding"},
+      "D": {"min": 12, "max": 13, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 11, "description": "Does not meet requirements"}
+    },
+    "passing_score": 14,
+    "recommendations": {
+      "below_14": "Review the module materials and complete additional practice exercises before retaking the quiz",
+      "14_to_17": "Good progress! Review the topics where you missed points and practice those areas",
+      "18_to_20": "Excellent work! You're ready to proceed to the next module"
+    }
+  },
+  "related_resources": [
+    {
+      "title": "Python Functions Documentation",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+      "type": "official_docs"
+    },
+    {
+      "title": "PEP 8 - Function Naming Conventions",
+      "url": "https://www.python.org/dev/peps/pep-0008/#function-and-variable-names",
+      "type": "style_guide"
+    },
+    {
+      "title": "Python Modules Tutorial",
+      "url": "https://docs.python.org/3/tutorial/modules.html",
+      "type": "official_docs"
+    },
+    {
+      "title": "Understanding Python Scope",
+      "url": "https://realpython.com/python-scope-legb-rule/",
+      "type": "tutorial"
+    },
+    {
+      "title": "Module 1.1.1.2 Video Lecture",
+      "url": "/videos/phase1/script-1.1.1.2-python-functions-modules.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.1.2 Slides",
+      "url": "/slides/phase1/1.1.1.2-python-functions-modules.md",
+      "type": "course_material"
+    }
+  ]
+}
