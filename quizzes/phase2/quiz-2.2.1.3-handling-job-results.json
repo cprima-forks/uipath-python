@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "module": "2.2.1.3",
+    "title": "Handling Job Results",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 10,
+    "passing_score": 75,
+    "time_limit_minutes": 15,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 4,
+      "apply": 3,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 5,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_output_format",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "In what format are OutputArguments stored in a job object?",
+      "options": [
+        "Python dictionary",
+        "JSON string",
+        "XML string",
+        "Binary data"
+      ],
+      "correct_answer": 1,
+      "explanation": "OutputArguments are stored as a JSON string. You must use json.loads() to parse the string into a Python dictionary before accessing individual output values.",
+      "learning_objective": "Parse output arguments correctly",
+      "tags": ["output-arguments", "json", "parsing"],
+      "points": 1
+    },
+    {
+      "id": "q2_empty_outputs",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What does it mean if a successful job has OutputArguments as an empty string or null?",
+      "options": [
+        "The job failed silently",
+        "There's an API error",
+        "The process has no output arguments defined",
+        "Output arguments were deleted"
+      ],
+      "correct_answer": 2,
+      "explanation": "If OutputArguments is empty/null on a successful job, it simply means the process workflow doesn't define any output arguments. This is normal for processes that only perform actions without returning data.",
+      "learning_objective": "Handle cases with no outputs",
+      "tags": ["output-arguments", "edge-cases", "validation"],
+      "points": 1
+    },
+    {
+      "id": "q3_error_info",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Where can you find detailed error information for a faulted job?",
+      "options": [
+        "In the 'Error' field",
+        "In the 'Info' field",
+        "In the 'ErrorMessage' field",
+        "In a separate API call to /odata/Errors"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'Info' field contains detailed error messages and stack traces when a job faults. This field provides the exception message, type, and often a full stack trace to help debug the issue.",
+      "learning_objective": "Access error details from faulted jobs",
+      "tags": ["error-handling", "debugging", "info-field"],
+      "points": 1
+    },
+    {
+      "id": "q4_robot_logs",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "How can you access detailed execution logs for a job?",
+      "options": [
+        "Logs are included in the job object automatically",
+        "Query /odata/RobotLogs with a filter on job Key",
+        "Download from the robot machine directly",
+        "Robot logs are not accessible via API"
+      ],
+      "correct_answer": 1,
+      "explanation": "Access robot logs via GET /odata/RobotLogs with filter like `$filter=JobKey eq '{job_key}'`. This returns log entries (Trace, Info, Warn, Error, Fatal) generated during job execution, useful for detailed debugging.",
+      "learning_objective": "Retrieve execution logs",
+      "tags": ["robot-logs", "debugging", "odata"],
+      "points": 1
+    },
+    {
+      "id": "q5_output_parsing",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Which code correctly extracts output arguments from a successful job?",
+      "options": [
+        "outputs = job['OutputArguments']",
+        "outputs = json.loads(job.get('OutputArguments', '{}'))",
+        "outputs = eval(job['OutputArguments'])",
+        "outputs = job.OutputArguments.to_dict()"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use json.loads() to parse the JSON string, with get() and a default of '{}' to handle cases where OutputArguments is None. Never use eval() (security risk), and the job object is a dictionary, not an object with attributes.",
+      "learning_objective": "Parse outputs safely",
+      "tags": ["parsing", "json", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q6_complex_outputs",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Your process outputs a DataTable as 'out_Results'. What type will it be after parsing OutputArguments?",
+      "options": [
+        "A pandas DataFrame",
+        "A Python list of dictionaries (JSON array)",
+        "A string representation",
+        "DataTables cannot be output arguments"
+      ],
+      "correct_answer": 1,
+      "explanation": "DataTables in UiPath are serialized to JSON arrays. After parsing OutputArguments, you'll get a Python list of dictionaries, where each dictionary represents a row. You can convert to pandas DataFrame if needed: pd.DataFrame(outputs['out_Results']).",
+      "learning_objective": "Handle complex data types",
+      "tags": ["datatable", "complex-types", "json"],
+      "points": 2
+    },
+    {
+      "id": "q7_error_classification",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "analyze",
+      "question": "A job faulted with Info containing 'SelectorNotFoundException'. What does this indicate?",
+      "options": [
+        "Network connectivity issue",
+        "UI automation couldn't find target element",
+        "Invalid credentials",
+        "Timeout exceeded"
+      ],
+      "correct_answer": 1,
+      "explanation": "SelectorNotFoundException is a UiPath-specific exception indicating that UI automation couldn't locate an element on screen using the defined selector. Common causes: application UI changed, timing issues, or incorrect selector definition.",
+      "learning_objective": "Classify error types",
+      "tags": ["error-types", "selectors", "troubleshooting"],
+      "points": 1
+    },
+    {
+      "id": "q8_log_levels",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What's the correct order of robot log levels from least to most severe?",
+      "options": [
+        "Info → Trace → Warn → Error → Fatal",
+        "Trace → Info → Warn → Error → Fatal",
+        "Trace → Debug → Info → Warning → Error",
+        "Debug → Info → Warn → Critical → Fatal"
+      ],
+      "correct_answer": 1,
+      "explanation": "UiPath robot log levels in order: Trace (most verbose), Info (informational), Warn (warnings), Error (errors), Fatal (critical failures). Trace logs everything, Fatal logs only critical issues.",
+      "learning_objective": "Understand log severity levels",
+      "tags": ["logging", "severity", "robot-logs"],
+      "points": 1
+    },
+    {
+      "id": "q9_result_validation",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Best practice for validating expected outputs from a job?",
+      "options": [
+        "Assume successful jobs have valid outputs",
+        "Parse outputs, check for expected keys, validate data types and ranges",
+        "Only check if State is Successful",
+        "Trust the process never returns invalid data"
+      ],
+      "correct_answer": 1,
+      "explanation": "Always validate: (1) Parse OutputArguments safely, (2) Check expected keys exist, (3) Validate data types, (4) Check value ranges/constraints. Even successful jobs can return unexpected data due to edge cases in the process logic.",
+      "learning_objective": "Validate job results",
+      "tags": ["validation", "best-practices", "data-quality"],
+      "points": 2
+    },
+    {
+      "id": "q10_performance_data",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "Which job fields help you analyze execution performance?",
+      "options": [
+        "Only State",
+        "StartTime and EndTime",
+        "Only Robot.Name",
+        "OutputArguments contain timing data"
+      ],
+      "correct_answer": 1,
+      "explanation": "StartTime and EndTime fields allow you to calculate execution duration. Analyze these across multiple jobs to identify performance patterns, outliers, or optimization opportunities. Example: duration = parse(EndTime) - parse(StartTime).",
+      "learning_objective": "Analyze performance metrics",
+      "tags": ["performance", "timing", "metrics"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 12,
+    "grade_boundaries": {
+      "A": 11,
+      "B": 9,
+      "C": 8,
+      "D": 7,
+      "F": 0
+    },
+    "passing_points": 9
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator API - RobotLogs",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "Understanding Job Results",
+      "url": "https://docs.uipath.com/orchestrator/docs/about-jobs",
+      "type": "guide"
+    },
+    {
+      "title": "JSON in Python",
+      "url": "https://docs.python.org/3/library/json.html",
+      "type": "documentation"
+    }
+  ]
+}
