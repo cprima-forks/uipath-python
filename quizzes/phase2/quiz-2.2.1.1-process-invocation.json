@@ -1,0 +1,272 @@
+{
+  "metadata": {
+    "module": "2.2.1.1",
+    "title": "Process Invocation Basics",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 12,
+    "passing_score": 75,
+    "time_limit_minutes": 18,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 3,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_release_key",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is a ReleaseKey in UiPath Orchestrator?",
+      "options": [
+        "A password for the robot",
+        "A unique identifier for a specific version of a process package",
+        "An API authentication token",
+        "A license key for Orchestrator"
+      ],
+      "correct_answer": 1,
+      "explanation": "A ReleaseKey uniquely identifies a specific version of a published process package in Orchestrator. It's required to start a job because it tells Orchestrator which process version to execute.",
+      "learning_objective": "Understand process package identification",
+      "tags": ["release-key", "process", "orchestrator"],
+      "points": 1
+    },
+    {
+      "id": "q2_start_jobs_endpoint",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the correct OData endpoint to start a job in Orchestrator?",
+      "options": [
+        "/odata/Jobs/Start",
+        "/odata/Jobs/UiPath.Server.Configuration.OData.StartJobs",
+        "/odata/StartJobs",
+        "/api/Jobs/Start"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct endpoint is /odata/Jobs/UiPath.Server.Configuration.OData.StartJobs. This is an OData action endpoint that initiates job execution. The long namespace is standard UiPath OData naming.",
+      "learning_objective": "Use correct API endpoints",
+      "tags": ["api", "endpoint", "odata"],
+      "points": 1
+    },
+    {
+      "id": "q3_job_strategy",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What does the 'JobsCount' strategy mean when starting a job?",
+      "options": [
+        "Start jobs on specific robots by ID",
+        "Start a specified number of jobs on available robots",
+        "Start jobs on all available robots",
+        "Count existing jobs without starting new ones"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'JobsCount' strategy starts a specified number of jobs (defined by NoOfRobots parameter) on any available robots in the folder. Orchestrator automatically selects which robots to use based on availability.",
+      "learning_objective": "Select appropriate job strategies",
+      "tags": ["strategy", "job-execution", "robots"],
+      "points": 1
+    },
+    {
+      "id": "q4_input_arguments",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "How should you pass input arguments to a process when starting a job?",
+      "options": [
+        "As a JSON string in the InputArguments field",
+        "As a dictionary directly in the request body",
+        "Input arguments cannot be passed via API",
+        "As URL query parameters"
+      ],
+      "correct_answer": 0,
+      "explanation": "Input arguments must be passed as a JSON string in the InputArguments field of the startInfo object. Even though you create them as a dictionary in Python, they must be serialized to JSON string format before sending to the API.",
+      "learning_objective": "Pass input arguments correctly",
+      "tags": ["input-arguments", "json", "api"],
+      "points": 1
+    },
+    {
+      "id": "q5_start_info_structure",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Which startInfo structure is correct for starting a job with the JobsCount strategy?",
+      "options": [
+        "{\"ReleaseKey\": \"abc123\", \"NoOfRobots\": 1}",
+        "{\"startInfo\": {\"ReleaseKey\": \"abc123\", \"Strategy\": \"JobsCount\", \"NoOfRobots\": 1, \"RobotIds\": [], \"InputArguments\": \"{}\"}}",
+        "{\"ReleaseKey\": \"abc123\", \"Strategy\": \"JobsCount\", \"Robots\": 1}",
+        "{\"Process\": \"MyProcess\", \"Count\": 1}"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct structure includes a startInfo object with: ReleaseKey (required), Strategy ('JobsCount'), NoOfRobots (how many jobs), RobotIds (empty array for JobsCount), and InputArguments (JSON string, can be empty '{}').",
+      "learning_objective": "Construct job start requests",
+      "tags": ["start-info", "request-structure", "api"],
+      "points": 2
+    },
+    {
+      "id": "q6_folder_context",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Why is the X-UIPATH-OrganizationUnitId header required when starting jobs?",
+      "options": [
+        "It's not required, jobs can start without it",
+        "It specifies the folder context where the job should run",
+        "It's the authentication token",
+        "It specifies the robot ID"
+      ],
+      "correct_answer": 1,
+      "explanation": "The X-UIPATH-OrganizationUnitId header specifies the folder (organization unit) context. Since processes, robots, and permissions are folder-specific, Orchestrator needs to know which folder you're operating in.",
+      "learning_objective": "Understand folder context requirements",
+      "tags": ["folder-context", "headers", "organization-unit"],
+      "points": 1
+    },
+    {
+      "id": "q7_response_structure",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What does the StartJobs endpoint return upon successful job creation?",
+      "options": [
+        "Just a success message",
+        "An array of job objects in the 'value' field",
+        "The process output immediately",
+        "A job completion status"
+      ],
+      "correct_answer": 1,
+      "explanation": "The StartJobs endpoint returns an OData response with a 'value' field containing an array of created job objects. Each job object includes the job Key (ID), State, and other metadata. The jobs are created but not yet complete.",
+      "learning_objective": "Parse job start responses",
+      "tags": ["response", "job-object", "odata"],
+      "points": 1
+    },
+    {
+      "id": "q8_specific_strategy",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "When should you use the 'Specific' job strategy?",
+      "options": [
+        "When you want the fastest available robot",
+        "When you need to run on specific robot(s) by ID",
+        "When you want to run on all robots",
+        "When you don't care which robot runs the job"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use 'Specific' strategy when you need the job to run on particular robots identified by their IDs. You populate the RobotIds array with the specific robot IDs you want to use.",
+      "learning_objective": "Select appropriate job strategies",
+      "tags": ["strategy", "specific-robots", "targeting"],
+      "points": 1
+    },
+    {
+      "id": "q9_async_execution",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What happens immediately after successfully calling StartJobs?",
+      "options": [
+        "The process executes and returns results",
+        "The job is created in Pending state; execution happens asynchronously",
+        "The job completes immediately",
+        "The robot starts downloading the process"
+      ],
+      "correct_answer": 1,
+      "explanation": "StartJobs is asynchronous. The API returns immediately after creating the job(s) in Pending state. Actual execution happens asynchronously - robots pick up pending jobs, execute them, and update status. You must poll the job status to check completion.",
+      "learning_objective": "Understand asynchronous execution",
+      "tags": ["async", "job-lifecycle", "execution-model"],
+      "points": 1
+    },
+    {
+      "id": "q10_error_handling",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "The StartJobs API returns 400 Bad Request with 'Release not found'. What's the most likely cause?",
+      "options": [
+        "Invalid authentication token",
+        "Incorrect ReleaseKey or release not deployed to the specified folder",
+        "No robots available",
+        "Insufficient permissions"
+      ],
+      "correct_answer": 1,
+      "explanation": "A 'Release not found' error typically means the ReleaseKey is incorrect or the process package isn't deployed to the folder specified by X-UIPATH-OrganizationUnitId. Verify the ReleaseKey and ensure the package is deployed to the correct folder.",
+      "learning_objective": "Troubleshoot job start failures",
+      "tags": ["error-handling", "troubleshooting", "release"],
+      "points": 2
+    },
+    {
+      "id": "q11_getting_release_key",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "How can you programmatically get the ReleaseKey for a process?",
+      "options": [
+        "ReleaseKeys are hardcoded in process files",
+        "Query /odata/Releases with a filter on ProcessKey or Name",
+        "ReleaseKeys are randomly generated and cannot be retrieved",
+        "Check the robot configuration files"
+      ],
+      "correct_answer": 1,
+      "explanation": "You can GET /odata/Releases with filters like `$filter=ProcessKey eq 'ProcessName'` or `$filter=Name eq 'ProcessName'` to retrieve releases. The response includes ReleaseKey, Version, and other metadata for each published version.",
+      "learning_objective": "Retrieve process metadata",
+      "tags": ["releases", "odata", "metadata"],
+      "points": 1
+    },
+    {
+      "id": "q12_runtime_type",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "What is the difference between attended and unattended robot execution?",
+      "options": [
+        "Attended requires user interaction, unattended runs without user",
+        "Attended is faster than unattended",
+        "Unattended requires more licenses",
+        "There is no difference"
+      ],
+      "correct_answer": 0,
+      "explanation": "Attended robots run on a user's machine with potential user interaction during execution. Unattended robots run autonomously on server machines without user presence or interaction. This affects when and how jobs can be started and executed.",
+      "learning_objective": "Understand execution models",
+      "tags": ["attended", "unattended", "execution-model"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 14,
+    "grade_boundaries": {
+      "A": 13,
+      "B": 11,
+      "C": 10,
+      "D": 8,
+      "F": 0
+    },
+    "passing_points": 10
+  },
+  "additional_resources": [
+    {
+      "title": "UiPath Orchestrator API - Jobs",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "api_documentation"
+    },
+    {
+      "title": "Starting Jobs via API",
+      "url": "https://docs.uipath.com/orchestrator/docs/managing-jobs",
+      "type": "guide"
+    },
+    {
+      "title": "OData Query Options",
+      "url": "https://www.odata.org/getting-started/basic-tutorial/",
+      "type": "specification"
+    }
+  ]
+}

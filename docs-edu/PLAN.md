@@ -3,7 +3,7 @@
 Version: v0.1.0
 Status: Draft
 Last Updated: 2025-11-05
-Materials Created: 23/160+ modules (Phase 1: 18/18 = 100% ✅ | Phase 2: 5/35 = 14%)
+Materials Created: 24/160+ modules (Phase 1: 18/18 = 100% ✅ | Phase 2: 6/35 = 17%)
 
 ## Implementation Progress Tracker
 
@@ -36,7 +36,7 @@ Materials Created: 23/160+ modules (Phase 1: 18/18 = 100% ✅ | Phase 2: 5/35 = 
 - [x] **1.2.2.3** Queues and Transactions (Quiz ✓, Slides ✓, Video ✓)
 - [x] **1.2.2.4** Action Center (Human-in-the-Loop) (Quiz ✓, Slides ✓, Video ✓)
 
-### Phase 2: SDK Fundamentals (35 modules) - 14% Complete
+### Phase 2: SDK Fundamentals (35 modules) - 17% Complete
 #### 2.2.1 Installation and Setup (5 modules) - ✅ 100% COMPLETE!
 - [x] **2.1.1.1** Installing UiPath Python SDK (Quiz ✓, Slides ✓, Video ✓)
 - [x] **2.1.1.2** SDK Version Compatibility (Quiz ✓, Slides ✓, Video ✓)
@@ -44,8 +44,8 @@ Materials Created: 23/160+ modules (Phase 1: 18/18 = 100% ✅ | Phase 2: 5/35 = 
 - [x] **2.1.2.1** OAuth Authentication Flow (Quiz ✓, Slides ✓, Video ✓)
 - [x] **2.1.2.2** Manual Environment Configuration (Quiz ✓, Slides ✓, Video ✓)
 
-#### 2.2.2 Core Services (18 modules) - 0% Complete
-- [ ] **2.2.1.1** Process Invocation Basics
+#### 2.2.2 Core Services (18 modules) - 6% Complete
+- [x] **2.2.1.1** Process Invocation Basics (Quiz ✓, Slides ✓, Video ✓)
 - [ ] **2.2.1.2** Job Status Monitoring
 - [ ] **2.2.1.3** Handling Job Results
 - [ ] **2.2.1.4** Batch Process Execution
