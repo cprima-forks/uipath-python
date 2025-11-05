@@ -1,0 +1,272 @@
+{
+  "metadata": {
+    "module": "2.1.2.1",
+    "title": "OAuth Authentication Flow",
+    "phase": 2,
+    "difficulty": "intermediate",
+    "total_questions": 12,
+    "passing_score": 75,
+    "time_limit_minutes": 18,
+    "version": "1.0.0",
+    "created_date": "2025-11-05",
+    "bloom_taxonomy_distribution": {
+      "remember": 3,
+      "understand": 5,
+      "apply": 3,
+      "analyze": 1,
+      "evaluate": 0,
+      "create": 0
+    },
+    "difficulty_distribution": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    }
+  },
+  "questions": [
+    {
+      "id": "q1_oauth_purpose",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "What is the primary purpose of OAuth 2.0 authentication in UiPath Orchestrator?",
+      "options": [
+        "To encrypt data during transmission",
+        "To delegate access without sharing passwords",
+        "To compress API requests",
+        "To cache authentication credentials"
+      ],
+      "correct_answer": 1,
+      "explanation": "OAuth 2.0 allows applications to access UiPath Orchestrator on behalf of users without exposing passwords. Instead, it uses access tokens with limited scope and expiration, following the principle of least privilege.",
+      "learning_objective": "Understand OAuth 2.0 principles",
+      "tags": ["oauth", "authentication", "security"],
+      "points": 1
+    },
+    {
+      "id": "q2_external_application",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "In UiPath Orchestrator, what do you need to create before authenticating with OAuth?",
+      "options": [
+        "A robot",
+        "An External Application",
+        "A process",
+        "A queue"
+      ],
+      "correct_answer": 1,
+      "explanation": "You must create an External Application in Orchestrator to use OAuth authentication. This provides the Client ID and Client Secret needed for the OAuth flow.",
+      "learning_objective": "Create External Applications",
+      "tags": ["external-application", "oauth", "orchestrator"],
+      "points": 1
+    },
+    {
+      "id": "q3_client_credentials",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What are the two pieces of information provided when you create an External Application?",
+      "options": [
+        "Username and Password",
+        "Client ID and Client Secret",
+        "API Key and Secret Key",
+        "Access Token and Refresh Token"
+      ],
+      "correct_answer": 1,
+      "explanation": "An External Application provides a Client ID (public identifier) and Client Secret (private credential). Together, these are used to authenticate and obtain access tokens. Never share or commit the Client Secret.",
+      "learning_objective": "Understand OAuth credentials",
+      "tags": ["client-id", "client-secret", "credentials"],
+      "points": 1
+    },
+    {
+      "id": "q4_token_endpoint",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "For UiPath Cloud (region cloud.uipath.com), what is the correct OAuth token endpoint?",
+      "options": [
+        "https://cloud.uipath.com/oauth/token",
+        "https://account.uipath.com/oauth/token",
+        "https://cloud.uipath.com/identity_/connect/token",
+        "https://identity.uipath.com/oauth/token"
+      ],
+      "correct_answer": 2,
+      "explanation": "The OAuth token endpoint for UiPath Cloud is https://cloud.uipath.com/identity_/connect/token. Note the underscore after 'identity' and '/connect/token' path. This endpoint is used to exchange Client ID and Secret for access tokens.",
+      "learning_objective": "Configure OAuth endpoints",
+      "tags": ["token-endpoint", "oauth", "cloud"],
+      "points": 1
+    },
+    {
+      "id": "q5_scopes",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "What do OAuth scopes control in UiPath Orchestrator?",
+      "options": [
+        "The token expiration time",
+        "The permissions granted to the access token",
+        "The geographic region for API calls",
+        "The number of API requests allowed"
+      ],
+      "correct_answer": 1,
+      "explanation": "OAuth scopes define the permissions granted to an access token. For example, 'OR.Jobs' grants access to job operations, while 'OR.Queues' grants access to queue operations. This implements the principle of least privilege.",
+      "learning_objective": "Understand OAuth scopes",
+      "tags": ["scopes", "permissions", "security"],
+      "points": 1
+    },
+    {
+      "id": "q6_access_token_lifetime",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "question": "Access tokens in UiPath Orchestrator typically expire after how long?",
+      "options": [
+        "5 minutes",
+        "30 minutes",
+        "1 hour",
+        "24 hours"
+      ],
+      "correct_answer": 2,
+      "explanation": "Access tokens in UiPath Orchestrator typically expire after 1 hour (3600 seconds). This short lifetime limits the window of opportunity if a token is compromised. Applications should handle token expiration and refresh.",
+      "learning_objective": "Understand token lifecycle",
+      "tags": ["access-token", "expiration", "security"],
+      "points": 1
+    },
+    {
+      "id": "q7_grant_type",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "analyze",
+      "question": "What OAuth grant type is typically used for server-to-server authentication (like Python SDK applications)?",
+      "options": [
+        "authorization_code",
+        "client_credentials",
+        "implicit",
+        "password"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'client_credentials' grant type is used for server-to-server authentication where the application authenticates as itself (not on behalf of a user). This is the standard grant type for Python SDK applications accessing Orchestrator.",
+      "learning_objective": "Select appropriate grant types",
+      "tags": ["grant-type", "client-credentials", "oauth"],
+      "points": 2
+    },
+    {
+      "id": "q8_token_request",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "question": "Which request body is correct for obtaining an access token with client credentials?",
+      "options": [
+        "{\"client_id\": \"...\", \"client_secret\": \"...\"}",
+        "{\"grant_type\": \"client_credentials\", \"client_id\": \"...\", \"client_secret\": \"...\", \"scope\": \"OR.Jobs OR.Queues\"}",
+        "{\"username\": \"...\", \"password\": \"...\", \"grant_type\": \"password\"}",
+        "{\"token\": \"...\", \"grant_type\": \"refresh_token\"}"
+      ],
+      "correct_answer": 1,
+      "explanation": "A valid token request must include: grant_type ('client_credentials'), client_id, client_secret, and scope. The scope parameter specifies which permissions you're requesting. This is sent as form data to the token endpoint.",
+      "learning_objective": "Construct token requests",
+      "tags": ["token-request", "oauth", "api"],
+      "points": 2
+    },
+    {
+      "id": "q9_token_usage",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "How should you include the access token in API requests to Orchestrator?",
+      "options": [
+        "In the URL as a query parameter: ?token=...",
+        "In the request body",
+        "In the Authorization header: Bearer <token>",
+        "In a custom X-Auth-Token header"
+      ],
+      "correct_answer": 2,
+      "explanation": "Access tokens should be included in the Authorization header with the Bearer scheme: 'Authorization: Bearer <access_token>'. This is the OAuth 2.0 standard and the method expected by Orchestrator.",
+      "learning_objective": "Use access tokens correctly",
+      "tags": ["authorization-header", "bearer-token", "api"],
+      "points": 1
+    },
+    {
+      "id": "q10_token_storage",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "question": "Which is the MOST secure way to store the Client Secret in a Python application?",
+      "options": [
+        "Hardcode it in the Python script",
+        "Store it in a .env file and load with python-dotenv",
+        "Include it in version control",
+        "Store it in a public configuration file"
+      ],
+      "correct_answer": 1,
+      "explanation": "Store the Client Secret in a .env file (excluded from version control) and load it using python-dotenv. Never hardcode secrets or commit them to version control. For production, use secure secret management systems like Azure Key Vault or AWS Secrets Manager.",
+      "learning_objective": "Apply security best practices",
+      "tags": ["security", "secrets", "best-practices"],
+      "points": 1
+    },
+    {
+      "id": "q11_token_expiration",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "question": "Your application receives a 401 Unauthorized error from Orchestrator. What is the most likely cause?",
+      "options": [
+        "The network is down",
+        "The access token has expired",
+        "The API endpoint doesn't exist",
+        "The server is too busy"
+      ],
+      "correct_answer": 1,
+      "explanation": "A 401 Unauthorized error typically indicates an expired or invalid access token. When this occurs, your application should request a new token using the Client ID and Secret. Proper applications implement automatic token refresh logic.",
+      "learning_objective": "Handle token expiration",
+      "tags": ["error-handling", "token-expiration", "401"],
+      "points": 1
+    },
+    {
+      "id": "q12_scope_selection",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "question": "According to the principle of least privilege, how should you select OAuth scopes?",
+      "options": [
+        "Request all available scopes for maximum flexibility",
+        "Request only the specific scopes your application needs",
+        "Request no scopes and use full admin access",
+        "Scopes don't matter for security"
+      ],
+      "correct_answer": 1,
+      "explanation": "Following the principle of least privilege, request only the specific scopes your application actually needs. If you only read jobs, request 'OR.Jobs' read permission, not all permissions. This minimizes potential damage if credentials are compromised.",
+      "learning_objective": "Apply security principles",
+      "tags": ["security", "least-privilege", "scopes"],
+      "points": 1
+    }
+  ],
+  "grading_rubric": {
+    "total_points": 14,
+    "grade_boundaries": {
+      "A": 13,
+      "B": 11,
+      "C": 10,
+      "D": 8,
+      "F": 0
+    },
+    "passing_points": 10
+  },
+  "additional_resources": [
+    {
+      "title": "OAuth 2.0 Specification",
+      "url": "https://oauth.net/2/",
+      "type": "specification"
+    },
+    {
+      "title": "UiPath Orchestrator API Authentication",
+      "url": "https://docs.uipath.com/orchestrator/reference",
+      "type": "documentation"
+    },
+    {
+      "title": "OAuth 2.0 Security Best Practices",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics",
+      "type": "security_guide"
+    }
+  ]
+}
