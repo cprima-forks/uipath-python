@@ -1,0 +1,235 @@
+{
+  "quiz_metadata": {
+    "module": "1.1.3.1",
+    "title": "Environment Variables with .env Files",
+    "version": "1.0",
+    "total_questions": 8,
+    "passing_score": 70,
+    "time_limit_minutes": 16,
+    "difficulty_distribution": {
+      "easy": 3,
+      "medium": 4,
+      "hard": 1
+    },
+    "bloom_taxonomy_distribution": {
+      "remember": 2,
+      "understand": 3,
+      "apply": 3
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "dotenv_basics",
+      "points": 1,
+      "question": "What is the purpose of a .env file?",
+      "options": [
+        "To store Python code",
+        "To store environment-specific configuration and secrets",
+        "To install Python packages",
+        "To create virtual environments"
+      ],
+      "correct_answer": 1,
+      "explanation": ".env files store environment-specific configuration like API keys, database URLs, and other settings that vary between development, staging, and production environments. This keeps secrets out of source code.",
+      "learning_objective": "Create and structure .env files"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "bloom_level": "remember",
+      "topic": "dotenv_library",
+      "points": 1,
+      "question": "Which Python library is most commonly used to load .env files?",
+      "options": [
+        "os-dotenv",
+        "python-dotenv",
+        "env-loader",
+        "dotenv-py"
+      ],
+      "correct_answer": 1,
+      "explanation": "python-dotenv is the standard library for loading .env files in Python. Install with 'pip install python-dotenv' and use 'from dotenv import load_dotenv' to load environment variables.",
+      "learning_objective": "Use python-dotenv to load variables"
+    },
+    {
+      "id": "q3",
+      "type": "code_analysis",
+      "difficulty": "easy",
+      "bloom_level": "understand",
+      "topic": "loading_dotenv",
+      "points": 1,
+      "question": "What does this code do?\\n\\n```python\\nfrom dotenv import load_dotenv\\nimport os\\n\\nload_dotenv()\\napi_key = os.getenv('API_KEY')\\n```",
+      "options": [
+        "Creates a new .env file",
+        "Loads variables from .env into environment, then reads API_KEY",
+        "Writes API_KEY to .env file",
+        "Deletes the .env file"
+      ],
+      "correct_answer": 1,
+      "explanation": "load_dotenv() reads the .env file and loads all variables into os.environ. Then os.getenv('API_KEY') retrieves the API_KEY value. This is the standard pattern for using .env files.",
+      "learning_objective": "Use python-dotenv to load variables"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "env_file_format",
+      "points": 2,
+      "question": "Which .env file format is correct?",
+      "options": [
+        "API_KEY: 'secret123'",
+        "API_KEY = secret123",
+        "set API_KEY=secret123",
+        "{\"API_KEY\": \"secret123\"}"
+      ],
+      "correct_answer": 1,
+      "explanation": ".env files use simple KEY=value format without quotes (unless the value contains spaces). No colons, no 'set' command, no JSON. Example: API_KEY=secret123 or DATABASE_URL=postgres://...",
+      "learning_objective": "Create and structure .env files"
+    },
+    {
+      "id": "q5",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "override_behavior",
+      "points": 2,
+      "question": "What happens if an environment variable already exists when load_dotenv() is called?",
+      "options": [
+        ".env value always overwrites existing value",
+        "Existing value is kept by default (not overwritten)",
+        "An error is raised",
+        "Both values are merged"
+      ],
+      "correct_answer": 1,
+      "explanation": "By default, load_dotenv() does NOT overwrite existing environment variables. This allows system-level variables to take precedence. Use load_dotenv(override=True) to force overwrite .env values over existing environment variables.",
+      "learning_objective": "Override environment variables"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "bloom_level": "understand",
+      "topic": "security",
+      "points": 2,
+      "question": "Why should .env files be in .gitignore?",
+      "options": [
+        "They are too large for git",
+        "They contain secrets that shouldn't be in version control",
+        "Python can't read them from git",
+        "They cause merge conflicts"
+      ],
+      "correct_answer": 1,
+      "explanation": ".env files contain sensitive data like API keys, passwords, and secrets. If committed to version control, these secrets become public (especially in public repos). Always add .env to .gitignore and use .env.example as a template instead.",
+      "learning_objective": "Create and structure .env files"
+    },
+    {
+      "id": "q7",
+      "type": "code_analysis",
+      "difficulty": "medium",
+      "bloom_level": "apply",
+      "topic": "multiple_environments",
+      "points": 2,
+      "question": "What is the best practice for managing multiple environment configurations (dev, staging, prod)?",
+      "options": [
+        "One .env file with all environments",
+        "Separate .env files: .env.development, .env.staging, .env.production",
+        "Hard-code values in Python for each environment",
+        "Use different Python files for each environment"
+      ],
+      "correct_answer": 1,
+      "explanation": "Best practice is separate .env files for each environment: .env.development, .env.staging, .env.production. Load the appropriate one based on an ENVIRONMENT variable: load_dotenv(f'.env.{env}') This keeps configurations isolated and clear.",
+      "learning_objective": "Organize configuration for multiple environments"
+    },
+    {
+      "id": "q8",
+      "type": "code_analysis",
+      "difficulty": "hard",
+      "bloom_level": "apply",
+      "topic": "default_values",
+      "points": 3,
+      "question": "What's the benefit of using os.getenv() with a default value?\\n\\n```python\\napi_key = os.getenv('API_KEY', 'default-key-123')\\n```",
+      "options": [
+        "No benefit, should always fail if missing",
+        "Provides fallback if variable not set, prevents None errors",
+        "Automatically writes the default to .env",
+        "Makes the code run faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "Using os.getenv('KEY', 'default') provides a fallback value if the variable isn't set. This prevents None errors and makes the application more resilient. However, for secrets like API keys, you should usually fail explicitly if missing rather than use a default. Defaults are better for non-secret config like port numbers or feature flags.",
+      "learning_objective": "Use python-dotenv to load variables"
+    }
+  ],
+  "quiz_instructions": {
+    "description": "This quiz tests your understanding of environment variables and .env files in Python. You'll need to demonstrate knowledge of python-dotenv, .env file format, security best practices, and multi-environment configuration.",
+    "instructions": [
+      "Read each question carefully",
+      "Consider security implications of environment variables",
+      "Remember the KEY=value format for .env files",
+      "Think about when to use defaults vs fail explicitly",
+      "Understand the override behavior of load_dotenv()",
+      "Know how to organize multiple environment configurations"
+    ],
+    "tips": [
+      ".env files use KEY=value format (no quotes needed)",
+      "Always add .env to .gitignore",
+      "Use .env.example as a template in version control",
+      "load_dotenv() doesn't overwrite existing variables by default",
+      "Use os.getenv('KEY', 'default') for fallback values",
+      "Separate .env files for different environments",
+      "Never commit secrets to version control",
+      "Validate required variables at application startup"
+    ]
+  },
+  "grading_rubric": {
+    "total_points": 14,
+    "grade_scale": {
+      "A": {"min": 13, "max": 14, "description": "Excellent understanding"},
+      "B": {"min": 11, "max": 12, "description": "Good understanding"},
+      "C": {"min": 10, "max": 10, "description": "Satisfactory understanding"},
+      "D": {"min": 8, "max": 9, "description": "Needs improvement"},
+      "F": {"min": 0, "max": 7, "description": "Does not meet requirements"}
+    },
+    "passing_score": 10,
+    "recommendations": {
+      "below_10": "Review the module materials, especially sections on .env file format, python-dotenv usage, and security best practices. Practice creating and loading .env files before retaking the quiz.",
+      "10_to_12": "Good progress! Review the topics where you missed points, particularly override behavior and multi-environment configuration.",
+      "13_to_14": "Excellent work! You have a solid understanding of environment variables and .env files. You're ready for the next module on secret handling."
+    }
+  },
+  "related_resources": [
+    {
+      "title": "python-dotenv Documentation",
+      "url": "https://saurabh-kumar.com/python-dotenv/",
+      "type": "library_docs"
+    },
+    {
+      "title": "The Twelve-Factor App - Config",
+      "url": "https://12factor.net/config",
+      "type": "article"
+    },
+    {
+      "title": "Environment Variables in Python",
+      "url": "https://docs.python.org/3/library/os.html#os.environ",
+      "type": "official_docs"
+    },
+    {
+      "title": "Managing Application Configuration",
+      "url": "https://realpython.com/python-application-layouts/",
+      "type": "tutorial"
+    },
+    {
+      "title": "Module 1.1.3.1 Video Lecture",
+      "url": "/videos/phase1/script-1.1.3.1-environment-variables-dotenv.md",
+      "type": "course_material"
+    },
+    {
+      "title": "Module 1.1.3.1 Slides",
+      "url": "/slides/phase1/1.1.3.1-environment-variables-dotenv.md",
+      "type": "course_material"
+    }
+  ]
+}
